@@ -23,14 +23,15 @@ GNU General Public License for more details.
 #pragma once
 
 #include <context/Display.hh>
-#include <GL/gl.h>
+#include <common/openplex-gl.h>
 
 struct GLContext {
-    Display &display;
+    Display *display;
     bool video_glflush = true;
     bool video_glfinish = true;
 
-    GLContext(Display &display) : display(display) {
+    GLContext() = default;
+    GLContext(Display &display) : display(&display) {
         initviewport(display);
     }
 

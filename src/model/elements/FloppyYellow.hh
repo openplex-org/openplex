@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <GL/gl.h>
+#include <common/openplex-gl.h>
 #include <graphics/display.h>
 #include <engine/gamedata.h>
 #include <assets/sprites/sprites.h>

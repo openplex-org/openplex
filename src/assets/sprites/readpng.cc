@@ -17,8 +17,8 @@ GNU General Public License for more details.
 #include "common/configuration.h"
 //#include "../engine/message.h"
 //#include "../common/verbosity.h"
-#include <opencv2/imgproc.hpp>
-#include <opencv2/imgcodecs.hpp>
+//#include <opencv2/imgproc.hpp>
+//#include <opencv2/imgcodecs.hpp>
 
 // http://elysianshadows.com/phpBB3/viewtopic.php?f=32&t=3419&p=38524
 

@@ -22,20 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <common/openplex-gl.h>
-#include <graphics/display.h>
-#include <assets/sprites/sprites.h>
-#include "Element.hh"
-
-struct Base : public Element {
-
-    void display(GameState& gameState, int loc) override {
-        GLfloat x;
-        GLfloat y;
-        computeloc(gameState, loc, x, y);
-        painttex(gameState, x, y, StaticTile::Base, 0);
-    }
-
-    char print() override { return '.';}
-};
-
+#ifdef __MACOSX__
+#include <gl.h>
+#include <glu.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif

@@ -51,7 +51,7 @@ struct SDLContext {
 
 
     SDLContext(Configuration &configuration)
-            : display(configuration.display), glContext(configuration.display) {
+            : display(configuration.display) {
         assert(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)); //, "Unable to initialize SDL: %s\n");
         findvideomodes();
 //        if (!video_overrideres) checkFullscreenRes();
@@ -72,7 +72,7 @@ struct SDLContext {
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+        glContext = GLContext(configuration.display);
         default_font.open(configuration.datadir + "/default.ttf");
     }
 

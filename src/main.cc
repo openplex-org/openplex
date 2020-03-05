@@ -36,6 +36,7 @@ GNU General Public License for more details.
 #include "graphics/display.h"
 #include "context/SDLContext.hh"
 #include "context/GameContext.hh"
+#define main SDL_main
 
 int main(int argc, char *argv[]) {
     Configuration configuration;

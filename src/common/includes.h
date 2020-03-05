@@ -21,8 +21,6 @@
 #include <freetype/ftoutln.h>
 #include <freetype/fttrigon.h>
 
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <math.h>
 
 #include <vorbis/vorbisfile.h>

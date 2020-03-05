@@ -28,7 +28,7 @@ GNU General Public License for more details.
 #include <unordered_map>
 
 
-enum class Tileset {
+enum class Tileset : int {
     BaseVanish,
     Bug,
     Digits,
@@ -93,7 +93,7 @@ enum class StaticTile {
 };
 
 struct Sprites {
-    unordered_map<Tileset, vector<GLuint>> tiles;
+    unordered_map<Tileset, vector<GLuint> > tiles;
     string sprites_dir;
 
     Sprites(Configuration &configuration) : sprites_dir(configuration.datadir + "/graphics/") {

@@ -7,7 +7,6 @@
 
 
 #include <context/Display.hh>
-#include "includes.h"
 #include "confrw.h"
 #include "fileio.h"
 
@@ -55,7 +54,7 @@ CONFIGITEM(int,scr_height,600) \
 
 /**
  * Substitution of CONFIGARRAY that will produce configuration file output
- * for the array b with elements of type a with field name d in the config
+ * for the array b with static of type a with field name d in the config
  * file and field name c in the source code
  * Note: arrays need to be declared manually
  */
@@ -115,10 +114,10 @@ CONFIGLIST
 
 
 /**
- * vector that will store the unknown configuration variables
+ * std::vector that will store the unknown configuration variables
  * so that they are not lost when rewriting the configuration file
  */
-extern vector<string> config_unknown;
+extern std::vector<std::string> config_unknown;
 
 /**
  * initialize paths (in particular homeconfdir, datadir, configFile
@@ -161,7 +160,7 @@ int tsimatch(char *&s, const char *v);
  *   additional space and 1 for the equal sign
  * @param prefix the name of the array
  * @param suffix an optional member field, useful for example when the
- *   array elements are structs
+ *   array static are structs
  * @param idx output variable that will store the array index on a
  *   successful match
  * @return  1 on a match 0 otherwise
@@ -170,10 +169,10 @@ int tsamatch(char *&s, const char *prefix, const char *suffix, int &idx);
 
 struct Configuration {
     Display display;
-    string configFile;
-    string scoresFile;
-    string homeconfdir;
-    string datadir = "./data/";
+    std::string configFile;
+    std::string scoresFile;
+    std::string homeconfdir;
+    std::string datadir = "./data/";
 
     Configuration() {
         init_config();
@@ -191,7 +190,7 @@ struct Configuration {
  *
  * @param td the directory to look into
  */
-    void trydatadir(string td) {
+    void trydatadir(std::string td) {
         if (datadir != "") return;
 //	MESSAGE("Looking for gameState data in: %s\n", td);
         if (fileExists(td + "/default.ttf")) {

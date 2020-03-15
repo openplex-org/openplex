@@ -21,31 +21,24 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #include <common/SystemClock.hh>
-#include <assets/Sounds.hh>
 #include <assets/Sprites.hh>
-#include <context/GLContext.hh>
-#include <assets/levels/levelset.h>
-#include <assets/levels/loadlevel.h>
-#include <assets/levels/loadlevel.h>
-#include <assets/Fonts.hh>
 #include <assets/Levels.hh>
 #include <context/Player.hh>
-#include "common/globals.h"
-#include "engine/anim.h"
 #include "common/configuration.h"
 #include "graphics/display.h"
 #include "context/SDLContext.hh"
 #include "context/GameContext.hh"
+
+#ifdef __MACOSX__
 #define main SDL_main
+#endif
 
 int main(int argc, char *argv[]) {
     Configuration configuration;
     SDLContext sdlContext(configuration);
 
     // Assets
-    Fonts fonts;
     Levels levels;
-    Sounds sounds(configuration);
     Sprites sprites(configuration);
 
     Player player;
@@ -53,11 +46,8 @@ int main(int argc, char *argv[]) {
 
     while (!gameContext.gameover) {
         sdlContext.events(gameContext);
-
-        gameContext.playGame();
+        gameContext.playFrame();
         renderscene(gameContext.gameState);
-//        audio_yield();
-
         sdlContext.update();
         SystemClock::keep_fps();
     }

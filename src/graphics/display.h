@@ -2,7 +2,7 @@
 #define __HDR_display_h
 
 #include <assets/Sprites.hh>
-#include "../common/includes.h"
+
 struct GameState;
 
 void renderscene(GameState& gameState);

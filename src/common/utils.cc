@@ -13,14 +13,3 @@ GNU General Public License for more details.
 *******************************************************************/  
   
 #include "utils.h"
-		
-
-//	return SDL_GetTicks()*0.001;
-
-void mcolor::set()
-{
-	glColor4f(Red,Green,Blue,Alpha);
-}
-
-
-

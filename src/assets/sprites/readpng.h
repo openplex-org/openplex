@@ -2,9 +2,11 @@
 #define __HDR_readpng_h
 
 
-#include "common/includes.h"
+#include <GL/gl.h>
+#include <string>
+#include <vector>
 
-void loadImageSet(const string &filename, vector<GLuint> &texture, int flags);
+void loadImageSet(const std::string &filename, std::vector<GLuint> &texture, int flags);
 
 
 #endif

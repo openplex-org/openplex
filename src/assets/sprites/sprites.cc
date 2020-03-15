@@ -13,9 +13,6 @@ GNU General Public License for more details.
 *******************************************************************/
 #include "sprites.h"
 
-#include "common/includes.h"
-#include "common/configuration.h"
-#include "readpng.h"
 #include <context/GameContext.hh>
 
 int gettex(GameContext &gameContext, Tileset tileset, int tileindex) {

@@ -73,7 +73,7 @@ enum class StaticTile {
     FloppyRed,
     PortVertical,
     PortHorizontal,
-    PortAll,
+    PortCross,
     Electron,
     Bug,
     RAMChipLeft,
@@ -93,14 +93,14 @@ enum class StaticTile {
 };
 
 struct Sprites {
-    unordered_map<Tileset, vector<GLuint> > tiles;
-    string sprites_dir;
+    std::unordered_map<Tileset, std::vector<GLuint> > tiles;
+    std::string sprites_dir;
 
     Sprites(Configuration &configuration) : sprites_dir(configuration.datadir + "/graphics/") {
         init_sprites();
     }
 
-    string sprites_name(Tileset tileset) {
+    std::string sprites_name(Tileset tileset) {
         switch (tileset) {
             case Tileset::Static:
                 return "static";
@@ -144,7 +144,7 @@ struct Sprites {
 
     }
 
-    string sprites_file(Tileset tileset) {
+    std::string sprites_file(Tileset tileset) {
         return sprites_dir + sprites_name(tileset) + ".png";
     }
 

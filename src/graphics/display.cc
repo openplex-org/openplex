@@ -12,28 +12,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include <iostream>
-#include <model/elements/FloppyYellow.hh>
-#include <model/elements/SnikSnak.hh>
-#include <model/elements/Electron.hh>
-#include <model/elements/Infotron.hh>
-#include <model/level/Level.hh>
-#include <model/elements/Element.hh>
-#include <model/effects/Vanish.hh>
 #include "display.h"
-#include "../engine/gamedata.h"
 #include <assets/levels/levelset.h>
 #include "status.h"
-#include "../engine/timing.h"
 #include "assets/sprites/sprites.h"
-#include "engine/anim.h"
-#include "../common/configuration.h"
-#include "assets/fonts/font.h"
-
-#include "../model/objMurphy.h"
 #include "../common/SystemClock.hh"
 #include <context/GameContext.hh>
-#include <model/game/GameState.hh>
+#include <engine/game/GameState.hh>
+
+#include <context/Renderer.hh>
+#include <SDL_timer.h>
 
 void computeloc(GameState &gameState, int loc, GLfloat &locx, GLfloat &locy, int flags) {
     auto &display = gameState.gameContext.display;
@@ -120,7 +108,6 @@ void renderscene(GameState &gameState) {
     glClear(GL_COLOR_BUFFER_BIT);
     gameState.timenow = SDL_GetTicks();
 
-    if (gameState.level.ldt == NULL) return;
 /*
     for (i = 0; i < gameState.level.height * gameState.level.width; i++) {
         int typ = gameState.level.ldt[i].typ;
@@ -151,19 +138,25 @@ void renderscene(GameState &gameState) {
     }
 */
     int loc = 0;
+    auto & height = gameState.level.height;
+    auto & width = gameState.level.width;
     for (int iy = 0; iy < gameState.level.height; iy++) {
         for (int ix = 0; ix < gameState.level.width; ix++) {
-            if (gameState.level.storage[ix][iy])
-                gameState.level.storage[ix][iy]->display(gameState, loc++);
+            if (gameState.level.storage[iy * width + ix])
+                gameState.level.storage[iy * width + ix]->display(gameState, loc++);
         }
     }
+    for(auto & dynamic : gameState.activeDynamics) {
+        dynamic->display(Renderer{});
+    }
+
 /*
     for (int i = 0; i < gameState.level.width * gameState.level.height; i++) {
         int tx = gameState.level.ldt[i].xtyp();
-        if (tx == TX_VANISHING) Vanish::display(gameState, i);
+        if (tx == TX_VANISHING) VanishMurphyOnExit::display(gameState, i);
     }
 */
-    display_status(gameState, gameState.infotronsneeded);
+    display_status(gameState, std::max(gameState.infotronsRequirement - gameState.infotronsCollected, 0));
     display_fps(gameState, SystemClock::get_fps());
 }
 

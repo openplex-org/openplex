@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <cstring>
 #include "configuration.h"
 #include "confrw.h"
 #include "fileio.h"
@@ -22,13 +23,13 @@ CONFIGLIST
 #undef CONFIGARRAY
 #undef CONFIGITEM
 
-vector<string> config_unknown;
+std::vector<std::string> config_unknown;
 
 int tsimatch(char *&s, const char *v)
 {
-	int l=strlen(v);
+	int l=std::strlen(v);
 	// match the beginning of the string to the variable name
-	if (0!=strncmp(s,v,l)) return  0;
+	if (0!=std::strncmp(s,v,l)) return  0;
 	char ch=s[l];
 	// if the next character is not space or the equal sign, this
 	// is not a successful match

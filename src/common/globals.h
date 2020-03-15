@@ -2,18 +2,16 @@
 #define __HDR_globals_h
 
 
-#include "includes.h"
+#include <string>
 
 
-struct tConfigurable
-{
-	int idx;
-	string name;
+struct tConfigurable {
+    int idx;
+    std::string name;
 };
 
-struct tVideoMode:public tConfigurable
-{
-	int height,width,bpp;
+struct tVideoMode : public tConfigurable {
+    int height, width, bpp;
 };
 
 

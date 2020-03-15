@@ -22,92 +22,121 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/game/GameState.hh>
-#include <model/objMurphy.h>
+#include <engine/game/GameState.hh>
+#include <engine/objMurphy.h>
 #include <common/configuration.h>
 #include <assets/Sprites.hh>
-#include <model/effects/Vanish.hh>
 #include <assets/Levels.hh>
+#include <model/dynamic/Dynamic.hh>
+#include <bits/unordered_set.h>
+#include <algorithm>
 
 struct GameContext {
     int levelIndex = 0;
     GameState gameState;
     Display &display;
-    Sprites& sprites;
-    Levels& levels;
+    Sprites &sprites;
+    Levels &levels;
 
-    GameContext(Configuration& configuration, Sprites& sprites, Levels& levels) : gameState(*this), display(configuration.display), sprites(sprites), levels(levels) {
+    GameContext(Configuration &configuration, Sprites &sprites, Levels &levels) : gameState(*this),
+                                                                                  display(configuration.display),
+                                                                                  sprites(sprites), levels(levels) {
         levels.load(*this, levelIndex);
     }
 
     bool gameover = false;
 
-    void playGame() {
-        /*if (gameState.loadlevel) {
-            if (gameState.loadlevel < 0) {
-                // this should only happen on a level exit
-                if (gameState.lastlevel > 0 && gameState.mode == 0)
-                    finishlevel(gameState.lastlevel - 1, gameState.victory, gameState.timenow - gameState.timestarted);
-                genmenulevel();
-            } else if (!loadLevel(getleveldata(gameState.loadlevel - 1))) genmenulevel();
-        }*/
-
-        //zoomon_murphy(gameState, gameState.murphloc);
-
-        //if (gameState.timenow - gameState.timelastmove > 30) {
-
-
-
-        step();
-            doobj_murphy(gameState, gameState.murphloc);
-
-
-
-            //zoomon_murphy(gameState, gameState.murphloc);
-/*            if (gameState.sfxexplodeleft || gameState.sfxexploderight) {
-                sfx_start(SE_explosion);
-                gameState.sfxexplodeleft = gameState.sfxexploderight = 0;
+    void updateDynamics() {
+        std::vector<unique_ptr<Dynamic>> nextFrameDynamics;
+        for (auto &dynamic : gameState.activeDynamics) {
+            dynamic->update();
+            if (dynamic->ready()) {
+                dynamic->clean();
+            } else {
+                nextFrameDynamics.emplace_back(std::move(dynamic));
             }
-            if (gameState.sfxzonkleft || gameState.sfxzonkright) {
-                sfx_start(SE_hit);
-                gameState.sfxzonkleft = gameState.sfxzonkright = 0;
-            }
-*/
-        //}
+        }
+        swap(gameState.activeDynamics, nextFrameDynamics);
     }
 
-    void step() {
-/*        gameState.timelastmove = gameState.timenow;
-        int i, typ, tb, tx;
-        for (i = gameState.level.width + 1; i < (gameState.level.height - 1) * gameState.level.width; i++) {
-            gameState.level.ldt[i].oldtyp = gameState.level.ldt[i].typ;
-        }
-        for (i = gameState.level.width + 1; i < (gameState.level.height - 1) * gameState.level.width; i++) {
-            int cnt = gameState.level.ldt[i].counter;
-            if (cnt && (gameState.level.ldt[i].xtyp() == (gameState.level.ldt[i].oldtyp & 0xf0))) gameState.level.ldt[i].counter = --cnt;
-            typ = gameState.level.ldt[i].typ;
-            tx = typ & 0xf0;
-            tb = typ & 0xff;
-            // call the appropriate function based on object time
-
-        switch (tx) {
-            case TX_MOVEOUT: {
-                if (!cnt) gameState.level.ldt[i].set(0);
-                break;
-            }
-            case TX_VANISHING: {
-                Vanish::step(gameState, i);
-                break;
+    std::unordered_set<Index> getActiveIndices() {
+        std::unordered_set<Index> result;
+        for (auto &dynamic : gameState.activeDynamics) {
+            auto dynamicIndices = dynamic->area();
+            for (auto &index : dynamicIndices) {
+                result.insert(index);
             }
         }
-        }
-
-    int loc = 0;
-    for (int ix = 0; ix < gameState.level.width; ix++) {
-        for (int iy = 0; iy < gameState.level.height; iy++) {
-            gameState.level.storage[ix][iy]->step(gameState, loc++);
-        }
-    }*/
+        return result;
     }
 
+    void generateDynamicsFromIntents() {
+        auto activeIndices = getActiveIndices();
+
+        for (auto &intent : gameState.intents) {
+            Index source = intent.source;
+            for (auto center : {gameState.level.above(source), source, gameState.level.below(source)}) {
+                Index left = gameState.level.leftof(center);
+                Index right = gameState.level.rightof(center);
+                for (auto impact : {left, center, right}) {
+                    if (!gameState.level.inside(impact)) {
+                        continue;
+                    }
+                    auto dynamic = gameState.level.storage[impact]->getDynamicOn(gameState, intent, impact);
+                    if (dynamic) {
+                        auto indices = dynamic->area();
+                        if (std::all_of(indices.begin(), indices.end(), [&](Index index) {
+                            return activeIndices.find(index) == activeIndices.end();
+                        })) {
+                            gameState.futureDynamics.emplace_back(std::move(dynamic));
+                        }
+                    }
+                }
+            }
+        }
+        gameState.intents.clear();
+    }
+
+    void resolveConflictingDynamics() {
+        std::vector<std::unique_ptr<Dynamic>> keepFutureDynamics;
+        std::unordered_map<Index, int> futureAreaLookup;
+        for (auto &dynamic : gameState.futureDynamics) {
+            auto indices = dynamic->area();
+            std::unordered_set<int> conflictFutures;
+            for (auto &index : indices) {
+                auto fit = futureAreaLookup.find(index);
+                if (fit != futureAreaLookup.end()) {
+                    conflictFutures.insert(fit->second);
+                }
+            }
+            if (conflictFutures.empty()) {
+                for (auto &index: indices) {
+                    futureAreaLookup.insert(std::make_pair(index, keepFutureDynamics.size()));
+                }
+                keepFutureDynamics.emplace_back(std::move(dynamic));
+            }
+        }
+        std::swap(gameState.futureDynamics, keepFutureDynamics);
+    }
+
+    void initiateDynamics() {
+        for (auto &dynamic : gameState.futureDynamics) {
+            gameState.activeDynamics.emplace_back(move(dynamic));
+            gameState.activeDynamics.back()->spawn();
+        }
+        gameState.futureDynamics.clear();
+    }
+
+    void playFrame() {
+        gameState.frame++;
+        std::cout << gameState.frame << " dynamics: " << gameState.activeDynamics.size() << " ";
+        moveMurphy(gameState, gameState.murphloc);
+        updateDynamics();
+        std::cout << gameState.activeDynamics.size() << "\tintents: ";
+        std::cout << gameState.intents.size() << "\t";
+        generateDynamicsFromIntents();
+        resolveConflictingDynamics();
+        std::cout << "futureDynamics: " << gameState.futureDynamics.size() << std::endl;
+        initiateDynamics();
+    }
 };

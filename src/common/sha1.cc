@@ -22,9 +22,10 @@
    */
 
 
+#include <cstring>
 #include "sha1.h"
 
-string compute_sha(const void *buffer, size_t len)
+std::string compute_sha(const void *buffer, size_t len)
 {
 	uint8_t resblock[32];
 	char a[128];
@@ -224,7 +225,7 @@ sha_process_bytes (const void *buffer, size_t len, struct sha_ctx *ctx)
       size_t left_over = ctx->buflen;
       size_t add = 128 - left_over > len ? len : 128 - left_over;
 
-      memcpy (&ctx->buffer[left_over], buffer, add);
+      std::memcpy (&ctx->buffer[left_over], buffer, add);
       ctx->buflen += add;
 
       if (ctx->buflen > 64)
@@ -233,7 +234,7 @@ sha_process_bytes (const void *buffer, size_t len, struct sha_ctx *ctx)
 
 	  ctx->buflen &= 63;
 	  /* The regions in the following copy operation cannot overlap.  */
-	  memcpy (ctx->buffer, &ctx->buffer[(left_over + add) & ~63],
+	  std::memcpy (ctx->buffer, &ctx->buffer[(left_over + add) & ~63],
 		  ctx->buflen);
 	}
 

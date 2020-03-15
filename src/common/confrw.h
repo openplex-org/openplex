@@ -6,7 +6,7 @@
 #define __HDR_confrw_h
 
 
-#include "includes.h"
+#include <GL/gl.h>
 #include "globals.h"
 
 /**
@@ -67,15 +67,7 @@ void CONFREAD_int(char *&s, int &v);
  * @param s the input string
  * @param v variable that will store the value
  */
-void CONFREAD_string(char *&s, string &v);
-
-/**
- * Read a value of type mcolor from a (char *) string
- * the color is stored in the #RRGGBB format
- * @param s the input string
- * @param v variable that will store the value
- */
-void CONFREAD_mcolor(char *&s, mcolor &v);
+void CONFREAD_string(char *&s, std::string &v);
 
 /** @} */
 

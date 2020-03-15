@@ -1,7 +1,9 @@
 #ifndef __HDR_joystick_h
 #define __HDR_joystick_h
 
-#include "../common/includes.h"
+#include <vector>
+#include <SDL_joystick.h>
+
 
 void init_joysticks();
 void done_joysticks();
@@ -18,6 +20,6 @@ struct tJoystick
 
 extern int num_joysticks;
 extern int joydetect_enable;
-extern vector<tJoystick> joysticks;
+extern std::vector<tJoystick> joysticks;
 
 #endif

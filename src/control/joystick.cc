@@ -12,13 +12,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <SDL.h>
 #include "joystick.h"
 //#include "../engine/message.h"
 //#include "../common/verbosity.h"
 
 int num_joysticks;
 int joydetect_enable;
-vector<tJoystick> joysticks;
+std::vector<tJoystick> joysticks;
 
 void init_joysticks()
 {

@@ -22,9 +22,9 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-file(GLOB_RECURSE sources **.cc)
-file(GLOB_RECURSE headers **.hh)
-add_executable(openplex ${sources} ${headers} src/common/openplex-gl.h)
+file(GLOB_RECURSE sources ${CMAKE_CURRENT_SOURCE_DIR}/src/**.cc)
+file(GLOB_RECURSE headers ${CMAKE_CURRENT_SOURCE_DIR}/src/**.hh)
+add_executable(openplex ${sources} ${headers})
 
 link_directories(/usr/lib/x86_64-linux-gnu)
 

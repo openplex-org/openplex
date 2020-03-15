@@ -2,9 +2,9 @@
 #define __HDR_keyboard_h
 
 #include <context/GameContext.hh>
-#include "../common/includes.h"
+#include <SDL_events.h>
 
-string keyname(int id);
+std::string keyname(int id);
 
 void translateandhandleevent(SDL_Event &event, GameContext &gameContext);
 

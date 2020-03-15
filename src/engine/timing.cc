@@ -14,12 +14,12 @@ GNU General Public License for more details.
 #include "timing.h"
 
 GameTime timing;
-
+/*
 int GameTime::isoct(int i)
 {
 	return i==0 || i==o1 || i==o2 || i==o3 || i==o4 || i==o5 || i==o6 || i==o7;
 }
-
+*/
 void GameTime::init(int scale)
 {
 	o1=scale*1/8;
@@ -35,6 +35,7 @@ void GameTime::init(int scale)
 	m4=scale*4;
 	m5=scale*5;
 	m6=scale*6;
+	/*
 	bugact       =m6;
 	xpropag      =m1+o4;
 	xplode       =m3+o6;
@@ -45,6 +46,7 @@ void GameTime::init(int scale)
 	enemymoveshort = o7;
 	murphvanishing = m4;
 	explosion      = m5;
+	*/
 }
 
 

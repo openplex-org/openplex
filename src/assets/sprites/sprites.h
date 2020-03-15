@@ -1,8 +1,6 @@
 #ifndef __HDR_sprites_h
 #define __HDR_sprites_h
 
-#include "common/includes.h"
-
 struct GameContext;
 enum class Tileset;
 

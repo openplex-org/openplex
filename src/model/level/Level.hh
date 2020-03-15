@@ -25,10 +25,10 @@ GNU General Public License for more details.
 #include <vector>
 #include <memory>
 
-#include <model/elements/Element.hh>
-#include <model/elements/Hardware.hh>
-#include "Tile.hh"
+#include <model/static/Tile.hh>
+#include <model/static/solid/Hardware.hh>
 #include <iostream>
+#include "Index.hh"
 
 
 using std::vector;
@@ -37,58 +37,50 @@ using std::unique_ptr;
 struct Level {
     int width = 60;
     int height = 24;
-    vector<vector<unique_ptr<Element>>> storage;
+    vector<unique_ptr<Tile>> storage;
 
-    vector<Tile> legacy_storage;
-    Tile *ldt;
-
-    unique_ptr<Element> &loc(int i) {
-        return storage[i % width][i / width];
-    }
-
-    unique_ptr<Element> &decloc(int i) {
-        return storage[i / height][i % height];
+    unique_ptr<Tile> &loc(int i) {
+        return storage[i];
     }
 
     Level(int width = 60, int height = 24) : width(width),
                                              height(height),
-                                             storage(width),
-                                             legacy_storage(width * height),
-                                             ldt(legacy_storage.data()) {
-        for (auto &column : storage) {
-            column.resize(height);
-        }
+                                             storage(width * height) {
         repairBorder();
     }
 
     void repairBorder() {
-        for (auto &tile : storage.front()) {
-            tile = make_unique<Hardware>(Hardware::Style::Wall);
+        for (int i = 1; i < width - 1; i++) {
+            storage[i] = std::make_unique<Hardware>(Hardware::Style::Wall);
+            storage[width * (height - 1) + i] = std::make_unique<Hardware>(Hardware::Style::Wall);
         }
-        for (auto &tile : storage.back()) {
-            tile = make_unique<Hardware>(Hardware::Style::Wall);
-        }
-        for (auto &tileColumn : storage) {
-            tileColumn.front() = make_unique<Hardware>(Hardware::Style::Wall);
-            tileColumn.back() = make_unique<Hardware>(Hardware::Style::Wall);
+        for (int i = 0; i < height; i++) {
+            storage[i * width] = std::make_unique<Hardware>(Hardware::Style::Wall);
+            storage[(i + 1) * width - 1] = std::make_unique<Hardware>(Hardware::Style::Wall);
         }
     }
 
-    int above(int i) { return i - width; }
+    Index above(Index i) { return i - width; }
 
-    int below(int i) { return i + width; }
+    Index below(Index i) { return i + width; }
 
-    int leftof(int i) { return i - 1; }
+    Index leftof(Index i) { return i - 1; }
 
-    int rightof(int i) { return i - 1; }
+    Index rightof(Index i) { return i + 1; }
+
+    Index follow(Index i, Index j) { return 2 * j - i; }
 
     void console() {
         for (int iy = 0; iy < height; iy++) {
             for (int ix = 0; ix < width; ix++) {
-                std::cout << storage[ix][iy]->print() << ' ';
+                std::cout << storage[ix * height + iy]->print() << ' ';
             }
-            std::cout << endl;
+            std::cout << std::endl;
         }
-        std::cout << endl;
+        std::cout << std::endl;
+    }
+
+    bool inside(int i) {
+        return i >= 0 && i < width * height;
     }
 };

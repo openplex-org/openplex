@@ -12,37 +12,86 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 #include <context/GameContext.hh>
-#include "scene.h"
+#include <common/SystemClock.hh>
+#include <SDL_events.h>
 
-#include "engine/gamedata.h"
+
+bool debounce() {
+    static int millis = SystemClock::millis() - 1000;
+    int now = SystemClock::millis() - 1000;
+    if (now - millis > 100) {
+        millis = now;
+        return false;
+    }
+    return true;
+}
+
+void directionPressed(GameState &gameState, Direction directon) {
+    if (gameState.isSpacePressed) {
+        gameState.scheduleSwallow = directon;
+        gameState.continueSwallow = true;
+        gameState.pressedFrames = 0;
+    } else {
+        gameState.scheduleMove = directon;
+        gameState.continueMove = true;
+    }
+}
+
+void directionReleased(GameState &gameState, Direction direction) {
+    if (direction == gameState.scheduleMove) {
+        gameState.continueMove = false;
+        gameState.pressedFrames = 0;
+    }
+    if (direction == gameState.scheduleSwallow) {
+        gameState.continueSwallow = false;
+    }
+}
+
+void spacePressed(GameState &gameState) {
+    gameState.scheduleSwallow = gameState.scheduleMove;
+    gameState.scheduleMove = Direction::None;
+    gameState.continueMove = false;
+    gameState.isSpacePressed = true;
+}
+
+void spaceReleased(GameState &gameState) {
+    gameState.scheduleSwallow = Direction::None;
+    gameState.continueSwallow = false;
+    gameState.isSpacePressed = false;
+}
 
 void scenehandleevent(SDL_Event &event, GameContext &gameContext) {
-    int downval = 0;
-    if (event.type == SDL_KEYDOWN) downval = 1;
-    if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+    if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
             case SDLK_UP:
-                gameContext.gameState.keydown[0] = downval;
-                break;
+                return directionPressed(gameContext.gameState, Direction::Up);
             case SDLK_RIGHT:
-                gameContext.gameState.keydown[1] = downval;
-                break;
+                return directionPressed(gameContext.gameState, Direction::Right);
             case SDLK_DOWN:
-                gameContext.gameState.keydown[2] = downval;
-                break;
+                return directionPressed(gameContext.gameState, Direction::Down);
             case SDLK_LEFT:
-                gameContext.gameState.keydown[3] = downval;
-                break;
+                return directionPressed(gameContext.gameState, Direction::Left);
             case SDLK_SPACE:
-                gameContext.gameState.keydown[4] = downval;
-                break;
+                return spacePressed(gameContext.gameState);
+        }
+    } else if (event.type == SDL_KEYUP) {
+        switch (event.key.keysym.sym) {
+            case SDLK_UP:
+                return directionReleased(gameContext.gameState, Direction::Up);
+            case SDLK_RIGHT:
+                return directionReleased(gameContext.gameState, Direction::Right);
+            case SDLK_DOWN:
+                return directionReleased(gameContext.gameState, Direction::Down);
+            case SDLK_LEFT:
+                return directionReleased(gameContext.gameState, Direction::Left);
+            case SDLK_SPACE:
+                return spaceReleased(gameContext.gameState);
             case SDLK_ESCAPE:
-                gameContext.gameState.keydown[5] = downval;
                 break;
             case SDLK_RETURN:
-                gameContext.gameState.keydown[6] = downval;
                 break;
             case SDLK_PAGEUP:
+                if (debounce()) break;
                 gameContext.levelIndex--;
                 if (gameContext.levelIndex < 0) {
                     gameContext.levelIndex += 111;
@@ -50,6 +99,7 @@ void scenehandleevent(SDL_Event &event, GameContext &gameContext) {
                 gameContext.levels.load(gameContext, gameContext.levelIndex);
                 break;
             case SDLK_PAGEDOWN:
+                if (debounce()) break;
                 gameContext.levelIndex++;
                 if (gameContext.levelIndex >= 111) {
                     gameContext.levelIndex -= 111;

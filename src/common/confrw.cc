@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <cstring>
 #include "confrw.h"
 
 void CONFREAD_GLfloat(char *&s, GLfloat &v)
@@ -26,9 +27,9 @@ void CONFREAD_int(char *&s, int &v)
 	//DBG(CONFIG," value int %d (from:%s)\n" ,v ,s);
 }
 
-void CONFREAD_string(char *&s, string &v)
+void CONFREAD_string(char *&s, std::string &v)
 {
-	v=string(s);
+	v=std::string(s);
 	//DBG(CONFIG," value string '%s'\n" ,v);
 }
 
@@ -56,23 +57,6 @@ int hexbyte(const char *c)
 	return 16*hexdigit(c[0])+hexdigit(c[1]);
 }
 
-void CONFREAD_mcolor(char *&s, mcolor &v)
-{
-	const char *p=s;
-	if (p[0]=='#') p++;
-	if (strlen(s)<6)
-	{
-//		v=C_WHITE;
-		return;
-	}
-	v.Red   = hexbyte(p+0)/255.0;
-	v.Green = hexbyte(p+2)/255.0;
-	v.Blue  = hexbyte(p+4)/255.0;
-	v.Alpha = 1;
-	if (strlen(s)>7) v.Alpha = hexbyte(p+6)/255.0;
-	//DBG(CONFIG," color(%f,%f,%f,%f) from:%s\n", v.Red, v.Green, v.Blue, v.Alpha, s);
-}
-
 int multiplechoice(const char *s, const char *choices)
 {
 	const char *cc=choices;
@@ -81,12 +65,12 @@ int multiplechoice(const char *s, const char *choices)
 	const char *nc;
 	while (1)
 	{
-		nc=strchr(cc,',');
+		nc=std::strchr(cc,',');
 		if (nc) {
 			len=nc-cc;
-		} else len=strlen(cc);
+		} else len=std::strlen(cc);
 		//DBG(CONFIG,"MULTICHOICE %s %d -match:%s\n" &cc &len &s);
-		if (0==strncmp(cc,s,len)) return cnt;
+		if (0==std::strncmp(cc,s,len)) return cnt;
 		cnt++;
 		if (!nc) break;
 		cc=nc+1;

@@ -2,8 +2,8 @@
 #define __HDR_fileio_h
 
 
-#include "includes.h"
-
+#include <string>
+#include <vector>
 /**
  * List directory contents
  * @param dir the name of the directory
@@ -12,7 +12,7 @@
  *   2 - list only files/directories
  *   4 - exclude files starting with . (dot)
  */
-vector<string> listDirContents(string dir, int flags=0);
+std::vector<std::string> listDirContents(std::string dir, int flags=0);
 
 /**
  * determine if a file exists
@@ -27,7 +27,7 @@ int fileExists(std::string name);
  * @param len  length of the data (written)
  * @return 0 on failure, a positive file identifier otherwise
  */
-int mapFile(string name, const char *&data, int &len);
+int mapFile(std::string name, const char *&data, int &len);
 
 /**
  * free memory in use by a file

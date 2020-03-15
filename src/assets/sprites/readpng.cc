@@ -12,6 +12,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <png.h>
+#include <cstring>
 #include "readpng.h"
 
 #include "common/configuration.h"
@@ -59,7 +61,7 @@ void scaleDownHeight(GLubyte *pixels, int components, int &rwidth, int &rheight)
 
 
 //GLuint loadImage(const char *filename, GLuint &texture, int &imgwidth, int &imgheight, GLfloat &twidth, GLfloat &theight)
-void loadImageSet(const string &filename, vector<GLuint> &textures, int flags) {
+void loadImageSet(const std::string &filename, std::vector<GLuint> &textures, int flags) {
     int rwidth, rheight;
     int imgwidth, imgheight;
     png_structp png_ptr = NULL;
@@ -160,7 +162,7 @@ void loadImageSet(const string &filename, vector<GLuint> &textures, int flags) {
     }
 
     GLubyte *pixels = (GLubyte *) malloc(sizeof(GLubyte) * (rwidth * rheight * components));
-    memset(pixels, 255, sizeof(GLubyte) * (rwidth * rheight * components));
+    std::memset(pixels, 255, sizeof(GLubyte) * (rwidth * rheight * components));
     row_pointers = (png_bytep *) malloc(sizeof(png_bytep) * rheight);
 
     for (i = 0; i < rheight; ++i)

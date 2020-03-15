@@ -22,8 +22,4 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct Index {
-    int x;
-    int y;
-
-};
+using Index = int;

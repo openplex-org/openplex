@@ -12,9 +12,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#if 0
 #include "font.h"
 
 #include "common/globals.h"
+#include <ft2build.h>
 
 FT_Library font_library;
 TFont default_font;
@@ -183,4 +185,4 @@ void init_fonts()
 }
 
 
-
+#endif

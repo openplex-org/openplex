@@ -14,13 +14,10 @@ GNU General Public License for more details.
 
 #include "keyboard.h"
 
-#include "../common/configuration.h"
-#include "../common/includes.h"
-#include "../common/configuration.h"
 #include "joystick.h"
 #include "scene.h"
 
-string keyname(int id)
+std::string keyname(int id)
 {
 	char a[32];
 	if (id<1000000) return SDL_GetKeyName((SDLKey) id);

@@ -23,9 +23,11 @@ GNU General Public License for more details.
 #pragma once
 
 
-#include <assets/fonts/font.h>
-#include <model/game/GameState.hh>
+//#include <assets/fonts/font.h>
+#include <engine/game/GameState.hh>
 #include <control/keyboard.h>
+#include <SDL.h>
+#include <cassert>
 #include "GameContext.hh"
 #include "GLContext.hh"
 
@@ -35,12 +37,6 @@ struct SDLContext {
 
     SDL_Rect **videomodesdl;
     const SDL_VideoInfo *origmode;
-    vstring videomodenames;
-
-    GLfloat scr_lrlim;
-    GLfloat scr_tblim;
-    string selectedsong = "";
-    int glfontaa = GL_LINEAR;
     GLint maxTexSize;
     SDL_Surface *scrsurface;
     int fullscreenmode = 1;
@@ -54,26 +50,20 @@ struct SDLContext {
             : display(configuration.display) {
         assert(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)); //, "Unable to initialize SDL: %s\n");
         findvideomodes();
-//        if (!video_overrideres) checkFullscreenRes();
-        // SDL_GetError());
-        init_fonts();
+//        init_fonts();
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
         SDL_WM_SetCaption("OpenPlex - open source Supaplex", "SDL");
-        /* create window */
         scrsurface = SDL_SetVideoMode(
                 display.scr_width, display.scr_height,
                 0, SDL_OPENGL | SDL_RESIZABLE); // | SDL_FULLSCREEN);
 //                   (video_dofullscreen ? SDL_FULLSCREEN : 0));
         //       fullscreenmode = video_dofullscreen;
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexSize);
-//        INFO(GL, "Maximum texture size:%d\n", maxTexSize);
-        //       init_joysticks();
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glContext = GLContext(configuration.display);
-        default_font.open(configuration.datadir + "/default.ttf");
+//        default_font.open(configuration.datadir + "/default.ttf");
     }
 
     ~SDLContext() {
@@ -120,7 +110,6 @@ struct SDLContext {
         fsvideomode = new tVideoMode(tmp);
         videomodes.push_back(fsvideomode);
         if (videomodesdl == (void *) -1) {
-//		WARN(VIDEO,"ANY RESOLUTION ok\n");
             return;
         }
         if (videomodesdl)
@@ -128,7 +117,6 @@ struct SDLContext {
                 char a[32];
                 tmp.width = videomodesdl[i]->w;
                 tmp.height = videomodesdl[i]->h;
-//		INFO(VIDEO,"Mode:%d %dx%dx%d\n", i, tmp.width, tmp.height, tmp.bpp);
                 sprintf(a, "%dx%dx%d", tmp.width, tmp.height, tmp.bpp);
                 tmp.name = a;
                 videomodes.push_back(new tVideoMode(tmp));

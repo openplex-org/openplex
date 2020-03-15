@@ -22,6 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <iostream>
+#include <iomanip>
 #include <assets/levels/loadlevel.h>
 #include <assets/levels/levelset.h>
 
@@ -33,6 +35,7 @@ struct Levels {
     }
 
     void load(GameContext &gameContext, int levelIndex) {
+        std::cout << "[" << std::setfill('0') << std::setw(3) << (levelIndex + 1) << "] " << getlevelname(levelIndex) << std::endl;
         loadLevel(gameContext, getleveldata(levelIndex));
     }
 };

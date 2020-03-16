@@ -20,48 +20,26 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#pragma once
+#include "PushZonk.hh"
 
+#include <model/dynamic/Deterministic.hh>
 #include <engine/game/GameState.hh>
-#include <model/static/marker/MurphyLeaving.hh>
-#include <model/static/marker/MurphyEntering.hh>
-#include <model/static/solid/Murphy.hh>
 #include <model/static/solid/Void.hh>
+#include <model/static/solid/Zonk.hh>
+#include <model/static/marker/ZonkLeaving.hh>
+#include <model/static/marker/ZonkEntering.hh>
 
-struct MoveOnVoid : public Dynamic {
-    GameState &gameState;
-    Index src;
-    Index dst;
-    int frameCountdown = 30;
+#include <context/Renderer.hh>
+#include <model/static/solid/Murphy.hh>
 
-    MoveOnVoid(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
-    }
-
-    std::vector<Index> area() const override {
-        return {src, dst};
-    }
-
-
-    void spawn() override {
-        gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-        gameState.level.storage[dst] = std::make_unique<MurphyEntering>();
-        gameState.allowMove = false;
-        gameState.murphloc = dst;
-    }
-
-    void update() override {
-        frameCountdown--;
-    }
-
-    bool ready() override {
-        return frameCountdown == 0;
-    }
-
-    void clean() override {
+void PushZonk::clean() {
+    if (!interrupted) {
         gameState.level.storage[src] = std::make_unique<Void>();
         gameState.level.storage[dst] = std::make_unique<Murphy>();
-
+        gameState.level.storage[rollInto] = std::make_unique<Zonk>();
         gameState.intents.emplace_back(src, Variant::BecomesVoid);
-        gameState.allowMove = true;
+        gameState.intents.emplace_back(rollInto, Variant::ZonkEntered);
+        gameState.murphloc = dst;
     }
-};
+}
+

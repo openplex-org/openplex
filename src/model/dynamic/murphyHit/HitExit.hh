@@ -22,29 +22,30 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/Dynamic.hh>
+#include "MurphyHit.hh"
+
 #include <engine/game/GameState.hh>
 #include <model/static/solid/Void.hh>
-#include <model/static/marker/InfotronSwallowed.hh>
+#include <model/static/marker/MurphyVanishing.hh>
+#include <context/Renderer.hh>
 
-struct SwallowInfotron : public Dynamic {
+struct HitExit : public MurphyHit {
     GameState &gameState;
     Index src;
     Index dst;
     const int FRAMES = 80;
     int frameCountdown = FRAMES;
 
-    SwallowInfotron(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
+    HitExit(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
 
     }
+
     std::vector<Index> area() const override {
         return {src, dst};
     }
 
-
     void spawn() override {
-        gameState.level.storage[dst] = std::make_unique<InfotronSwallowed>();
-        gameState.infotronsCollected++;
+        gameState.level.storage[src] = std::make_unique<MurphyVanishing>();
     }
 
     void update() override {
@@ -68,9 +69,10 @@ struct SwallowInfotron : public Dynamic {
         computeloc(gameState, src, src_x, src_y);
         computeloc(gameState, dst, dst_x, dst_y);
 
-        int swallow_png_frames = 9;
-        int swallow_frame = ((FRAMES - frameCountdown - 1) * swallow_png_frames) / FRAMES;
-        renderer.paint(gameState, dst_x, dst_y, swallow_frame, Tileset::InfotronVanish, 0, 0);
+        int vanish_png_frames = 10;
+        int vanish_frame = ((FRAMES - frameCountdown) * vanish_png_frames) / FRAMES;
+        renderer.paint(gameState, src_x, src_y, vanish_frame, Tileset::MurphyVanish, 0, 0);
     }
 };
+
 

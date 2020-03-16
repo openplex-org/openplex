@@ -25,7 +25,7 @@ GNU General Public License for more details.
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
 
-struct RAMChip : public Tile {
+struct RAMChip : public Solid {
     bool isSlippery() const override {
         return true;
     }

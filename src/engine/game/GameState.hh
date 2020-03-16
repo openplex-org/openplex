@@ -26,7 +26,7 @@ GNU General Public License for more details.
 #include <model/level/Level.hh>
 #include <engine/timing.h>
 #include <context/Display.hh>
-#include <model/dynamic/Dynamic.hh>
+#include <model/dynamic/Deterministic.hh>
 #include <deque>
 #include <model/intent/Variant.hh>
 #include <model/intent/Intent.hh>
@@ -67,7 +67,7 @@ struct GameState {
     int infotronsInLevel = 0;
     int infotronsCollected = 0;
     int infotronsRequirement;  /// infotrons needed to finish the level
-    int murphloc;         /// murphy's location
+    int murphloc;         /// murphyMove's location
     int timestarted;      /// the time the level was started in milliseconds
     int timenow;          /// time at current level updated
 

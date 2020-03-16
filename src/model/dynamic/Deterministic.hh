@@ -22,20 +22,12 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <common/openplex-gl.h>
-#include <graphics/display.h>
-#include <assets/sprites/sprites.h>
-#include "model/static/Static.hh"
+#include "Dynamic.hh"
 
-struct FloppyYellow : public Solid {
+#include <model/level/Index.hh>
+#include <vector>
 
-    void display(GameState& gameState, int loc) override {
-        GLfloat x, y;
-        computeloc(gameState, loc, x, y);
-        painttex(gameState, x, y, StaticTile::FloppyYellow, 0);
-    }
+struct Renderer;
 
-    char print() override { return '%';}
+struct Deterministic : public Dynamic {
 };
-
-

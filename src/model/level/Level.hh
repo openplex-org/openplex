@@ -25,7 +25,7 @@ GNU General Public License for more details.
 #include <vector>
 #include <memory>
 
-#include <model/static/Tile.hh>
+#include <model/static/Static.hh>
 #include <model/static/solid/Hardware.hh>
 #include <iostream>
 #include "Index.hh"
@@ -37,9 +37,9 @@ using std::unique_ptr;
 struct Level {
     int width = 60;
     int height = 24;
-    vector<unique_ptr<Tile>> storage;
+    vector<unique_ptr<Static>> storage;
 
-    unique_ptr<Tile> &loc(int i) {
+    unique_ptr<Static> &loc(int i) {
         return storage[i];
     }
 

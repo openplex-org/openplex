@@ -22,9 +22,9 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "model/static/Tile.hh"
+#include "model/static/Static.hh"
 
-struct FloppyRed : public Tile {
+struct FloppyRed : public Solid {
     void display(GameState &gameState, int loc) override {
         GLfloat x, y;
         computeloc(gameState, loc, x, y);

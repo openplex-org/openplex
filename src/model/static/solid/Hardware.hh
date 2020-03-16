@@ -25,8 +25,9 @@ GNU General Public License for more details.
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
 #include <assets/Sprites.hh>
+#include "Solid.hh"
 
-struct Hardware : public Tile {
+struct Hardware : public Solid {
     enum class Style {
         Wall = static_cast<int>(StaticTile::Wall),
         Hardware1 = static_cast<int>(StaticTile::Hardware1),

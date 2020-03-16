@@ -20,26 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "PushZonk.hh"
+#pragma once
 
-#include <model/dynamic/Dynamic.hh>
-#include <engine/game/GameState.hh>
-#include <model/static/solid/Void.hh>
-#include <model/static/solid/Zonk.hh>
-#include <model/static/marker/ZonkLeaving.hh>
-#include <model/static/marker/ZonkEntering.hh>
 
-#include <context/Renderer.hh>
-#include <model/static/solid/Murphy.hh>
+#include "Dynamic.hh"
 
-void PushZonk::clean() {
-    if (!interrupted) {
-        gameState.level.storage[src] = std::make_unique<Void>();
-        gameState.level.storage[dst] = std::make_unique<Murphy>();
-        gameState.level.storage[rollInto] = std::make_unique<Zonk>();
-        gameState.intents.emplace_back(src, Variant::BecomesVoid);
-        gameState.intents.emplace_back(rollInto, Variant::ZonkEntered);
-        gameState.murphloc = dst;
-    }
-}
+struct Interruptable : public Dynamic {
 
+};

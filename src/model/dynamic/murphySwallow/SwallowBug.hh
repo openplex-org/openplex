@@ -22,3 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "MurphySwallow.hh"
+
+struct SwallowBug : public MurphySwallow {
+};

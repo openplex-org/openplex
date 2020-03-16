@@ -2,7 +2,7 @@
 #define __HDR_readpng_h
 
 
-#include <GL/gl.h>
+#include <common/openplex-gl.h>
 #include <string>
 #include <vector>
 

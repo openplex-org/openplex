@@ -22,14 +22,16 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/Dynamic.hh>
+#include <model/dynamic/Deterministic.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/marker/InfotronLeaving.hh>
 #include <model/static/marker/InfotronEntering.hh>
 
 #include <context/Renderer.hh>
+#include <model/dynamic/Infinite.hh>
+#include "EdgeSlip.hh"
 
-struct InfotronEdgeSlip : public Dynamic {
+struct InfotronEdgeSlip : public EdgeSlip {
     GameState &gameState;
     int slipFrom;
     int slipInto;

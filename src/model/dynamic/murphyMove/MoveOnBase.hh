@@ -22,7 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/Dynamic.hh>
+#include "MurphyMove.hh"
+
 #include <engine/game/GameState.hh>
 #include <model/static/marker/MurphyLeaving.hh>
 #include <model/static/marker/BaseEaten.hh>
@@ -31,7 +32,7 @@ GNU General Public License for more details.
 
 #include <context/Renderer.hh>
 
-struct MoveOnBase : public Dynamic {
+struct MoveOnBase : public MurphyMove {
     GameState &gameState;
     Index src;
     Index dst;
@@ -84,7 +85,7 @@ struct MoveOnBase : public Dynamic {
         y = alpha(src_y, dst_y);
         int murphy_png_frames = 20;
         int murphy_frame = ((FRAMES - frameCountdown) * murphy_png_frames) / FRAMES;
-        renderer.paint(gameState, x, y, murphy_frame, Tileset::MurphyWalk, 0, 0);
+        renderer.paint(gameState, x, y, murphy_frame, Tileset::MurphyWalk, 0, dst > src ? 0 : 1);
     }
 };
 

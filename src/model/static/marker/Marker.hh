@@ -22,21 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct Postpone : public Dynamic {
-    PostponeVoid(GameState& gameState, Index index) {
+#include "Marker.hh"
 
-    }
-
-    void spawn() = 0;
-
-    void update() = 0;
-
-    bool ready() = 0;
-
-    void clean() = 0;
-
-    void display(const Renderer &renderer) {}
-
-    std::vector<Index> area() const = 0;
+struct Marker : public Static {
 
 };

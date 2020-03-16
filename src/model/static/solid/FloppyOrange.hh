@@ -26,9 +26,9 @@ GNU General Public License for more details.
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
 #include <engine/timing.h>
-#include "model/static/Tile.hh"
+#include "model/static/Static.hh"
 
-struct FloppyOrange : public Tile {
+struct FloppyOrange : public Solid {
     void display(GameState& gameState, int loc) override {
         GLfloat x, y;
         computeloc(gameState, loc, y, x);

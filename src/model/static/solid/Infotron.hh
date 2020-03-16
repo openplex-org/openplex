@@ -28,11 +28,11 @@ GNU General Public License for more details.
 #include <engine/anim.h>
 #include <model/dynamic/freeFall/InfotronFreeFall.hh>
 #include <model/dynamic/edgeSlip/InfotronEdgeSlip.hh>
-#include <model/dynamic/murphy/MoveOnInfotron.hh>
-#include <model/dynamic/murphy/SwallowInfotron.hh>
-#include "model/static/Tile.hh"
+#include <model/dynamic/murphyMove/MoveOnInfotron.hh>
+#include <model/dynamic/murphySwallow/SwallowInfotron.hh>
+#include "model/static/Static.hh"
 
-struct Infotron : public Tile {
+struct Infotron : public Solid {
     bool isSlippery() const override {
         return true;
     }
@@ -59,7 +59,7 @@ struct Infotron : public Tile {
 
     char print() override { return '&'; }
 
-    static std::unique_ptr<Dynamic>
+    static std::unique_ptr<Deterministic>
     getFreeFallDynamic(GameState &gameState, Index fallFrom, Index fallInto) {
         if (gameState.level.storage[fallInto]->isVoid()) {
             return std::make_unique<InfotronFreeFall>(gameState, fallFrom, fallInto);

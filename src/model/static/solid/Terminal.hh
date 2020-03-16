@@ -22,11 +22,11 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "model/static/Tile.hh"
+#include "model/static/Static.hh"
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
 
-struct Terminal : public Tile {
+struct Terminal : public Solid {
     void display(GameState& gameState, int loc) override {
         GLfloat x, y;
         int rotate = 0;

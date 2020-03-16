@@ -23,7 +23,7 @@ GNU General Public License for more details.
 #pragma once
 
 #include <engine/objMurphy.h>
-#include "model/static/Tile.hh"
+#include "model/static/Static.hh"
 #include <context/GameContext.hh>
 #include <engine/anim.h>
 
@@ -56,7 +56,7 @@ enum class MurphyState {
     PushingLeft,
     PushingRight
 };
-struct Murphy : public Tile {
+struct Murphy : public Solid {
     int counter = 0;
 
     void init(GameState & gameState, int loc) override {

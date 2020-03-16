@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct Bug : public Tile {
+struct Bug : public Solid {
 
     void display(GameState& gameState, int loc) override {
         GLfloat x;

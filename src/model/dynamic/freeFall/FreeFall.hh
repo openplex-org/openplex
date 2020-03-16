@@ -22,3 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <model/dynamic/Deterministic.hh>
+
+struct FreeFall : public Deterministic {
+
+};

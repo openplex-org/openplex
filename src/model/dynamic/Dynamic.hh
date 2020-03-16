@@ -28,6 +28,8 @@ GNU General Public License for more details.
 struct Renderer;
 
 struct Dynamic {
+    virtual ~Dynamic() = default;
+
     virtual void spawn() = 0;
 
     virtual void update() = 0;

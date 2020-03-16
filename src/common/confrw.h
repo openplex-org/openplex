@@ -6,7 +6,7 @@
 #define __HDR_confrw_h
 
 
-#include <GL/gl.h>
+#include <common/openplex-gl.h>
 #include "globals.h"
 
 /**

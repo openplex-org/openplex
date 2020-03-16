@@ -27,8 +27,8 @@ GNU General Public License for more details.
 #include <common/configuration.h>
 #include <assets/Sprites.hh>
 #include <assets/Levels.hh>
-#include <model/dynamic/Dynamic.hh>
-#include <bits/unordered_set.h>
+#include <model/dynamic/Deterministic.hh>
+#include <unordered_set>
 #include <algorithm>
 
 struct GameContext {

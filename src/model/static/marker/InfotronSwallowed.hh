@@ -21,7 +21,8 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #pragma once
+#include "Marker.hh"
 
-struct InfotronSwallowed : public Tile {
+struct InfotronSwallowed : public Marker {
 
 };

@@ -22,6 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "MurphyPush.hh"
+
 #include <engine/game/GameState.hh>
 #include <model/static/marker/ZonkEntering.hh>
 #include <model/static/marker/MurphyEntering.hh>
@@ -30,7 +32,7 @@ GNU General Public License for more details.
 #include <context/Renderer.hh>
 
 
-struct PushZonk : public Dynamic {
+struct PushZonk : public MurphyPush {
     GameState &gameState;
     Index src;
     Index dst;
@@ -101,16 +103,18 @@ struct PushZonk : public Dynamic {
 
     void display(const Renderer &renderer) override {
         if (!interrupted) {
-            GLfloat x, y;
-            GLfloat src_x, src_y;
-            GLfloat dst_x, dst_y;
-            int rotate = 0;
-            computeloc(gameState, src, src_x, src_y);
-            computeloc(gameState, dst, dst_x, dst_y);
-            x = alpha(src_x, dst_x);
-            y = alpha(src_y, dst_y);
-            renderer.paint(gameState, x, y, 0, Tileset::MurphyFaces, 0, 0);
-            if (pushFrameCountdown != PUSH_FRAMES) {
+            {
+                GLfloat x, y;
+                GLfloat src_x, src_y;
+                GLfloat dst_x, dst_y;
+                int rotate = 0;
+                computeloc(gameState, src, src_x, src_y);
+                computeloc(gameState, dst, dst_x, dst_y);
+                x = alpha(src_x, dst_x);
+                y = alpha(src_y, dst_y);
+                renderer.paint(gameState, x, y, 0, Tileset::MurphyFaces, 0, 0);
+            }
+            {
                 GLfloat x, y;
                 GLfloat src_x, src_y;
                 GLfloat dst_x, dst_y;
@@ -119,10 +123,9 @@ struct PushZonk : public Dynamic {
                 computeloc(gameState, rollInto, dst_x, dst_y);
                 x = alpha(src_x, dst_x);
                 y = alpha(src_y, dst_y);
-                int roll_png_frames = PUSH_FRAMES;
+                int roll_png_frames = 20;
                 int roll_frame = ((PUSH_FRAMES - pushFrameCountdown) * roll_png_frames) / PUSH_FRAMES;
                 renderer.paint(gameState, x, y, roll_frame, Tileset::ZonkRoll, 0, dst > rollInto ? 1 : 0);
-
             }
         }
     }

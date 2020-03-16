@@ -32,7 +32,7 @@ GNU General Public License for more details.
 #include <context/GameContext.hh>
 
 
-unique_ptr<Tile> decodeTile(unsigned char c) {
+unique_ptr<Static> decodeTile(unsigned char c) {
     switch (c) {
         case 0x00:
             return std::make_unique<Void>();

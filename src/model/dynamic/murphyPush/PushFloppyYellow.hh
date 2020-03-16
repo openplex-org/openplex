@@ -22,3 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "MurphyPush.hh"
+
+struct PushFloppyYellow : public MurphyPush {
+};

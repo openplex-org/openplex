@@ -22,21 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct Postpone : public Dynamic {
-    std::unique_ptr<Dynamic> postponedDynamic;
+#include <model/dynamic/Deterministic.hh>
 
-    Postpone(std::unique_ptr<Dynamic> postponedDynamic) : postponedDynamic(std::move(postponedDynamic)) {}
-
-    virtual void spawn() = 0;
-
-    virtual void update() = 0;
-
-    virtual bool ready() = 0;
-
-    virtual void clean() = 0;
-
-    virtual void display(const Renderer &renderer) {}
-
-    virtual std::vector<Index> area() const = 0;
-
+struct MurphyMove : public Deterministic {
 };

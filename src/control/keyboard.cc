@@ -94,6 +94,7 @@ void menukey(SDL_Event &event, int flags)
 		case SDLK_END:
 		case SDLK_PAGEUP:
 		case SDLK_PAGEDOWN:
+		default:
 		return;
 	}
 }

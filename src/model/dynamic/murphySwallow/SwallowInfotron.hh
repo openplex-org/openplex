@@ -25,30 +25,27 @@ GNU General Public License for more details.
 #include <model/dynamic/Deterministic.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/solid/Void.hh>
-#include <model/static/marker/ZonkLeaving.hh>
-#include <model/static/marker/ZonkEntering.hh>
+#include <model/static/marker/InfotronSwallowed.hh>
+#include "MurphySwallow.hh"
 
-#include <context/Renderer.hh>
-#include "FreeFall.hh"
-
-struct ZonkFreeFall : public FreeFall {
+struct SwallowInfotron : public MurphySwallow {
     GameState &gameState;
     Index src;
     Index dst;
-    const int FRAMES = 30;
+    const int FRAMES = 80;
     int frameCountdown = FRAMES;
 
-    ZonkFreeFall(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
-    }
+    SwallowInfotron(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
 
+    }
     std::vector<Index> area() const override {
         return {src, dst};
     }
 
 
     void spawn() override {
-        gameState.level.storage[src] = std::make_unique<ZonkLeaving>();
-        gameState.level.storage[dst] = std::make_unique<ZonkEntering>();
+        gameState.level.storage[dst] = std::make_unique<InfotronSwallowed>();
+        gameState.infotronsCollected++;
     }
 
     void update() override {
@@ -59,10 +56,9 @@ struct ZonkFreeFall : public FreeFall {
         return frameCountdown == 0;
     }
 
-    void clean() override;
-
-    float alpha(float f0, float f1) {
-        return (f0 * frameCountdown + f1 * (FRAMES - frameCountdown)) / FRAMES;
+    void clean() override {
+        gameState.level.storage[dst] = std::make_unique<Void>();
+        gameState.intents.emplace_back(dst, Variant::BecomesVoid);
     }
 
     void display(const Renderer &renderer) override {
@@ -72,9 +68,10 @@ struct ZonkFreeFall : public FreeFall {
         int rotate = 0;
         computeloc(gameState, src, src_x, src_y);
         computeloc(gameState, dst, dst_x, dst_y);
-        x = alpha(src_x, dst_x);
-        y = alpha(src_y, dst_y);
-        renderer.paint(gameState, x, y, StaticTile::Zonk, 0, 0);
+
+        int swallow_png_frames = 9;
+        int swallow_frame = ((FRAMES - frameCountdown - 1) * swallow_png_frames) / FRAMES;
+        renderer.paint(gameState, dst_x, dst_y, swallow_frame, Tileset::InfotronVanish, 0, 0);
     }
 };
 

@@ -29,10 +29,10 @@ GNU General Public License for more details.
 #include <engine/anim.h>
 #include <model/dynamic/freeFall/ZonkFreeFall.hh>
 #include <model/dynamic/edgeSlip/ZonkEdgeSlip.hh>
-#include <model/dynamic/push/PushZonk.hh>
-#include "model/static/Tile.hh"
+#include <model/dynamic/murphyPush/PushZonk.hh>
+#include "model/static/Static.hh"
 
-struct Zonk : public Tile {
+struct Zonk : public Solid {
     bool isSlippery() const override {
         return true;
     }
@@ -46,7 +46,7 @@ struct Zonk : public Tile {
 
     char print() override { return 'o'; }
 
-    static std::unique_ptr<Dynamic>
+    static std::unique_ptr<Deterministic>
     getFreeFallDynamic(GameState &gameState, Index fallFrom, Index fallInto) {
         if (gameState.level.storage[fallInto]->isVoid()) {
             return std::make_unique<ZonkFreeFall>(gameState, fallFrom, fallInto);

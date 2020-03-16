@@ -27,10 +27,10 @@ GNU General Public License for more details.
 #include <assets/sprites/sprites.h>
 #include <engine/timing.h>
 #include <engine/anim.h>
-#include "model/static/Tile.hh"
+#include "model/static/Static.hh"
 #include "model/dynamic/npc/NPC.hh"
 
-struct SnikSnak : public Tile {
+struct SnikSnak : public Solid {
     void init(GameState &gameState, int loc) override {
         NPC::init(gameState, loc);
     }

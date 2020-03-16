@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct PreparePush : public Dynamic {
+struct PreparePush : public Interruptable {
     GameState &gameState;
     Index src;
     Index dst;

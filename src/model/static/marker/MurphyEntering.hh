@@ -21,7 +21,8 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #pragma once
+#include "Marker.hh"
 
-struct MurphyEntering : public Tile {
+struct MurphyEntering : public Marker {
 
 };

@@ -22,15 +22,16 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/Dynamic.hh>
+#include <model/dynamic/Deterministic.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/solid/Void.hh>
 #include <model/static/marker/ZonkLeaving.hh>
 #include <model/static/marker/ZonkEntering.hh>
 
 #include <context/Renderer.hh>
+#include "FreeFall.hh"
 
-struct InfotronFreeFall : public Dynamic {
+struct InfotronFreeFall : public FreeFall {
     GameState &gameState;
     Index src;
     Index dst;

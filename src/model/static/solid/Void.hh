@@ -22,10 +22,11 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/Tile.hh>
+#include <model/static/Static.hh>
+#include "Solid.hh"
 
 
-struct Void : public Tile {
+struct Void : public Solid {
     bool canEnter() const override {
         return true;
     }

@@ -25,10 +25,10 @@ GNU General Public License for more details.
 #include <common/openplex-gl.h>
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
-#include <model/dynamic/murphy/HitExit.hh>
-#include "model/static/Tile.hh"
+#include <model/dynamic/murphyHit/HitExit.hh>
+#include "model/static/Static.hh"
 
-struct Exit : public Tile {
+struct Exit : public Solid {
     void display(GameState& gameState, int loc) override {
         GLfloat x;
         GLfloat y;

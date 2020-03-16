@@ -22,20 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <common/openplex-gl.h>
-#include <graphics/display.h>
-#include <assets/sprites/sprites.h>
-#include "model/static/Static.hh"
+#include <model/dynamic/Deterministic.hh>
 
-struct FloppyYellow : public Solid {
-
-    void display(GameState& gameState, int loc) override {
-        GLfloat x, y;
-        computeloc(gameState, loc, x, y);
-        painttex(gameState, x, y, StaticTile::FloppyYellow, 0);
-    }
-
-    char print() override { return '%';}
+struct MurphyPush : public Deterministic {
 };
-
-

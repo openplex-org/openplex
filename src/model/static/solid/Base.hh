@@ -27,11 +27,12 @@ GNU General Public License for more details.
 #include <common/openplex-gl.h>
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
-#include <model/dynamic/murphy/SwallowBase.hh>
-#include <model/dynamic/murphy/MoveOnBase.hh>
-#include "model/static/Tile.hh"
+#include <model/dynamic/murphySwallow/SwallowBase.hh>
+#include <model/dynamic/murphyMove/MoveOnBase.hh>
+#include "model/static/Static.hh"
+#include "Solid.hh"
 
-struct Base : public Tile {
+struct Base : public Solid {
 
     void display(GameState &gameState, int loc) override {
         GLfloat x;

@@ -25,9 +25,9 @@ GNU General Public License for more details.
 #include <common/openplex-gl.h>
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
-#include "model/static/Tile.hh"
+#include "model/static/Static.hh"
 
-struct Electron : public Tile {
+struct Electron : public Solid {
     void init(GameState & gameState, int loc) override {
         NPC::init(gameState, loc);
     }

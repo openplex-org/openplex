@@ -22,3 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <model/dynamic/Interruptable.hh>
+
+struct InfotronFreeFallPostpone : public FreeFallPostpone {
+
+};

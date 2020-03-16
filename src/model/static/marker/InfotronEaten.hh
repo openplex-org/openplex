@@ -22,9 +22,9 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/Tile.hh>
+#include "Marker.hh"
 
-struct InfotronEaten : public Tile {
+struct InfotronEaten : public Marker {
 
 };
 

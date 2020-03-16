@@ -73,6 +73,8 @@ void scenehandleevent(SDL_Event &event, GameContext &gameContext) {
                 return directionPressed(gameContext.gameState, Direction::Left);
             case SDLK_SPACE:
                 return spacePressed(gameContext.gameState);
+            default:
+                return;
         }
     } else if (event.type == SDL_KEYUP) {
         switch (event.key.keysym.sym) {
@@ -106,6 +108,8 @@ void scenehandleevent(SDL_Event &event, GameContext &gameContext) {
                 }
                 gameContext.levels.load(gameContext, gameContext.levelIndex);
                 break;
+            default:
+                return;
         }
     }
 }

@@ -22,34 +22,32 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/marker/MurphyLeaving.hh>
-#include <model/dynamic/Dynamic.hh>
-#include <model/level/Index.hh>
+#include <model/dynamic/Deterministic.hh>
 #include <engine/game/GameState.hh>
-#include <model/static/marker/InfotronEaten.hh>
+#include <model/static/marker/BaseSwallowed.hh>
 #include <model/static/solid/Void.hh>
-#include <model/static/solid/Murphy.hh>
 
-struct MoveOnInfotron : public Dynamic {
+#include <context/Renderer.hh>
+#include "MurphySwallow.hh"
+
+struct SwallowBase : public MurphySwallow {
     GameState &gameState;
     Index src;
     Index dst;
-    const int FRAMES = 15;
+
+    const int FRAMES = 80;
     int frameCountdown = FRAMES;
 
-    MoveOnInfotron(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
+    SwallowBase(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
+
     }
+
     std::vector<Index> area() const override {
         return {src, dst};
     }
 
-
     void spawn() override {
-        gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-        gameState.level.storage[dst] = std::make_unique<InfotronEaten>();
-        gameState.allowMove = false;
-        gameState.murphloc = dst;
-        gameState.infotronsCollected++;
+        gameState.level.storage[dst] = std::make_unique<BaseSwallowed>();
     }
 
     void update() override {
@@ -61,15 +59,8 @@ struct MoveOnInfotron : public Dynamic {
     }
 
     void clean() override {
-        gameState.level.storage[src] = std::make_unique<Void>();
-        gameState.level.storage[dst] = std::make_unique<Murphy>();
-
-        gameState.intents.emplace_back(src, Variant::BecomesVoid);
-        gameState.allowMove = true;
-    }
-
-    float alpha(float f0, float f1) {
-        return (f0 * frameCountdown + f1 * (FRAMES - frameCountdown)) / FRAMES;
+        gameState.level.storage[dst] = std::make_unique<Void>();
+        gameState.intents.emplace_back(dst, Variant::BecomesVoid);
     }
 
     void display(const Renderer &renderer) override {
@@ -79,12 +70,13 @@ struct MoveOnInfotron : public Dynamic {
         int rotate = 0;
         computeloc(gameState, src, src_x, src_y);
         computeloc(gameState, dst, dst_x, dst_y);
-        x = alpha(src_x, dst_x);
-        y = alpha(src_y, dst_y);
-        int murphy_png_frames = 20;
-        int murphy_frame = ((FRAMES - frameCountdown - 1) * murphy_png_frames) / FRAMES;
-        renderer.paint(gameState, x, y, murphy_frame, Tileset::MurphyWalk, 0, 0);
+
+//        int murphy_png_frames = 20;
+//        int murphy_frame = ((FRAMES - frameCountdown - 1) * murphy_png_frames) / FRAMES;
+//        renderer.paint(gameState, x, y, StaticTile::Murphy, 0, 0);
+
+        int swallow_png_frames = 9;
+        int swallow_frame = ((FRAMES - frameCountdown) * swallow_png_frames) / FRAMES;
+        renderer.paint(gameState, dst_x, dst_y, swallow_frame, Tileset::BaseVanish, 0, 0);
     }
 };
-
-

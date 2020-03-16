@@ -22,8 +22,8 @@ GNU General Public License for more details.
 
 #include "Void.hh"
 
-#include <model/static/Tile.hh>
-#include <model/dynamic/murphy/MoveOnVoid.hh>
+#include <model/static/Static.hh>
+#include <model/dynamic/murphyMove/MoveOnVoid.hh>
 #include <model/dynamic/freeFall/ZonkFreeFall.hh>
 
 std::unique_ptr<Dynamic>

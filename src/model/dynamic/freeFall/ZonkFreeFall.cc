@@ -21,7 +21,7 @@ GNU General Public License for more details.
 *******************************************************************/
 
 
-#include <model/dynamic/Dynamic.hh>
+#include <model/dynamic/Deterministic.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/solid/Void.hh>
 #include <model/static/solid/Zonk.hh>

@@ -22,8 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/Tile.hh>
+#include "Marker.hh"
 
-struct ZonkLeaving : public Tile {
+struct ZonkLeaving : public Marker {
 
 };

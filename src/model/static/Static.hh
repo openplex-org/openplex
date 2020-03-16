@@ -24,14 +24,14 @@ GNU General Public License for more details.
 
 #include <memory>
 
-#include <model/dynamic/Dynamic.hh>
+#include <model/dynamic/Deterministic.hh>
 #include <model/intent/Variant.hh>
 #include <model/intent/Intent.hh>
 #include <model/level/Index.hh>
 
 struct GameState;
 
-struct Tile {
+struct Static {
     virtual void init(GameState & gameState, int loc) {}
 
     virtual void display(GameState &gameState, int loc) {}

@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/Tile.hh>
+#include "Marker.hh"
 
-struct ZonkEntering : public Tile {
+struct ZonkEntering : public Marker {
 };

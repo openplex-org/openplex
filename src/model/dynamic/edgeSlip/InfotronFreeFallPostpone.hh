@@ -22,7 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "MurphySwallow.hh"
+#include "EdgeSlipPostpone.hh"
 
-struct SwallowBug : public MurphySwallow {
+struct InfotronEdgeSlipPostpone : public EdgeSlipPostpone {
+
 };

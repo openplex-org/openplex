@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/Deterministic.hh>
+#include "MurphySnap.hh"
 
-struct MurphySwallow : public Deterministic {
+struct SnapBug : public MurphySnap {
 };

@@ -27,7 +27,7 @@ GNU General Public License for more details.
 #include <common/openplex-gl.h>
 #include <graphics/display.h>
 #include <assets/sprites/sprites.h>
-#include <model/dynamic/murphySwallow/SwallowBase.hh>
+#include <model/dynamic/murphySnap/SnapBase.hh>
 #include <model/dynamic/murphyMove/MoveOnBase.hh>
 #include "model/static/Static.hh"
 #include "Solid.hh"
@@ -60,7 +60,7 @@ struct Base : public Solid {
             case Variant::MurphyTryToEnter:
                 return std::make_unique<MoveOnBase>(gameState, intent.source, self);
             case Variant::MurphyTryToSwallow:
-                return std::make_unique<SwallowBase>(gameState, intent.source, self);
+                return std::make_unique<SnapBase>(gameState, intent.source, self);
             default:
                 return nullptr;
         }

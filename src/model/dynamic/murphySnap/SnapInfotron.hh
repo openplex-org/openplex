@@ -26,16 +26,16 @@ GNU General Public License for more details.
 #include <engine/game/GameState.hh>
 #include <model/static/solid/Void.hh>
 #include <model/static/marker/InfotronSwallowed.hh>
-#include "MurphySwallow.hh"
+#include "MurphySnap.hh"
 
-struct SwallowInfotron : public MurphySwallow {
+struct SnapInfotron : public MurphySnap {
     GameState &gameState;
     Index src;
     Index dst;
     const int FRAMES = 80;
     int frameCountdown = FRAMES;
 
-    SwallowInfotron(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
+    SnapInfotron(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
 
     }
     std::vector<Index> area() const override {

@@ -29,7 +29,7 @@ GNU General Public License for more details.
 #include <model/dynamic/freeFall/InfotronFreeFall.hh>
 #include <model/dynamic/edgeSlip/InfotronEdgeSlip.hh>
 #include <model/dynamic/murphyMove/MoveOnInfotron.hh>
-#include <model/dynamic/murphySwallow/SwallowInfotron.hh>
+#include <model/dynamic/murphySnap/SnapInfotron.hh>
 #include "model/static/Static.hh"
 
 struct Infotron : public Solid {
@@ -141,7 +141,7 @@ struct Infotron : public Solid {
             case Variant::MurphyTryToEnter:
                 return std::make_unique<MoveOnInfotron>(gameState, intent.source, self);
             case Variant::MurphyTryToSwallow:
-                return std::make_unique<SwallowInfotron>(gameState, intent.source, self);
+                return std::make_unique<SnapInfotron>(gameState, intent.source, self);
             case Variant::BecomesVoid:
                 // ignore source of intent - there is a precondition that it comes from a void nearby
                 return getGravityDynamic(gameState, self, self);

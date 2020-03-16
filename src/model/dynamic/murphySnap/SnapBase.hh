@@ -28,9 +28,9 @@ GNU General Public License for more details.
 #include <model/static/solid/Void.hh>
 
 #include <context/Renderer.hh>
-#include "MurphySwallow.hh"
+#include "MurphySnap.hh"
 
-struct SwallowBase : public MurphySwallow {
+struct SnapBase : public MurphySnap {
     GameState &gameState;
     Index src;
     Index dst;
@@ -38,7 +38,7 @@ struct SwallowBase : public MurphySwallow {
     const int FRAMES = 80;
     int frameCountdown = FRAMES;
 
-    SwallowBase(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
+    SnapBase(GameState &gameState, Index src, Index dst) : gameState(gameState), src(src), dst(dst) {
 
     }
 

@@ -22,11 +22,11 @@ GNU General Public License for more details.
 
 #pragma once
 
-
 #include "Deterministic.hh"
-
+namespace op {
 // Intermediate state that cannot be finalize unless certain conditions are met.
 // eg. the 'rolling zonk intrusion trick'
 struct Infinite : public Dynamic {
-
+  Infinite(GameState& gameState) : Dynamic(gameState) {}
 };
+}  // namespace op

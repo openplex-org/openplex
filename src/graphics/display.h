@@ -16,6 +16,7 @@ void renderscene(GameState& gameState);
 void computeloc(GameState& gameState, int loc, GLfloat &locy, GLfloat &locx, int flags=0);
 
 void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, int rot, int flags = 0);
+void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile);
 
 /**
  * paint a texture at the given coordinates

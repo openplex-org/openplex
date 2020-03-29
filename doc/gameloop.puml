@@ -1,0 +1,4 @@
+@startuml
+GameState o-- Static
+GameState o-- Dynamic
+@enduml

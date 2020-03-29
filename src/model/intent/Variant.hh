@@ -23,9 +23,12 @@ GNU General Public License for more details.
 #pragma once
 
 enum class Variant {
-    MurphyTryToEnter,
-    MurphyTryToSwallow,
+    MurphyTryToMove,
+    MurphyTryToSnap,
+    InstantMurphyPush,
     BecomesVoid,
+    InstantTriggerVoid,
+    MurphyEntered,
     ZonkEntered,
     InfotronEntered,
     FloppyOrangeEntered,

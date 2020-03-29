@@ -30,9 +30,11 @@ GNU General Public License for more details.
 #include <model/dynamic/Deterministic.hh>
 #include <unordered_set>
 #include <algorithm>
+#include <control/Input.hh>
 
 struct GameContext {
     int levelIndex = 0;
+    Input input;
     GameState gameState;
     Display &display;
     Sprites &sprites;
@@ -47,7 +49,7 @@ struct GameContext {
     bool gameover = false;
 
     void updateDynamics() {
-        std::vector<unique_ptr<Dynamic>> nextFrameDynamics;
+        std::vector<std::unique_ptr<op::Dynamic>> nextFrameDynamics;
         for (auto &dynamic : gameState.activeDynamics) {
             dynamic->update();
             if (dynamic->ready()) {
@@ -74,31 +76,24 @@ struct GameContext {
         auto activeIndices = getActiveIndices();
 
         for (auto &intent : gameState.intents) {
-            Index source = intent.source;
-            for (auto center : {gameState.level.above(source), source, gameState.level.below(source)}) {
-                Index left = gameState.level.leftof(center);
-                Index right = gameState.level.rightof(center);
-                for (auto impact : {left, center, right}) {
-                    if (!gameState.level.inside(impact)) {
-                        continue;
-                    }
-                    auto dynamic = gameState.level.storage[impact]->getDynamicOn(gameState, intent, impact);
-                    if (dynamic) {
-                        auto indices = dynamic->area();
-                        if (std::all_of(indices.begin(), indices.end(), [&](Index index) {
-                            return activeIndices.find(index) == activeIndices.end();
-                        })) {
-                            gameState.futureDynamics.emplace_back(std::move(dynamic));
-                        }
+            for (auto &impact : intent.propagate(gameState)) {
+                auto dynamic = gameState.level.storage[impact]->getDynamicOn(gameState, intent, impact);
+                if (dynamic) {
+                    auto indices = dynamic->area();
+                    if (std::all_of(indices.begin(), indices.end(), [&](Index index) {
+                        return activeIndices.find(index) == activeIndices.end();
+                    })) {
+                        gameState.futureDynamics.emplace_back(std::move(dynamic));
                     }
                 }
             }
         }
+
         gameState.intents.clear();
     }
 
     void resolveConflictingDynamics() {
-        std::vector<std::unique_ptr<Dynamic>> keepFutureDynamics;
+        std::vector<std::unique_ptr<op::Dynamic>> keepFutureDynamics;
         std::unordered_map<Index, int> futureAreaLookup;
         for (auto &dynamic : gameState.futureDynamics) {
             auto indices = dynamic->area();
@@ -129,14 +124,15 @@ struct GameContext {
 
     void playFrame() {
         gameState.frame++;
-        std::cout << gameState.frame << " dynamics: " << gameState.activeDynamics.size() << " ";
+        //std::cout << gameState.count << " dynamics: " << gameState.activeDynamics.size() << " ";
         moveMurphy(gameState, gameState.murphloc);
         updateDynamics();
-        std::cout << gameState.activeDynamics.size() << "\tintents: ";
-        std::cout << gameState.intents.size() << "\t";
+        //std::cout << gameState.activeDynamics.size() << "\tintents: ";
+        //std::cout << gameState.intents.size() << "\t";
         generateDynamicsFromIntents();
         resolveConflictingDynamics();
-        std::cout << "futureDynamics: " << gameState.futureDynamics.size() << std::endl;
+        //std::cout << "futureDynamics: " << gameState.futureDynamics.size() << std::endl;
         initiateDynamics();
     }
+
 };

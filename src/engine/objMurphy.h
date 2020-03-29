@@ -1,7 +1,10 @@
 #ifndef __HDR_objMurph_h
 #define __HDR_objMurph_h
 
+#include "model/level/Index.hh"
 
-void moveMurphy(GameState& gameState, int loc);
+struct GameState;
+
+void moveMurphy(GameState& gameState, Index index);
 
 #endif

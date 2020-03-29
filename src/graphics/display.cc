@@ -54,6 +54,10 @@ void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile,
     painttex(gameState, x, y, static_cast<int>(staticTile), Tileset::Static, rot, flags);
 }
 
+void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile) {
+    painttex(gameState, x, y, static_cast<int>(staticTile), Tileset::Static, 0, 0);
+}
+
 void painttex(GameState &gameState, GLfloat x, GLfloat y, int tileindex, Tileset tileset, int rot, int flags) {
     auto &display = gameState.gameContext.display;
     int texid;
@@ -137,13 +141,14 @@ void renderscene(GameState &gameState) {
         }
     }
 */
+    auto renderer = Renderer{};
     int loc = 0;
     auto & height = gameState.level.height;
     auto & width = gameState.level.width;
     for (int iy = 0; iy < gameState.level.height; iy++) {
         for (int ix = 0; ix < gameState.level.width; ix++) {
             if (gameState.level.storage[iy * width + ix])
-                gameState.level.storage[iy * width + ix]->display(gameState, loc++);
+                gameState.level.storage[iy * width + ix]->display(renderer, gameState, gameState.level.getIndex(ix, iy));
         }
     }
     for(auto & dynamic : gameState.activeDynamics) {

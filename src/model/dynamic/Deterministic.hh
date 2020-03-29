@@ -29,5 +29,8 @@ GNU General Public License for more details.
 
 struct Renderer;
 
+namespace op {
 struct Deterministic : public Dynamic {
+  explicit Deterministic(GameState& gameState) : Dynamic(gameState) {}
 };
+}  // namespace op

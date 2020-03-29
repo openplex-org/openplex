@@ -23,3 +23,5 @@ GNU General Public License for more details.
 #pragma once
 
 using Index = int;
+
+static constexpr Index invalid = -1;

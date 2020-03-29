@@ -22,65 +22,87 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <vector>
+#include <functional>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
-#include <model/static/Static.hh>
-#include <model/static/solid/Hardware.hh>
 #include <iostream>
+#include <model/static/Static.hh>
+#include <model/static/solid/core/Hardware.hh>
+#include "Direction.hh"
 #include "Index.hh"
 
-
-using std::vector;
-using std::unique_ptr;
+namespace op {
 
 struct Level {
-    int width = 60;
-    int height = 24;
-    vector<unique_ptr<Static>> storage;
+  int width = 60;
+  int height = 24;
+  std::vector<std::unique_ptr<Static>> storage;
+  std::unordered_map<Direction, std::function<Index(Index)>> followLookup;
 
-    unique_ptr<Static> &loc(int i) {
-        return storage[i];
+  std::unique_ptr<Static> &loc(int i) { return storage[i]; }
+
+  Level(int width = 60, int height = 24) : width(width), height(height), storage(width * height) {
+    repairBorder();
+
+    followLookup = std::unordered_map<Direction, std::function<Index(Index)>>{
+        {Direction::Up, [&](Index index) { return this->above(index); }},
+        {Direction::Right, [&](Index index) { return this->rightof(index); }},
+        {Direction::Down, [&](Index index) { return this->below(index); }},
+        {Direction::Left, [&](Index index) { return this->leftof(index); }},
+        {Direction::None, [&](Index index) { return index; }}};
+  }
+
+  void repairBorder() {
+    for (int i = 1; i < width - 1; i++) {
+      storage[i] = std::make_unique<core::Hardware>(core::Hardware::Style::Wall);
+      storage[width * (height - 1) + i] = std::make_unique<core::Hardware>(core::Hardware::Style::Wall);
     }
-
-    Level(int width = 60, int height = 24) : width(width),
-                                             height(height),
-                                             storage(width * height) {
-        repairBorder();
+    for (int i = 0; i < height; i++) {
+      storage[i * width] = std::make_unique<core::Hardware>(core::Hardware::Style::Wall);
+      storage[(i + 1) * width - 1] = std::make_unique<core::Hardware>(core::Hardware::Style::Wall);
     }
+  }
 
-    void repairBorder() {
-        for (int i = 1; i < width - 1; i++) {
-            storage[i] = std::make_unique<Hardware>(Hardware::Style::Wall);
-            storage[width * (height - 1) + i] = std::make_unique<Hardware>(Hardware::Style::Wall);
-        }
-        for (int i = 0; i < height; i++) {
-            storage[i * width] = std::make_unique<Hardware>(Hardware::Style::Wall);
-            storage[(i + 1) * width - 1] = std::make_unique<Hardware>(Hardware::Style::Wall);
-        }
+  Index getIndex(int x, int y) { return y * width + x; }
+
+  Index above(Index i) { return i - width; }
+
+  Index below(Index i) { return i + width; }
+
+  Index leftof(Index i) { return i - 1; }
+
+  Index rightof(Index i) { return i + 1; }
+
+  Index follow(Index i, Index j) { return follow(j, getDirection(i, j)); }
+
+  Index follow(Index index, Direction direction) { return followLookup.at(direction)(index); }
+
+  Direction getDirection(Index from, Index to) {
+    if (to == rightof(from)) {
+      return Direction::Right;
+    } else if (to == leftof(from)) {
+      return Direction::Left;
+    } else if (to == above(from)) {
+      return Direction::Up;
+    } else if (to == below(from)) {
+      return Direction::Down;
+    } else {
+      return Direction::None;
     }
+  }
 
-    Index above(Index i) { return i - width; }
-
-    Index below(Index i) { return i + width; }
-
-    Index leftof(Index i) { return i - 1; }
-
-    Index rightof(Index i) { return i + 1; }
-
-    Index follow(Index i, Index j) { return 2 * j - i; }
-
-    void console() {
-        for (int iy = 0; iy < height; iy++) {
-            for (int ix = 0; ix < width; ix++) {
-                std::cout << storage[ix * height + iy]->print() << ' ';
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
+  void console() {
+    for (int iy = 0; iy < height; iy++) {
+      for (int ix = 0; ix < width; ix++) {
+        std::cout << storage[ix * height + iy]->print() << ' ';
+      }
+      std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 
-    bool inside(int i) {
-        return i >= 0 && i < width * height;
-    }
+  bool inside(int i) { return i >= 0 && i < width * height; }
 };
+}  // namespace op

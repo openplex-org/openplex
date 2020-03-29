@@ -24,6 +24,6 @@ GNU General Public License for more details.
 
 #include "Marker.hh"
 
-struct Marker : public Static {
+struct Marker : public op::Static {
 
 };

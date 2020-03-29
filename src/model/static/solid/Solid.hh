@@ -22,8 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/Static.hh>
+#include "model/static/Static.hh"
 
-struct Solid : public Static {
-
-};
+namespace op {
+struct Solid : public Static {};
+}  // namespace op

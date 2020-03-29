@@ -26,19 +26,26 @@ GNU General Public License for more details.
 #include <vector>
 
 struct Renderer;
+struct GameState;
 
+namespace op {
 struct Dynamic {
-    virtual ~Dynamic() = default;
+  GameState &gameState;
 
-    virtual void spawn() = 0;
+  Dynamic(GameState &gameState) : gameState(gameState) {}
 
-    virtual void update() = 0;
+  virtual ~Dynamic() = default;
 
-    virtual bool ready() = 0;
+  virtual void spawn() = 0;
 
-    virtual void clean() = 0;
+  virtual void update() = 0;
 
-    virtual void display(const Renderer &renderer) {}
+  virtual bool ready() = 0;
 
-    virtual std::vector<Index> area() const = 0;
+  virtual void clean() = 0;
+
+  virtual void display(const Renderer &renderer) {}
+
+  virtual std::vector<Index> area() const = 0;
 };
+}  // namespace op

@@ -22,10 +22,16 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <vector>
+#include <model/level/Index.hh>
 #include "Variant.hh"
+
+struct GameState;
 
 struct Intent {
     Intent(int source, Variant variant) : source(source), variant(variant) {}
+
+    std::vector<Index> propagate(GameState &gameState);
 
     int source;
     Variant variant;

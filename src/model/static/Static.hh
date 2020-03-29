@@ -25,52 +25,44 @@ GNU General Public License for more details.
 #include <memory>
 
 #include <model/dynamic/Deterministic.hh>
-#include <model/intent/Variant.hh>
 #include <model/intent/Intent.hh>
+#include <model/intent/Variant.hh>
 #include <model/level/Index.hh>
 
 struct GameState;
+struct Renderer;
 
+namespace op {
 struct Static {
-    virtual void init(GameState & gameState, int loc) {}
+  virtual void init(GameState &gameState, Index index) {}
 
-    virtual void display(GameState &gameState, int loc) {}
+  virtual void display(Renderer &renderer, GameState &gameState, Index index) {}
 
-    virtual bool isVoid() const {
-        return false;
-    }
+  virtual bool isVoid() const { return false; }
 
-    virtual bool isSlippery() const {
-        return false;
-    }
+  virtual bool isSlippery() const { return false; }
 
-    enum SlipperySide {
-        Left, Right
-    } slipperySide;
+  /*
+      virtual bool isSlippery(GameState& gameState, Index index) const {
+          return false;
+      }
+  */
+  enum SlipperySide { Left, Right } slipperySide;
 
-    virtual SlipperySide getSlipperySide() const {
-        return slipperySide;
-    }
+  virtual SlipperySide getSlipperySide() const { return slipperySide; }
 
-    virtual void scheduleSlip(SlipperySide nextSlipSide) {
-        slipperySide = nextSlipSide;
-    }
+  virtual void scheduleSlip(SlipperySide nextSlipSide) { slipperySide = nextSlipSide; }
 
-    virtual char print() { return ' ';}
+  virtual char print() { return ' '; }
 
-    virtual bool canEnter() const {
-        return false;
-    }
+  virtual bool canEnter() const { return false; }
 
-    virtual bool canSwallow() const {
-        return false;
-    }
+  virtual bool canSnap() const { return false; }
 
-    virtual bool isDeadly() const {
-        return false;
-    }
+  virtual bool isDeadly() const { return false; }
 
-    virtual std::unique_ptr<Dynamic> getDynamicOn(GameState& gameState, Intent intentEntry, Index self) const {
-        return nullptr;
-    }
+  virtual std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const {
+    return nullptr;
+  }
 };
+}  // namespace op

@@ -22,9 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-
 #include "Dynamic.hh"
 
+namespace op {
 struct Interruptable : public Dynamic {
-
+  explicit Interruptable(GameState& gameState) : Dynamic(gameState) {}
 };
+}  // namespace op

@@ -22,47 +22,32 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <deque>
 
 #include <model/level/Level.hh>
 #include <engine/timing.h>
 #include <context/Display.hh>
 #include <model/dynamic/Deterministic.hh>
-#include <deque>
 #include <model/intent/Variant.hh>
 #include <model/intent/Intent.hh>
 #include <SDL_timer.h>
+#include <SDL_keysym.h>
 
 struct GameContext;
-
-enum class Direction {
-    None,
-    Up,
-    Right,
-    Left,
-    Down
-};
 
 struct GameState {
     GameState(GameContext &gameContext) : gameContext(gameContext) {}
 
     GameContext &gameContext;
-    Level level;
-    std::vector<std::unique_ptr<Dynamic>> activeDynamics;
-    std::vector<std::unique_ptr<Dynamic>> futureDynamics;
+    op::Level level;
+    std::vector<std::unique_ptr<op::Dynamic>> activeDynamics;
+    std::vector<std::unique_ptr<op::Dynamic>> futureDynamics;
     std::vector<Intent> intents;
 
     GameTime gameTime;
 
     int frame = 0;
     bool allowMove = true;
-
-    Direction scheduleMove = Direction::None;
-    bool continueMove = false;
-    int pressedFrames = 0;
-    Direction scheduleSwallow = Direction::None;
-    bool continueSwallow = false;
-    bool isSpacePressed = false;
-
 
     int infotronsInLevel = 0;
     int infotronsCollected = 0;

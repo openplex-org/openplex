@@ -105,13 +105,13 @@ struct Sprites {
             case Tileset::Static:
                 return "static";
             case Tileset::MurphyFaces:
-                return "murphyMove-faces";
+                return "murphy-faces";
             case Tileset::MurphyWalk:
-                return "murphyMove-walk";
+                return "murphy-walk";
             case Tileset::MurphyVanish:
-                return "murphyMove-vanish";
+                return "murphy-vanish";
             case Tileset::MurphyYawn:
-                return "murphyMove-yawn";
+                return "murphy-yawn";
             case Tileset::InfotronRoll:
                 return "infotron-roll";
             case Tileset::ZonkRoll:

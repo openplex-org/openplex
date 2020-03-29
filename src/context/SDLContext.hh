@@ -41,7 +41,7 @@ struct SDLContext {
     SDL_Surface *scrsurface;
     int fullscreenmode = 1;
 
-    vector<tConfigurable *> videomodes;
+    std::vector<tConfigurable *> videomodes;
     tVideoMode *fsvideomode;
     tVideoMode origres;
 
@@ -74,6 +74,8 @@ struct SDLContext {
     SDL_Event event;
 
     void events(GameContext &gameContext) {
+
+
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
                 gameContext.gameover = 1;

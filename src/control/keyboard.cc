@@ -15,7 +15,7 @@ GNU General Public License for more details.
 #include "keyboard.h"
 
 #include "joystick.h"
-#include "scene.h"
+#include "keys.h"
 
 std::string keyname(int id)
 {
@@ -41,8 +41,15 @@ std::string keyname(int id)
 // perform translation before sending to scene
 void translateandhandleevent(SDL_Event &event, GameContext &gameContext)
 {
-	SDL_Event e=event;
-	
+
+
+
+
+
+
+
+	SDL_Event &e=event;
+	/*
 	// translate hat to buttons
 	// a single hat event may generate multiple button events
 	if (e.type==SDL_JOYHATMOTION)
@@ -74,7 +81,7 @@ void translateandhandleevent(SDL_Event &event, GameContext &gameContext)
 	{
 		e.type=SDL_KEYUP;
 		e.key.keysym.sym=(SDLKey) (1000000+256*e.jbutton.which+e.jbutton.button);
-	}
+	}*/
 	scenehandleevent(e, gameContext);
 }
 

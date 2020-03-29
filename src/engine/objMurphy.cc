@@ -13,9 +13,8 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #include <model/level/Level.hh>
-#include <model/static/solid/Terminal.hh>
+#include <model/static/solid/core/Terminal.hh>
 #include <context/GameContext.hh>
-#include <functional>
 
 void moveMurphy(GameState &gameState, Index src) {
     auto &level = gameState.level;
@@ -29,36 +28,22 @@ void moveMurphy(GameState &gameState, Index src) {
         return;
     }
 
-    static const auto dest = std::unordered_map<Direction, std::function<Index(Index)>>
-            {
-                    {Direction::Up,    [&](Index index) { return gameState.level.above(index); }},
-                    {Direction::Right, [&](Index index) { return gameState.level.rightof(index); }},
-                    {Direction::Down,  [&](Index index) { return gameState.level.below(index); }},
-                    {Direction::Left,  [&](Index index) { return gameState.level.leftof(index); }}
-            };
-
-    if (gameState.scheduleMove != Direction::None) {
-        Index dst = dest.at(gameState.scheduleMove)(src);
+    auto &input = gameState.gameContext.input;
+    if (input.direction != Direction::None) {
+        if (!input.snap) {
+            auto dst = gameState.level.follow(src, input.direction);
+            auto &tile = gameState.level.storage[dst];
+            auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToMove), dst);
+            if (dynamic) {
+                gameState.futureDynamics.push_back(std::move(dynamic));
+            }
+        }
+    } else {
+        auto dst = gameState.level.follow(src, input.direction);
         auto &tile = gameState.level.storage[dst];
-        auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToEnter), dst);
+        auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToSnap), dst);
         if (dynamic) {
             gameState.futureDynamics.push_back(std::move(dynamic));
-        }
-        if (!gameState.continueMove) {
-            gameState.scheduleMove = Direction::None;
-        } else {
-            gameState.pressedFrames++;
-        }
-    } else if (gameState.scheduleSwallow != Direction::None) {
-        Index dst = dest.at(gameState.scheduleSwallow)(src);
-        auto &tile = gameState.level.storage[dst];
-        auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToSwallow), dst);
-        if (dynamic) {
-            gameState.futureDynamics.push_back(std::move(dynamic));
-        }
-        if (!gameState.continueSwallow) {
-            gameState.scheduleSwallow = Direction::None;
-            gameState.continueSwallow = false;
         }
     }
 };

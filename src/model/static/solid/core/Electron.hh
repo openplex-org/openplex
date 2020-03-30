@@ -27,7 +27,7 @@ GNU General Public License for more details.
 #include <model/static/solid/Solid.hh>
 #include "model/static/Static.hh"
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 
 namespace op::core {
 struct Electron : public Solid {

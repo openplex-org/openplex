@@ -20,8 +20,9 @@ GNU General Public License for more details.
 #include <context/GameContext.hh>
 #include <engine/game/GameState.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include <SDL_timer.h>
+#include <renderer/openGLRenderer/OpenGLRenderer.hh>
 
 void computeloc(GameState &gameState, int loc, GLfloat &locx, GLfloat &locy, int flags) {
     auto &display = gameState.gameContext.display;
@@ -51,14 +52,14 @@ void computeloc(GameState &gameState, int loc, GLfloat &locx, GLfloat &locy, int
 }
 
 void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, int rot, int flags) {
-    painttex(gameState, x, y, static_cast<int>(staticTile), Tileset::Static, rot, flags);
+    painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
 }
 
 void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile) {
-    painttex(gameState, x, y, static_cast<int>(staticTile), Tileset::Static, 0, 0);
+    painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, 0, 0);
 }
 
-void painttex(GameState &gameState, GLfloat x, GLfloat y, int tileindex, Tileset tileset, int rot, int flags) {
+void painttex(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, int rot, int flags) {
     auto &display = gameState.gameContext.display;
     int texid;
     GLfloat texl = 0;
@@ -141,7 +142,7 @@ void renderscene(GameState &gameState) {
         }
     }
 */
-    auto renderer = Renderer{};
+    auto &renderer = gameState.gameContext.renderer;
     int loc = 0;
     auto & height = gameState.level.height;
     auto & width = gameState.level.width;
@@ -152,7 +153,7 @@ void renderscene(GameState &gameState) {
         }
     }
     for(auto & dynamic : gameState.activeDynamics) {
-        dynamic->display(Renderer{});
+        dynamic->display(renderer);
     }
 
 /*

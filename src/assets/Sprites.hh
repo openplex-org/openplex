@@ -27,116 +27,54 @@ GNU General Public License for more details.
 #include <assets/sprites/readpng.h>
 #include <unordered_map>
 
+#include "model/render/TileSet.hh"
 
-enum class Tileset : int {
-    BaseVanish,
-    Bug,
-    Digits,
-    Electron,
-    Explode,
-    FloppyVanish,
-    InfotronExplode,
-    InfotronRoll,
-    InfotronVanish,
-    MurphyFaces,
-    MurphyVanish,
-    MurphyWalk,
-    MurphyYawn,
-    SniksnakCut,
-    SniksnakTurn,
-    Static,
-    Terminal,
-    ZonkRoll
-};
-
-enum class StaticTile {
-    Void,
-    Zonk,
-    Base,
-    Murphy,
-    Infotron,
-    RAMChip,
-    Wall,
-    Exit,
-    FloppyOrange,
-    PortRight,
-    PortDown,
-    PortLeft,
-    PortUp,
-    GravityPortRight,
-    GravityPortDown,
-    GravityPortLeft,
-    GravityPortUp,
-    SnikSnak,
-    FloppyYellow,
-    Terminal,
-    FloppyRed,
-    PortVertical,
-    PortHorizontal,
-    PortCross,
-    Electron,
-    Bug,
-    RAMChipLeft,
-    RAMChipRight,
-    Hardware1,
-    Hardware2,
-    Hardware3,
-    Hardware4,
-    Hardware5,
-    Hardware6,
-    Hardware7,
-    Hardware8,
-    Hardware9,
-    Hardware10,
-    RAMChipTop,
-    RAMChipBottom
-};
 
 struct Sprites {
-    std::unordered_map<Tileset, std::vector<GLuint> > tiles;
+    std::unordered_map<TileSet, std::vector<GLuint> > tiles;
     std::string sprites_dir;
 
     Sprites(Configuration &configuration) : sprites_dir(configuration.datadir + "/graphics/") {
         init_sprites();
     }
 
-    std::string sprites_name(Tileset tileset) {
+    std::string sprites_name(TileSet tileset) {
         switch (tileset) {
-            case Tileset::Static:
+            case TileSet::Static:
                 return "static";
-            case Tileset::MurphyFaces:
+            case TileSet::MurphyFaces:
                 return "murphy-faces";
-            case Tileset::MurphyWalk:
+            case TileSet::MurphyWalk:
                 return "murphy-walk";
-            case Tileset::MurphyVanish:
+            case TileSet::MurphyVanish:
                 return "murphy-vanish";
-            case Tileset::MurphyYawn:
+            case TileSet::MurphyYawn:
                 return "murphy-yawn";
-            case Tileset::InfotronRoll:
+            case TileSet::InfotronRoll:
                 return "infotron-roll";
-            case Tileset::ZonkRoll:
+            case TileSet::ZonkRoll:
                 return "zonk-roll";
-            case Tileset::SniksnakCut:
+            case TileSet::SniksnakCut:
                 return "sniksnak-cut";
-            case Tileset::SniksnakTurn:
+            case TileSet::SniksnakTurn:
                 return "sniksnak-turn";
-            case Tileset::Explode:
+            case TileSet::Explode:
                 return "explode";
-            case Tileset::InfotronExplode:
+            case TileSet::InfotronExplode:
                 return "infotron-explode";
-            case Tileset::Electron:
+            case TileSet::Electron:
                 return "electron";
-            case Tileset::FloppyVanish:
+            case TileSet::FloppyVanish:
                 return "floppy-vanish";
-            case Tileset::InfotronVanish:
+            case TileSet::InfotronVanish:
                 return "infotron-vanish";
-            case Tileset::BaseVanish:
+            case TileSet::BaseVanish:
                 return "base-vanish";
-            case Tileset::Terminal:
+            case TileSet::Terminal:
                 return "terminal";
-            case Tileset::Bug:
+            case TileSet::Bug:
                 return "bug";
-            case Tileset::Digits:
+            case TileSet::Digits:
                 return "digits";
             default:
                 return "static";
@@ -144,33 +82,33 @@ struct Sprites {
 
     }
 
-    std::string sprites_file(Tileset tileset) {
+    std::string sprites_file(TileSet tileset) {
         return sprites_dir + sprites_name(tileset) + ".png";
     }
 
-    void load_tileset(Tileset tileset) {
+    void load_tileset(TileSet tileset) {
         loadImageSet(sprites_file(tileset), tiles[tileset], 0);
     }
 
     void init_sprites() {
-        load_tileset(Tileset::Static);
-        load_tileset(Tileset::BaseVanish);
-        load_tileset(Tileset::Bug);
-        load_tileset(Tileset::Digits);
-        load_tileset(Tileset::Electron);
-        load_tileset(Tileset::Explode);
-        load_tileset(Tileset::FloppyVanish);
-        load_tileset(Tileset::InfotronExplode);
-        load_tileset(Tileset::InfotronRoll);
-        load_tileset(Tileset::InfotronVanish);
-        load_tileset(Tileset::MurphyFaces);
-        load_tileset(Tileset::MurphyVanish);
-        load_tileset(Tileset::MurphyWalk);
-        load_tileset(Tileset::MurphyYawn);
-        load_tileset(Tileset::SniksnakCut);
-        load_tileset(Tileset::SniksnakTurn);
-        load_tileset(Tileset::Static);
-        load_tileset(Tileset::Terminal);
-        load_tileset(Tileset::ZonkRoll);
+        load_tileset(TileSet::Static);
+        load_tileset(TileSet::BaseVanish);
+        load_tileset(TileSet::Bug);
+        load_tileset(TileSet::Digits);
+        load_tileset(TileSet::Electron);
+        load_tileset(TileSet::Explode);
+        load_tileset(TileSet::FloppyVanish);
+        load_tileset(TileSet::InfotronExplode);
+        load_tileset(TileSet::InfotronRoll);
+        load_tileset(TileSet::InfotronVanish);
+        load_tileset(TileSet::MurphyFaces);
+        load_tileset(TileSet::MurphyVanish);
+        load_tileset(TileSet::MurphyWalk);
+        load_tileset(TileSet::MurphyYawn);
+        load_tileset(TileSet::SniksnakCut);
+        load_tileset(TileSet::SniksnakTurn);
+        load_tileset(TileSet::Static);
+        load_tileset(TileSet::Terminal);
+        load_tileset(TileSet::ZonkRoll);
     }
 };

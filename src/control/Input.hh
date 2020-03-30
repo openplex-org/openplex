@@ -22,17 +22,22 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct Input {
-    Direction direction;
-    Direction fallback;
-    bool snap;
-    bool bird;
-    bool zoomin;
-    bool zoomout;
-    bool quicksave;
-    bool quickload;
-    bool nextMurphy;
+#include "model/level/Direction.hh"
 
-    std::unordered_map<Direction, int> pressedFrames;
-    int dropFrames;
+struct Input {
+  // playing - affecting game state - need to synchronize between games in multiplayer case
+  Direction direction = Direction::None;
+  Direction fallback = Direction::None;
+  bool snap = false;
+  bool nextMurphy = false;
+
+  // operating -
+  bool bird = false;
+  bool zoomin = false;
+  bool zoomout = false;
+  bool quicksave = false;
+  bool quickload = false;
+
+  std::unordered_map<Direction, int> pressedFrames;
+  int dropFrames;
 };

@@ -20,11 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "Renderer.hh"
+#include "OpenGLRenderer.hh"
 
-#include <engine/game/GameState.hh>
+#include "engine/game/GameState.hh"
 
-#include <context/GameContext.hh>
+#include "context/GameContext.hh"
 
 inline constexpr float getAlphaMix(float f0, float f1, int count, int total) {
   return (f0 * static_cast<float>(count) + f1 * static_cast<float>(total - count)) / total;
@@ -36,13 +36,13 @@ inline constexpr float getAlphaMix(float f0, float f1, Progress anim) {
 
 inline constexpr int getSpriteIndex(int sprites, Progress anim) { return (sprites * anim.count) / anim.total; }
 
-void Renderer::paintTile(GameState &gameState, StaticTile tile, Index index) const {
+void OpenGLRenderer::paintTile(GameState &gameState, StaticTile tile, Index index) {
   GLfloat x, y;
   computeloc(gameState, index, x, y);
   painttex(gameState, x, y, tile, 0, 0);
 }
 
-void Renderer::paintTile(GameState &gameState, Tileset tileset, Index index, Progress anim) const {
+void OpenGLRenderer::paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) {
   GLfloat x, y;
   computeloc(gameState, index, x, y);
   const int spriteFrames = gameState.gameContext.sprites.tiles[tileset].size();
@@ -50,8 +50,8 @@ void Renderer::paintTile(GameState &gameState, Tileset tileset, Index index, Pro
   painttex(gameState, x, y, spriteIndex, tileset, 0, 0);
 }
 
-void Renderer::paintDirectedTile(GameState &gameState, Tileset tileset, Direction direction, Index index,
-                                 Progress anim) const {
+void OpenGLRenderer::paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
+                                       Progress anim) {
   GLfloat x, y;
   computeloc(gameState, index, x, y);
 
@@ -75,7 +75,7 @@ void Renderer::paintDirectedTile(GameState &gameState, Tileset tileset, Directio
   }
 }
 
-void Renderer::paintMovingTile(GameState &gameState, Tileset tileset, Index src, Index dst, Progress anim) const {
+void OpenGLRenderer::paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) {
   GLfloat x, y;
   GLfloat src_x, src_y;
   GLfloat dst_x, dst_y;
@@ -106,7 +106,7 @@ void Renderer::paintMovingTile(GameState &gameState, Tileset tileset, Index src,
   }
 }
 
-void Renderer::paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) const {
+void OpenGLRenderer::paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) {
   GLfloat x, y;
   GLfloat src_x, src_y;
   GLfloat dst_x, dst_y;
@@ -118,8 +118,8 @@ void Renderer::paintMovingTile(GameState &gameState, StaticTile staticTile, Inde
   painttex(gameState, x, y, staticTile, 0, 0);
 }
 
-void Renderer::paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
-                                Progress anim) const {
+void OpenGLRenderer::paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock,
+                                      Index index, Progress anim) {
   GLfloat x, y;
   computeloc(gameState, index, x, y);
 
@@ -131,8 +131,8 @@ void Renderer::paintRotatedTile(GameState &gameState, StaticTile tile, Direction
   painttex(gameState, x, y, tile, angle);
 }
 
-void Renderer::paintRotatedTile(GameState &gameState, Tileset tileset, Direction direction, Clock clock, Index index,
-                                Progress anim) const {
+void OpenGLRenderer::paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock,
+                                      Index index, Progress anim) {
   GLfloat x, y;
   computeloc(gameState, index, x, y);
 

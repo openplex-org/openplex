@@ -28,7 +28,7 @@ GNU General Public License for more details.
 #include <model/static/marker/ZonkLeaving.hh>
 #include <model/static/solid/core/Void.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include "FreeFall.hh"
 
 namespace op::core {
@@ -53,7 +53,7 @@ struct InfotronFreeFall : public FreeFall {
 
   void clean() override;
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto progress = Progress{frameCountdown, FRAMES};
     renderer.paintMovingTile(gameState, StaticTile::Infotron, src, dst, progress);
   }

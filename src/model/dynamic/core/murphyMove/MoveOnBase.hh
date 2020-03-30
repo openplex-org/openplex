@@ -29,7 +29,7 @@ GNU General Public License for more details.
 #include <model/static/marker/MurphyLeaving.hh>
 #include <model/static/solid/core/Murphy.hh>
 #include <model/static/solid/core/Void.hh>
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 
 namespace op::core {
 struct MoveOnBase : public MurphyMove {
@@ -61,9 +61,9 @@ struct MoveOnBase : public MurphyMove {
     gameState.allowMove = true;
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto progress = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, Tileset::MurphyWalk, src, dst, progress);
+    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, progress);
   }
 };
 }  // namespace op::core

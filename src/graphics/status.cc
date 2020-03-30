@@ -25,7 +25,7 @@ void display_status(GameState &gameState, int infotronsneeded) {
         painttex(gameState,
                 display.scr_width - display.ts * 0.7 * digitnr - display.ts,
                  display.ts,
-                 x % 10, Tileset::Digits,
+                 x % 10, TileSet::Digits,
                  0, 2);
         x /= 10;
         digitnr++;
@@ -38,7 +38,7 @@ void display_fps(GameState &gameState, int fps) {
     int digitnr = 0;
     while (x > 0) {
         painttex(gameState, display.scr_width - display.ts * 0.7 * digitnr - display.ts, display.ts + 100, x % 10,
-                 Tileset::Digits, 0, 2);
+                 TileSet::Digits, 0, 2);
         x /= 10;
         digitnr++;
     }

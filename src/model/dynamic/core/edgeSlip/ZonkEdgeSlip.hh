@@ -28,7 +28,7 @@ GNU General Public License for more details.
 #include <model/static/marker/ZonkLeaving.hh>
 #include <model/static/solid/core/Void.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include <model/dynamic/Infinite.hh>
 #include "EdgeSlip.hh"
 
@@ -56,9 +56,9 @@ struct ZonkEdgeSlip : public EdgeSlip {
 
   void clean() override;
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, Tileset::ZonkRoll, slipFrom, slipInto, anim);
+    renderer.paintMovingTile(gameState, TileSet::ZonkRoll, slipFrom, slipInto, anim);
   }
 };
 }  // namespace op::core

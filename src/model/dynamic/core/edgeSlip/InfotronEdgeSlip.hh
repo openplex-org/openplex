@@ -27,7 +27,7 @@ GNU General Public License for more details.
 #include <model/static/marker/InfotronEntering.hh>
 #include <model/static/marker/InfotronLeaving.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include <model/dynamic/Infinite.hh>
 #include "EdgeSlip.hh"
 
@@ -57,9 +57,9 @@ struct InfotronEdgeSlip : public EdgeSlip {
 
   float alpha(float f0, float f1) { return (f0 * frameCountdown + f1 * (FRAMES - frameCountdown)) / FRAMES; }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, Tileset::InfotronRoll, slipFrom, slipInto, anim);
+    renderer.paintMovingTile(gameState, TileSet::InfotronRoll, slipFrom, slipInto, anim);
   }
 };
 }  // namespace op::core

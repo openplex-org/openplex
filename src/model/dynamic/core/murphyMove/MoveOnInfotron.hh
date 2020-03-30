@@ -62,9 +62,9 @@ struct MoveOnInfotron : public MurphyMove {
     gameState.allowMove = true;
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, Tileset::MurphyWalk, src, dst, anim);
+    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, anim);
   }
 };
 }  // namespace op::core

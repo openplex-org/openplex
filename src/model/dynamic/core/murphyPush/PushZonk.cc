@@ -29,7 +29,7 @@ GNU General Public License for more details.
 #include <model/static/solid/core/Void.hh>
 #include <model/static/solid/core/Zonk.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include <model/static/solid/core/Murphy.hh>
 
 namespace op::core {

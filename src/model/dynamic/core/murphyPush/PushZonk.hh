@@ -29,7 +29,7 @@ GNU General Public License for more details.
 #include <model/static/marker/MurphyLeaving.hh>
 #include <model/static/marker/ZonkEntering.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 
 namespace op::core {
 struct PushZonk : public MurphyPush {
@@ -82,7 +82,7 @@ struct PushZonk : public MurphyPush {
     return (f0 * pushFrameCountdown + f1 * (PUSH_FRAMES - pushFrameCountdown)) / PUSH_FRAMES;
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     if (!interrupted) {
       {
       /*  GLfloat x, y;
@@ -93,12 +93,12 @@ struct PushZonk : public MurphyPush {
         computeloc(gameState, dst, dst_x, dst_y);
         x = alpha(src_x, dst_x);
         y = alpha(src_y, dst_y);
-        renderer.paint(gameState, x, y, 0, Tileset::MurphyFaces, 0, 0);
+        renderer.paint(gameState, x, y, 0, TileSet::MurphyFaces, 0, 0);
         */
       }
       {
         auto progress = Progress{pushFrameCountdown, PUSH_FRAMES};
-        renderer.paintMovingTile(gameState, Tileset::ZonkRoll, dst, rollInto, progress);
+        renderer.paintMovingTile(gameState, TileSet::ZonkRoll, dst, rollInto, progress);
       }
     }
   }

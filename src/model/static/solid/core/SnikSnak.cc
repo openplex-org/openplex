@@ -29,7 +29,7 @@ GNU General Public License for more details.
 #include "model/dynamic/NPC.hh"
 #include "model/static/Static.hh"
 
-#include "context/Renderer.hh"
+#include "renderer/Renderer.hh"
 
 namespace op::core {
 void SnikSnak::display(Renderer &renderer, GameState &gameState, Index index) {

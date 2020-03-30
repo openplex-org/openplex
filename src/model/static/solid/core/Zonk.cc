@@ -24,7 +24,7 @@ GNU General Public License for more details.
 
 #include <assets/Sprites.hh>
 
-#include "context/Renderer.hh"
+#include "renderer/Renderer.hh"
 
 namespace op::core {
 

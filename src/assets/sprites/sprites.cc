@@ -15,18 +15,18 @@ GNU General Public License for more details.
 
 #include <context/GameContext.hh>
 
-int gettex(GameContext &gameContext, Tileset tileset, int tileindex) {
+int gettex(GameContext &gameContext, TileSet tileset, int tileindex) {
     if (tileindex >= gameContext.sprites.tiles[tileset].size()) return 0;
     return gameContext.sprites.tiles[tileset][tileindex];
 }
 
 int getelectronid(GameContext &gameContext, int time) {
-    if (!gameContext.sprites.tiles[Tileset::Electron].size()) return 0;
+    if (!gameContext.sprites.tiles[TileSet::Electron].size()) return 0;
     time /= 10;
-    return time % gameContext.sprites.tiles[Tileset::Electron].size();
+    return time % gameContext.sprites.tiles[TileSet::Electron].size();
 }
 
-int spritecount(GameContext &gameContext, Tileset tileset) {
+int spritecount(GameContext &gameContext, TileSet tileset) {
     return gameContext.sprites.tiles[tileset].size();
 }
 

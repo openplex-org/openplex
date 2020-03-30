@@ -24,6 +24,8 @@ GNU General Public License for more details.
 #include <assets/Sprites.hh>
 #include <assets/Levels.hh>
 #include <context/Player.hh>
+#include <renderer/openGLRenderer/OpenGLRenderer.hh>
+#include <renderer/consoleRenderer/ConsoleRenderer.hh>
 #include "common/configuration.h"
 #include "graphics/display.h"
 #include "context/SDLContext.hh"
@@ -41,14 +43,21 @@ int main(int argc, char *argv[]) {
     Levels levels;
     Sprites sprites(configuration);
 
+#ifdef CONSOLE
+    ConsoleRenderer renderer;
+#else
+    OpenGLRenderer renderer;
+#endif
+
     Player player;
-    GameContext gameContext(configuration, sprites, levels);
+    GameContext gameContext(configuration, renderer, sprites, levels);
 
     while (!gameContext.gameover) {
         sdlContext.events(gameContext);
         gameContext.playFrame();
         renderscene(gameContext.gameState);
         sdlContext.update();
+        gameContext.renderer.renderFrame(gameContext.gameState);
         SystemClock::keep_fps();
     }
 

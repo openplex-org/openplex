@@ -22,34 +22,41 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "renderer/Renderer.hh"
+
 #include <engine/game/GameState.hh>
 #include <model/level/Clock.hh>
 #include <model/render/Progress.hh>
 
-struct Renderer {
+struct OpenGLRenderer : public Renderer {
  private:
   void paint(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, float rot, int flags) const {
-    painttex(gameState, x, y, static_cast<int>(staticTile), Tileset::Static, rot, flags);
+    painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
   }
 
-  void paint(GameState &gameState, GLfloat x, GLfloat y, int tileindex, Tileset tileset, float rot, int flags) const {
+  void paint(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, float rot, int flags) const {
     painttex(gameState, x, y, tileindex, tileset, rot, flags);
   }
 
  public:
-  void paintTile(GameState &gameState, StaticTile tile, Index index) const;
+  void initialize(GameState &gameState) override {}
 
-  void paintTile(GameState &gameState, Tileset tileset, Index index, Progress anim) const;
+  void renderFrame(GameState &gameState) override {}
 
-  void paintDirectedTile(GameState &gameState, Tileset tileset, Direction direction, Index index, Progress anim) const;
+  void paintTile(GameState &gameState, StaticTile tile, Index index) override;
 
-  void paintMovingTile(GameState &gameState, Tileset tileset, Index src, Index dst, Progress anim) const;
+  void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) override;
 
-  void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) const;
+  void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
+                         Progress anim) override;
+
+  void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) override;
+
+  void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) override;
 
   void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
-                        Progress anim) const;
+                        Progress anim) override;
 
-  void paintRotatedTile(GameState &gameState, Tileset tileset, Direction direction, Clock clock, Index index,
-                        Progress anim) const;
+  void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
+                        Progress anim) override;
 };

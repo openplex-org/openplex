@@ -23,6 +23,7 @@ GNU General Public License for more details.
 #pragma once
 
 #include <assets/Sprites.hh>
+#include <model/render/StaticTile.hh>
 #include "model/static/solid/Solid.hh"
 
 namespace op::core {

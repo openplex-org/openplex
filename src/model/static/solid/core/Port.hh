@@ -22,6 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <model/render/StaticTile.hh>
 #include "model/static/solid/Solid.hh"
 
 #include "assets/Sprites.hh"

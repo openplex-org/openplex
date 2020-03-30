@@ -20,11 +20,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <model/render/StaticTile.hh>
 #include "Hardware.hh"
 
 #include "assets/Sprites.hh"
 
-#include "context/Renderer.hh"
+#include "renderer/Renderer.hh"
 
 namespace op::core {
 

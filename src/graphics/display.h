@@ -2,6 +2,7 @@
 #define __HDR_display_h
 
 #include <assets/Sprites.hh>
+#include <model/render/StaticTile.hh>
 
 struct GameState;
 
@@ -26,7 +27,7 @@ void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile)
  * @param group the group of textures
  * @param rot rotation in degrees
  */
-void painttex(GameState& gameState, GLfloat x, GLfloat y, int tileindex, Tileset tileset, int rot=0, int flags=0);
+void painttex(GameState& gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, int rot=0, int flags=0);
 
 
 #endif

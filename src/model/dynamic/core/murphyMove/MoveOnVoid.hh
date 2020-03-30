@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/marker/MurphyEntering.hh>
 #include <model/static/marker/MurphyLeaving.hh>
@@ -62,9 +62,9 @@ struct MoveOnVoid : public MurphyMove {
 
   float alpha(float f0, float f1) { return (f0 * frameCountdown + f1 * (FRAMES - frameCountdown)) / FRAMES; }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, Tileset::MurphyWalk, src, dst, anim);
+    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, anim);
   }
 };
 }  // namespace op::core

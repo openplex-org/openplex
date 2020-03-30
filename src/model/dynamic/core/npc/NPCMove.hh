@@ -65,7 +65,7 @@ struct NPCMove : public NPC {
     gameState.allowMove = true;
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     switch (behavior) {
       case Behavior::Turn:
         display_turn(renderer);
@@ -89,7 +89,7 @@ struct NPCMove : public NPC {
     y = alpha(src_y, dst_y);
     int murphy_png_frames = 20;
     int murphy_frame = ((FRAMES - frameCountdown) * murphy_png_frames) / FRAMES;
-    renderer.paint(gameState, x, y, murphy_frame, Tileset::MurphyWalk, 0, dst > src ? 0 : 1);
+    renderer.paint(gameState, x, y, murphy_frame, TileSet::MurphyWalk, 0, dst > src ? 0 : 1);
   }
 
   void display_turn(const Renderer &renderer) {
@@ -102,7 +102,7 @@ struct NPCMove : public NPC {
     y = alpha(src_y, dst_y);
     int murphy_png_frames = 20;
     int murphy_frame = ((FRAMES - frameCountdown) * murphy_png_frames) / FRAMES;
-    renderer.paint(gameState, x, y, murphy_frame, Tileset::SniksnakTurn, 0, dst > src ? 0 : 1);
+    renderer.paint(gameState, x, y, murphy_frame, TileSet::SniksnakTurn, 0, dst > src ? 0 : 1);
   }
 };
 

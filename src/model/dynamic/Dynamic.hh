@@ -44,7 +44,7 @@ struct Dynamic {
 
   virtual void clean() = 0;
 
-  virtual void display(const Renderer &renderer) {}
+  virtual void display(Renderer &renderer) {}
 
   virtual std::vector<Index> area() const = 0;
 };

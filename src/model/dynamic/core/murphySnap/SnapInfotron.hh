@@ -53,9 +53,9 @@ struct SnapInfotron : public MurphySnap {
     gameState.intents.emplace_back(dst, Variant::BecomesVoid);
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto progress = Progress{frameCountdown, FRAMES};
-    renderer.paintTile(gameState, Tileset::InfotronVanish, dst, progress);
+    renderer.paintTile(gameState, TileSet::InfotronVanish, dst, progress);
   }
 };
 }  // namespace op::core

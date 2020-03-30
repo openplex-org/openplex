@@ -27,7 +27,7 @@ GNU General Public License for more details.
 #include <model/static/marker/BaseSnapped.hh>
 #include <model/static/solid/core/Void.hh>
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include "MurphySnap.hh"
 
 namespace op::core {
@@ -53,9 +53,9 @@ struct SnapBase : public MurphySnap {
     gameState.intents.emplace_back(dst, Variant::BecomesVoid);
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintTile(gameState, Tileset::BaseVanish, dst, anim);
+    renderer.paintTile(gameState, TileSet::BaseVanish, dst, anim);
   }
 };
 }  // namespace op::core

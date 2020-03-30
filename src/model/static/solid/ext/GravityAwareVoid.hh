@@ -20,13 +20,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "FloppyRed.hh"
+#pragma once
 
-#include "renderer/Renderer.hh"
-
-namespace op::core {
-  void FloppyRed::display(Renderer &renderer, GameState &gameState, Index index) {
-    renderer.paintTile(gameState, StaticTile::FloppyRed, index);
-  }
-
-}  // namespace op::core

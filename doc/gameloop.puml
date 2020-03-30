@@ -1,4 +1,18 @@
 @startuml
-GameState o-- Static
-GameState o-- Dynamic
+
+start
+
+while (game loop   )
+  :read Input  |
+  :control game (pause/snapshot/load)    |
+  :generate Dynamics from Input     ;
+  :generate Dynamics from Intents      ;
+  :resolve conflicting Dynamics     ;
+  :update Dynamics   ;
+  :schedule Intents   ;
+  :render Frame   |
+endwhile
+  :terminate  |
+stop
+
 @enduml

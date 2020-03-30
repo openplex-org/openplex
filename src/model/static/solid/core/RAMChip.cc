@@ -25,7 +25,7 @@ GNU General Public License for more details.
 #include <assets/sprites/sprites.h>
 #include <graphics/display.h>
 
-#include "context/Renderer.hh"
+#include "renderer/Renderer.hh"
 
 namespace op::core {
 void RAMChip::display(Renderer &renderer, GameState &gameState, Index index) {

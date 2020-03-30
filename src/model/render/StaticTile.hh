@@ -20,13 +20,48 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "FloppyRed.hh"
+#pragma once
 
-#include "renderer/Renderer.hh"
+enum class StaticTile {
+    Void,
+    Zonk,
+    Base,
+    Murphy,
+    Infotron,
+    RAMChip,
+    Wall,
+    Exit,
+    FloppyOrange,
+    PortRight,
+    PortDown,
+    PortLeft,
+    PortUp,
+    GravityPortRight,
+    GravityPortDown,
+    GravityPortLeft,
+    GravityPortUp,
+    SnikSnak,
+    FloppyYellow,
+    Terminal,
+    FloppyRed,
+    PortVertical,
+    PortHorizontal,
+    PortCross,
+    Electron,
+    Bug,
+    RAMChipLeft,
+    RAMChipRight,
+    Hardware1,
+    Hardware2,
+    Hardware3,
+    Hardware4,
+    Hardware5,
+    Hardware6,
+    Hardware7,
+    Hardware8,
+    Hardware9,
+    Hardware10,
+    RAMChipTop,
+    RAMChipBottom
+};
 
-namespace op::core {
-  void FloppyRed::display(Renderer &renderer, GameState &gameState, Index index) {
-    renderer.paintTile(gameState, StaticTile::FloppyRed, index);
-  }
-
-}  // namespace op::core

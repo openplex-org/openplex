@@ -20,13 +20,26 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "FloppyRed.hh"
+#pragma once
 
-#include "renderer/Renderer.hh"
+enum class TileSet : int {
+    BaseVanish,
+    Bug,
+    Digits,
+    Electron,
+    Explode,
+    FloppyVanish,
+    InfotronExplode,
+    InfotronRoll,
+    InfotronVanish,
+    MurphyFaces,
+    MurphyVanish,
+    MurphyWalk,
+    MurphyYawn,
+    SniksnakCut,
+    SniksnakTurn,
+    Static,
+    Terminal,
+    ZonkRoll
+};
 
-namespace op::core {
-  void FloppyRed::display(Renderer &renderer, GameState &gameState, Index index) {
-    renderer.paintTile(gameState, StaticTile::FloppyRed, index);
-  }
-
-}  // namespace op::core

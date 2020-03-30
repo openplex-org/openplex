@@ -2,10 +2,10 @@
 #define __HDR_sprites_h
 
 struct GameContext;
-enum class Tileset;
+enum class TileSet;
 
-int gettex(GameContext& gameContext, Tileset tileset, int tileindex);
-int spritecount(GameContext& gameContext, Tileset tileset);
+int gettex(GameContext& gameContext, TileSet tileset, int tileindex);
+int spritecount(GameContext& gameContext, TileSet tileset);
 int getelectronid(GameContext& gameContext, int time);
 
 

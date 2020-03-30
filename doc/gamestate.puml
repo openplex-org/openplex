@@ -1,17 +1,24 @@
 @startuml
-Display --* Configuration
-Configuration --o SDLContext
-SDLContext --o GLContext
-GLContext --o GameContext
-class "Assets\nSprites" as Sprites
-class "Assets\nSounds" as Sounds
-Configuration --o Sprites
-Sprites --o GameContext
-Configuration --o Sounds
-Sounds --o GameContext
-Configuration --o GameContext
-GameContext o-- GameState
-GameState o-- Level
-GameState o-- GameTime
-Level o-- Tile
+'object GameState
+'object Level
+object Static
+object Solid
+object Marker
+object Dynamic
+object Interruptable
+object Infinite
+object Deterministic
+object NPC
+
+'GameState o-- Level
+'Level o-- Static
+Static <|-- Solid
+Static <|-- Marker
+
+'GameState o-- Dynamic
+Dynamic <|-- Interruptable
+Dynamic <|-- Infinite
+Dynamic <|-- Deterministic
+Dynamic <|-- NPC
+
 @enduml

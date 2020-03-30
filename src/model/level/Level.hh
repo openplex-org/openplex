@@ -65,6 +65,10 @@ struct Level {
     }
   }
 
+  int getX(Index index) { return static_cast<int>(index) % width; }
+
+  int getY(Index index) { return static_cast<int>(index) / width; }
+
   Index getIndex(int x, int y) { return y * width + x; }
 
   Index above(Index i) { return i - width; }

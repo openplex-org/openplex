@@ -24,7 +24,7 @@ GNU General Public License for more details.
 
 #include "MurphyHit.hh"
 
-#include <context/Renderer.hh>
+#include <renderer/Renderer.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/marker/MurphyVanishing.hh>
 #include <model/static/solid/core/Void.hh>
@@ -51,9 +51,9 @@ struct HitExit : public MurphyHit {
     gameState.intents.emplace_back(dst, Variant::BecomesVoid);
   }
 
-  void display(const Renderer &renderer) override {
+  void display(Renderer &renderer) override {
     auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintTile(gameState, Tileset::MurphyVanish, dst, anim);
+    renderer.paintTile(gameState, TileSet::MurphyVanish, dst, anim);
   }
 };
 }  // namespace op::core

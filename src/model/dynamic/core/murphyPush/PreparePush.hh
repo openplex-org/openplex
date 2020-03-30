@@ -43,6 +43,6 @@ struct PreparePush : public Interruptable {
 
   void clean() override;
 
-  void display(const Renderer &renderer) override {}
+  void display(Renderer &renderer) override {}
 };
 }  // namespace op::core

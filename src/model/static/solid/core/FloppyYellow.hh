@@ -26,13 +26,10 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 
 namespace op::core {
 struct FloppyYellow : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '%'; }
 };
 
 }  // namespace op::core

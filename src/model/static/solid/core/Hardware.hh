@@ -24,8 +24,7 @@ GNU General Public License for more details.
 
 #include "model/static/solid/Solid.hh"
 
-#include <graphics/display.h>
-#include <assets/Sprites.hh>
+#include "model/render/StaticTile.hh"
 
 namespace op::core {
 struct Hardware : public Solid {
@@ -48,8 +47,6 @@ struct Hardware : public Solid {
   explicit Hardware(Style style) : style(style) {}
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '#'; }
 };
 
 }  // namespace op::core

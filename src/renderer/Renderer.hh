@@ -26,11 +26,17 @@ GNU General Public License for more details.
 #include <model/level/Clock.hh>
 #include <model/render/Progress.hh>
 #include <model/render/StaticTile.hh>
+#include <model/render/TileSet.hh>
 
 struct Renderer {
   virtual void initialize(GameState &gameState) = 0;
+  virtual void doBeforeFrame(GameState &gameState) = 0;
+  virtual void doRenderFrame(GameState &gameState) = 0;
+  virtual void doRenderOverlay(GameState &gameState) = 0;
 
-  virtual void renderFrame(GameState &gameState) = 0;
+  void renderStatics(GameState &gameState);
+  void renderDynamics(GameState &gameState);
+  void renderFrame(GameState &gameState);
 
   virtual void paintTile(GameState &gameState, StaticTile tile, Index index) = 0;
 

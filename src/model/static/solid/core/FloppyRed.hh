@@ -27,7 +27,5 @@ GNU General Public License for more details.
 namespace op::core {
 struct FloppyRed : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '!'; }
 };
 }  // namespace op::core

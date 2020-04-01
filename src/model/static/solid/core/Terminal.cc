@@ -23,7 +23,6 @@ GNU General Public License for more details.
 #include "Terminal.hh"
 
 #include <assets/sprites/sprites.h>
-#include <graphics/display.h>
 #include "model/static/Static.hh"
 
 #include "renderer/Renderer.hh"

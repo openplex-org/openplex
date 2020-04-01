@@ -23,7 +23,6 @@ GNU General Public License for more details.
 #pragma once
 
 #include <assets/sprites/sprites.h>
-#include <graphics/display.h>
 #include <model/static/solid/Solid.hh>
 #include "model/static/Static.hh"
 
@@ -36,7 +35,5 @@ struct Electron : public Solid {
   }
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '*'; }
 };
 }  // namespace op::core

@@ -25,7 +25,7 @@ GNU General Public License for more details.
 #include "model/static/solid/Solid.hh"
 
 #include <assets/sprites/sprites.h>
-#include <graphics/display.h>
+#include <model/render/StaticTile.hh>
 
 namespace op::core {
 struct RAMChip : public Solid {
@@ -44,7 +44,5 @@ struct RAMChip : public Solid {
   RAMChip(Style style) : style(style) {}
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return 'D'; }
 };
 }  // namespace op::core

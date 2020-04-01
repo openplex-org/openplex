@@ -30,6 +30,7 @@ GNU General Public License for more details.
 #include <model/static/solid/core/Terminal.hh>
 #include <model/static/solid/core/Zonk.hh>
 #include <context/GameContext.hh>
+#include <renderer/consoleRenderer/ConsoleRenderer.hh>
 
 
 std::unique_ptr<op::Static> decodeTile(unsigned char c) {
@@ -145,7 +146,9 @@ int loadLevel(GameContext &gameContext, const uint8_t *levdat) {
 
     gameState.gravity = levdat[1444] & 1;
 
-    gameState.level.console();
+    ConsoleRenderer consoleRenderer;
+    consoleRenderer.initialize(gameState);
+    consoleRenderer.renderFrame(gameState);
 
     return 1;
 }

@@ -24,15 +24,12 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 #include <model/dynamic/core/murphyHit/HitExit.hh>
 #include "model/static/Static.hh"
 
 namespace op::core {
 struct Exit : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return 'E'; }
 
   std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intent, Index self) const override {
     switch (intent.variant) {

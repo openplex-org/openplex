@@ -24,7 +24,6 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 #include "model/static/Static.hh"
 
 #include "renderer/Renderer.hh"

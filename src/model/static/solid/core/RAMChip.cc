@@ -23,7 +23,6 @@ GNU General Public License for more details.
 #include "RAMChip.hh"
 
 #include <assets/sprites/sprites.h>
-#include <graphics/display.h>
 
 #include "renderer/Renderer.hh"
 

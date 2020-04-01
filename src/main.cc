@@ -27,7 +27,6 @@ GNU General Public License for more details.
 #include <renderer/openGLRenderer/OpenGLRenderer.hh>
 #include <renderer/consoleRenderer/ConsoleRenderer.hh>
 #include "common/configuration.h"
-#include "graphics/display.h"
 #include "context/SDLContext.hh"
 #include "context/GameContext.hh"
 
@@ -55,9 +54,8 @@ int main(int argc, char *argv[]) {
     while (!gameContext.gameover) {
         sdlContext.events(gameContext);
         gameContext.playFrame();
-        renderscene(gameContext.gameState);
+        renderer.renderFrame(gameContext.gameState);
         sdlContext.update();
-        gameContext.renderer.renderFrame(gameContext.gameState);
         SystemClock::keep_fps();
     }
 

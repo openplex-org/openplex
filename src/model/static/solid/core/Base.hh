@@ -26,7 +26,6 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 #include <model/dynamic/core/murphyMove/MoveOnBase.hh>
 #include <model/dynamic/core/murphySnap/SnapBase.hh>
 #include "model/static/solid/Solid.hh"
@@ -35,8 +34,6 @@ GNU General Public License for more details.
 namespace op::core {
 struct Base : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '.'; }
 
   bool canEnter() const override { return true; }
 

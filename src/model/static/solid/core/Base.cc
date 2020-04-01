@@ -26,7 +26,6 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 #include <model/dynamic/core/murphyMove/MoveOnBase.hh>
 #include <model/dynamic/core/murphySnap/SnapBase.hh>
 #include "model/static/Static.hh"

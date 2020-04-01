@@ -25,7 +25,6 @@ GNU General Public License for more details.
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
 #include <engine/timing.h>
-#include <graphics/display.h>
 #include "model/dynamic/NPC.hh"
 #include "model/static/Static.hh"
 

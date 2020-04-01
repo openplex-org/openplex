@@ -21,6 +21,7 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #include "OpenGLRenderer.hh"
+#include <common/SystemClock.hh>
 
 #include "engine/game/GameState.hh"
 
@@ -35,6 +36,101 @@ inline constexpr float getAlphaMix(float f0, float f1, Progress anim) {
 }
 
 inline constexpr int getSpriteIndex(int sprites, Progress anim) { return (sprites * anim.count) / anim.total; }
+
+namespace {
+void computeloc(GameState &gameState, int loc, GLfloat &locx, GLfloat &locy) {
+  auto &display = gameState.gameContext.display;
+  auto lvlwidth = gameState.level.width;
+  locx = (loc % lvlwidth) * display.ts - display.scrdx;
+  locy = (loc / lvlwidth) * display.ts - display.scrdy;
+}
+
+void painttex(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, int rot, int flags) {
+  auto &display = gameState.gameContext.display;
+  int texid;
+  GLfloat texl = 0;
+  GLfloat texr = 1.0;
+  GLfloat sp_width = display.ts;
+  GLfloat sp_height = display.ts;
+  texid = gettex(gameState.gameContext, tileset, tileindex);
+  if (texid != 0)
+    glBindTexture(GL_TEXTURE_2D, texid);
+  else {
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glColor4f(1, 0, 0, 1);
+  }
+  glPushMatrix();
+  glTranslatef(x + display.ts * 0.5, y + display.ts * 0.5, 0);
+  if (rot) {
+    glRotatef(rot, 0, 0, 1);
+  }
+  if (flags & 1) {
+    texl = 1.0;
+    texr = 0;
+  }
+  if (flags & 2) {
+    sp_width = display.ts * 0.8;
+    sp_height = display.ts * 1.4;
+  }
+  sp_width *= 0.5;
+  sp_height *= 0.5;
+  glBegin(GL_TRIANGLE_STRIP);
+  glTexCoord2f(texl, 0.0);
+  glVertex3f(-sp_width, -sp_height, 0);
+  glTexCoord2f(texr, 0.0);
+  glVertex3f(sp_width, -sp_height, 0);
+  glTexCoord2f(texl, 1.0);
+  glVertex3f(-sp_width, sp_height, 0);
+  glTexCoord2f(texr, 1.0);
+  glVertex3f(sp_width, sp_height, 0);
+  glTexCoord2f(texl, 0.0);
+  glVertex3f(-sp_width, -sp_height, 0);
+  glTexCoord2f(texr, 0.0);
+  glVertex3f(sp_width, -sp_height, 0);
+  glEnd();
+  glPopMatrix();
+  glColor4f(1, 1, 1, 1);
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, int rot, int flags = 0) {
+  painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
+}
+
+void painttex(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile) {
+  painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, 0, 0);
+}
+
+void display_status(GameState &gameState, int infotronsneeded) {
+  auto &display = gameState.gameContext.display;
+  int posx = display.scr_width - display.ts;
+  int x = infotronsneeded;
+  int digitnr = 0;
+  while (x > 0) {
+    painttex(gameState, display.scr_width - display.ts * 0.7 * digitnr - display.ts, display.ts, x % 10,
+             TileSet::Digits, 0, 2);
+    x /= 10;
+    digitnr++;
+  }
+}
+
+void display_fps(GameState &gameState, int fps) {
+  auto &display = gameState.gameContext.display;
+  int x = fps;  // gameState.infotronsneeded;
+  int digitnr = 0;
+  while (x > 0) {
+    painttex(gameState, display.scr_width - display.ts * 0.7 * digitnr - display.ts, display.ts + 100, x % 10,
+             TileSet::Digits, 0, 2);
+    x /= 10;
+    digitnr++;
+  }
+}
+}  // namespace
+
+void OpenGLRenderer::doRenderOverlay(GameState &gameState) {
+  display_status(gameState, std::max(gameState.infotronsRequirement - gameState.infotronsCollected, 0));
+  display_fps(gameState, SystemClock::get_fps());
+}
 
 void OpenGLRenderer::paintTile(GameState &gameState, StaticTile tile, Index index) {
   GLfloat x, y;
@@ -126,7 +222,7 @@ void OpenGLRenderer::paintRotatedTile(GameState &gameState, StaticTile tile, Dir
   const Direction towardsDirection = rotate(direction, clock);
   const int fromAngle = getRotationDegrees(direction);
   const int towardsAngle = getRotationDegrees(towardsDirection);
-  const float angle = getAlphaMix(fromAngle, towardsAngle, anim);
+  const int angle = getAlphaMix(fromAngle, towardsAngle, anim);
 
   painttex(gameState, x, y, tile, angle);
 }

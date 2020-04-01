@@ -97,16 +97,6 @@ struct Level {
     }
   }
 
-  void console() {
-    for (int iy = 0; iy < height; iy++) {
-      for (int ix = 0; ix < width; ix++) {
-        std::cout << storage[ix * height + iy]->print() << ' ';
-      }
-      std::cout << std::endl;
-    }
-    std::cout << std::endl;
-  }
-
   bool inside(int i) { return i >= 0 && i < width * height; }
 };
 }  // namespace op

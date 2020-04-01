@@ -27,21 +27,31 @@ GNU General Public License for more details.
 #include <engine/game/GameState.hh>
 #include <model/level/Clock.hh>
 #include <model/render/Progress.hh>
+#include <common/openplex-gl.h>
 
 struct OpenGLRenderer : public Renderer {
- private:
-  void paint(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, float rot, int flags) const {
-    painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
-  }
+  /* private:
+    void paint(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, float rot, int flags) const {
+      painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
+    }
 
-  void paint(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, float rot, int flags) const {
-    painttex(gameState, x, y, tileindex, tileset, rot, flags);
-  }
+    void paint(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, float rot, int flags) const {
+      painttex(gameState, x, y, tileindex, tileset, rot, flags);
+    }
 
- public:
+   public:
+   */
+
   void initialize(GameState &gameState) override {}
 
-  void renderFrame(GameState &gameState) override {}
+  void doBeforeFrame(GameState &gameState) override {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+  }
+
+  void doRenderOverlay(GameState &gameState) override;
+
+  void doRenderFrame(GameState &gameState) override {}
 
   void paintTile(GameState &gameState, StaticTile tile, Index index) override;
 

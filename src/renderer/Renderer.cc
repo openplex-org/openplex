@@ -20,16 +20,29 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "Exit.hh"
+#include "Renderer.hh"
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-#include <model/dynamic/core/murphyHit/HitExit.hh>
-#include "model/static/Static.hh"
-
-namespace op::core {
-  void Exit::display(Renderer &renderer, GameState &gameState, Index index) {
-    renderer.paintTile(gameState, StaticTile::Exit, index);
+void Renderer::renderStatics(GameState &gameState) {
+  const auto &height = gameState.level.height;
+  const auto &width = gameState.level.width;
+  for (int iy = 0; iy < gameState.level.height; iy++) {
+    for (int ix = 0; ix < gameState.level.width; ix++) {
+      if (gameState.level.storage[iy * width + ix])
+        gameState.level.storage[iy * width + ix]->display(*this, gameState, gameState.level.getIndex(ix, iy));
+    }
   }
+}
 
-}  // namespace op::core
+void Renderer::renderDynamics(GameState &gameState) {
+  for (auto &dynamic : gameState.activeDynamics) {
+    dynamic->display(*this);
+  }
+}
+
+void Renderer::renderFrame(GameState &gameState) {
+  doBeforeFrame(gameState);
+  renderStatics(gameState);
+  renderDynamics(gameState);
+  doRenderOverlay(gameState);
+  doRenderFrame(gameState);
+}

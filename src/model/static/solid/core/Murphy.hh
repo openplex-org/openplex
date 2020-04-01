@@ -33,7 +33,5 @@ struct Murphy : public Solid {
   void init(GameState &gameState, int loc) override { gameState.murphloc = loc; }
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '@'; }
 };
 }  // namespace op::core

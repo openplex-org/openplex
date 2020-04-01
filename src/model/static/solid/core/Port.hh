@@ -44,26 +44,5 @@ struct Port : public Solid {
   Port(Style style) : style(style) {}
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override {
-    switch (style) {
-      case Style::Up:
-        return 30;  //'A';
-      case Style::Down:
-        return 31;  //'V';
-      case Style::Left:
-        return 17;  //'<';
-      case Style::Right:
-        return 16;  ////'>';
-      case Style::Vertical:
-        return 18;  ////'H';
-      case Style::Horizontal:
-        return 29;  ////'=';
-      case Style::Cross:
-        return 4;  ////'+';
-      default:
-        return ' ';
-    }
-  }
 };
 }  // namespace op::core

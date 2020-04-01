@@ -24,7 +24,6 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 #include <model/dynamic/core/edgeSlip/InfotronEdgeSlip.hh>
 #include <model/dynamic/core/freeFall/InfotronFreeFall.hh>
 #include <model/dynamic/core/freeFall/InfotronFreeFall.hh>
@@ -43,8 +42,6 @@ struct Infotron : public Solid {
   void init(GameState &gameState, int loc) override { gameState.infotronsInLevel++; }
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return '&'; }
 
   static std::unique_ptr<Deterministic> getFreeFallDynamic(GameState &gameState, Index fallFrom, Index fallInto) {
     if (gameState.level.storage[fallInto]->isVoid()) {

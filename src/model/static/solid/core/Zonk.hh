@@ -24,7 +24,6 @@ GNU General Public License for more details.
 
 #include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
-#include <graphics/display.h>
 #include <model/dynamic/core/edgeSlip/ZonkEdgeSlip.hh>
 #include <model/dynamic/core/freeFall/ZonkFreeFall.hh>
 #include <model/dynamic/core/murphyPush/PushZonk.hh>
@@ -39,8 +38,6 @@ struct Zonk : public Solid {
   }*/
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
-
-  char print() override { return 'o'; }
 
   static std::unique_ptr<Deterministic> getFreeFallDynamic(GameState &gameState, Index fallFrom, Index fallInto) {
     if (gameState.level.storage[fallInto]->isVoid()) {

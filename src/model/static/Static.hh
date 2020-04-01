@@ -53,8 +53,6 @@ struct Static {
 
   virtual void scheduleSlip(SlipperySide nextSlipSide) { slipperySide = nextSlipSide; }
 
-  virtual char print() { return ' '; }
-
   virtual bool canEnter() const { return false; }
 
   virtual bool canSnap() const { return false; }

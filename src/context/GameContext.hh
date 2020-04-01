@@ -42,7 +42,7 @@ struct GameContext {
   Levels &levels;
   Renderer &renderer;
 
-  GameContext(Configuration &configuration, Renderer& renderer, Sprites &sprites, Levels &levels)
+  GameContext(Configuration &configuration, Renderer &renderer, Sprites &sprites, Levels &levels)
       : gameState(*this), display(configuration.display), sprites(sprites), levels(levels), renderer(renderer) {
     levels.load(*this, levelIndex);
     renderer.initialize(gameState);
@@ -124,6 +124,8 @@ struct GameContext {
   }
 
   void playFrame() {
+    gameState.timenow = SDL_GetTicks();
+
     gameState.frame++;
     // std::cout << gameState.count << " dynamics: " << gameState.activeDynamics.size() << " ";
     moveMurphy(gameState, gameState.murphloc);

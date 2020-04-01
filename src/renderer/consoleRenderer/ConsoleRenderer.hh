@@ -27,38 +27,48 @@ GNU General Public License for more details.
 #include <engine/game/GameState.hh>
 #include <model/level/Clock.hh>
 #include <model/render/Progress.hh>
+#include <model/render/TileSet.hh>
 #include "model/render/StaticTile.hh"
 
 struct ConsoleRenderer : public Renderer {
-    std::vector<std::string> canvas;
+  std::vector<std::string> canvas;
 
-    void initialize(GameState &gameState) override {
-        canvas = std::vector<std::string>(gameState.level.height, std::string(gameState.level.width, ' '));
+  void initialize(GameState &gameState) override {
+    canvas = std::vector<std::string>(gameState.level.height, std::string(gameState.level.width, ' '));
+  }
+
+  void doBeforeFrame(GameState &gameState) override {
+    std::system("clear");
+    for (auto &line : canvas) {
+      std::fill(line.begin(), line.end(), ' ');
     }
+  }
 
-    void renderFrame(GameState &gameState) override {
-        //std::system("clear");
-        for (auto &line : canvas) {
-            std::cout << line << "\n";
-            std::fill(line.begin(), line.end(), ' ');
-        }
-        std::cout << std::flush;
+  void doRenderOverlay(GameState &gameState) override {
+    std::cout << "frame: gameState.frame" << std::endl;
+  }
+
+  void doRenderFrame(GameState &gameState) override {
+    for (auto &line : canvas) {
+      std::cout << line << "\n";
     }
+    std::cout << std::flush;
+  }
 
-    void paintTile(GameState &gameState, StaticTile tile, Index index) override;
+  void paintTile(GameState &gameState, StaticTile tile, Index index) override;
 
-    void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) override;
+  void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) override;
 
-    void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
-                           Progress anim) override;
+  void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
+                         Progress anim) override;
 
-    void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) override;
+  void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) override;
 
-    void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) override;
+  void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) override;
 
-    void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
-                          Progress anim) override;
+  void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
+                        Progress anim) override;
 
-    void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
-                          Progress anim) override;
+  void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
+                        Progress anim) override;
 };

@@ -26,7 +26,7 @@ GNU General Public License for more details.
 
 #include <renderer/Renderer.hh>
 #include <engine/game/GameState.hh>
-#include <model/static/marker/MurphyVanishing.hh>
+#include <model/static/marker/core/MurphyVanishing.hh>
 #include <model/static/solid/core/Void.hh>
 
 namespace op::core {

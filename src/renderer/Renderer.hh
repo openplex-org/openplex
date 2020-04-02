@@ -22,36 +22,49 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <engine/game/GameState.hh>
 #include <model/level/Clock.hh>
 #include <model/render/Progress.hh>
 #include <model/render/StaticTile.hh>
 #include <model/render/TileSet.hh>
+#include "model/level/Direction.hh"
+#include "model/level/Index.hh"
 
-struct Renderer {
-  virtual void initialize(GameState &gameState) = 0;
-  virtual void doBeforeFrame(GameState &gameState) = 0;
-  virtual void doRenderFrame(GameState &gameState) = 0;
-  virtual void doRenderOverlay(GameState &gameState) = 0;
+namespace op {
+    struct GameState;
 
-  void renderStatics(GameState &gameState);
-  void renderDynamics(GameState &gameState);
-  void renderFrame(GameState &gameState);
+    struct Renderer {
+        virtual void initialize(GameState &gameState) = 0;
 
-  virtual void paintTile(GameState &gameState, StaticTile tile, Index index) = 0;
+        virtual void doBeforeFrame(GameState &gameState) = 0;
 
-  virtual void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) = 0;
+        virtual void doRenderFrame(GameState &gameState) = 0;
 
-  virtual void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
-                                 Progress anim) = 0;
+        virtual void doRenderOverlay(GameState &gameState) = 0;
 
-  virtual void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) = 0;
+        void renderStatics(GameState &gameState);
 
-  virtual void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) = 0;
+        void renderDynamics(GameState &gameState);
 
-  virtual void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
-                                Progress anim) = 0;
+        void renderFrame(GameState &gameState);
 
-  virtual void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
-                                Progress anim) = 0;
-};
+        virtual void paintTile(GameState &gameState, StaticTile tile, Index index) = 0;
+
+        virtual void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) = 0;
+
+        virtual void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
+                                       Progress anim) = 0;
+
+        virtual void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) = 0;
+
+        virtual void
+        paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) = 0;
+
+        virtual void
+        paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
+                         Progress anim) = 0;
+
+        virtual void
+        paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
+                         Progress anim) = 0;
+    };
+}

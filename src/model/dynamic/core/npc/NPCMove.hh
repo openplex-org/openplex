@@ -22,87 +22,168 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/NPC.hh>
+#include "model/dynamic/NPC.hh"
+
+#include <model/static/solid/core/Void.hh>
 
 namespace op::core {
 
+template <typename NPCType>
 struct NPCMove : public NPC {
-  enum class Behavior { Turn, Move };
+  enum class Behavior { None, Turn, Move };
 
-  enum class Strategy { StickLeft, MoveForward, StickRight };
+  enum class Strategy { StickLeft, MoveForwardThenLeft, MoveForwardThenRight, StickRight };
 
   Behavior behavior = Behavior::Move;
-  Strategy strategy = Strategy::MoveForward;
+  Strategy strategy = Strategy::StickLeft;
 
+  Index index;
   Direction direction = Direction::None;
 
-  Index src;
-  Index dst;
-  int TURN_FRAMES = 15;
-  int MOVE_FRAMES = 15;
-  int frameCountdown = 0;
+  // turn
+  Direction previousDirection = Direction::None;
+  const int TURN_FRAMES = 15;
+  int turnCountdown = TURN_FRAMES;
 
-  NPCMove(GameState &gameState, Index src, Index dst) : NPC(gameState) : gameState(gameState), src(src), dst(dst) {}
+  // move
+  Index previousIndex;
+  const int MOVE_FRAMES = 15;
+  int moveCountdown = MOVE_FRAMES;
 
-  std::vector<Index> area() const override { return {src, dst}; }
-
-  void spawn() override {
-    gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-    gameState.level.storage[dst] = std::make_unique<MurphyEntering>();
-    gameState.allowMove = false;
-    gameState.murphloc = dst;
+  constexpr Clock getClock(Strategy strategy) {
+    switch (strategy) {
+      case Strategy::StickLeft:
+        return Clock::CounterClockwise;
+      case Strategy::StickRight:
+        return Clock::Clockwise;
+      case Strategy::MoveForwardThenLeft:
+        return Clock::CounterClockwise;
+      case Strategy::MoveForwardThenRight:
+        return Clock::Clockwise;
+      default:
+        return Clock::CounterClockwise;
+    }
   }
 
-  void update() override { frameCountdown--; }
-
-  bool ready() override { return frameCountdown == 0; }
-
-  void clean() override {
-    gameState.level.storage[src] = std::make_unique<Void>();
-    gameState.level.storage[dst] = std::make_unique<Murphy>();
-
-    gameState.intents.emplace_back(src, Variant::BecomesVoid);
-    gameState.allowMove = true;
+  constexpr Index getStickSideIndex(Index index, Direction direction, Strategy strategy) {
+    auto clock = getClock(strategy);
+    auto sideDirection = rotate(direction, clock);
+    return gameState.level.follow(index, sideDirection);
   }
 
-  void display(Renderer &renderer) override {
+  bool canTurnFollowingStrategy() {
+    return gameState.level.storage[getStickSideIndex(index, direction, strategy)]->canNPCEnter();
+  }
+
+  bool canMoveForward() { return gameState.level.storage[gameState.level.follow(index, direction)]->canNPCEnter(); }
+
+  void scheduleTurn(const Clock &clock) {
+    previousDirection = direction;
+    direction = rotate(direction, clock);
+    turnCountdown = TURN_FRAMES;
+      behavior = Behavior::Turn;
+  }
+
+  void scheduleMove() {
+    previousIndex = index;
+    index = gameState.level.follow(index, direction);
+    gameState.level.storage[previousIndex] = std::make_unique<typename NPCType::LeavingType>();
+    gameState.level.storage[index] = std::make_unique<typename NPCType::EnteringType>();
+    moveCountdown = MOVE_FRAMES;
+    behavior = Behavior::Move;
+  }
+
+  enum PreventSpinInPlace { Enabled, Disabled };
+  void determineBehavior(PreventSpinInPlace preventSpinInPlace) {
+    if ((strategy == Strategy::MoveForwardThenLeft) || (strategy == Strategy::MoveForwardThenRight)) {
+      // TODO
+    } else {
+      if ((preventSpinInPlace == Enabled) && canMoveForward()) {
+        scheduleMove();
+      } else if (canTurnFollowingStrategy()) {
+        scheduleTurn(getClock(strategy));
+      } else if ((preventSpinInPlace == Disabled) && canMoveForward()) {
+        scheduleMove();
+      } else {
+        scheduleTurn(opposite(getClock(strategy)));
+      }
+    }
+  }
+
+  NPCMove(GameState &gameState, Index index, Direction direction, Behavior behavior)
+      : NPC(gameState), index(index), direction(direction), behavior(behavior) {
+    //if (behavior == Behavior::None) {
+      determineBehavior(PreventSpinInPlace::Disabled);
+   // }
+  }
+
+  std::vector<Index> area() const override {
     switch (behavior) {
       case Behavior::Turn:
-        display_turn(renderer);
+        return {index};
+      case Behavior::Move:
+        return {previousIndex, index};
+      default:
+        return {};
+    }
+  }
+
+  void spawn() override {}
+
+  void update() override {
+    switch (behavior) {
+      case Behavior::Turn:
+        updateTurn();
         return;
       case Behavior::Move:
-        display_move(renderer);
+        updateMove();
         return;
       default:
         return;
     }
   }
 
-  void display_turn(const Renderer &renderer) {
-    GLfloat x, y;
-    GLfloat src_x, src_y;
-    GLfloat dst_x, dst_y;
-    int rotate = 0;
-    computeloc(gameState, src, src_x, src_y);
-    computeloc(gameState, dst, dst_x, dst_y);
-    x = alpha(src_x, dst_x);
-    y = alpha(src_y, dst_y);
-    int murphy_png_frames = 20;
-    int murphy_frame = ((FRAMES - frameCountdown) * murphy_png_frames) / FRAMES;
-    renderer.paint(gameState, x, y, murphy_frame, TileSet::MurphyWalk, 0, dst > src ? 0 : 1);
+  void updateTurn() {
+    turnCountdown--;
+    if (turnCountdown == 0) {
+      determineBehavior(PreventSpinInPlace::Enabled);
+    }
   }
 
-  void display_turn(const Renderer &renderer) {
-    GLfloat x, y;
-    GLfloat dst_x, dst_y;
-    int rotate = 0;
-    computeloc(gameState, src, src_x, src_y);
-    computeloc(gameState, dst, dst_x, dst_y);
-    x = alpha(src_x, dst_x);
-    y = alpha(src_y, dst_y);
-    int murphy_png_frames = 20;
-    int murphy_frame = ((FRAMES - frameCountdown) * murphy_png_frames) / FRAMES;
-    renderer.paint(gameState, x, y, murphy_frame, TileSet::SniksnakTurn, 0, dst > src ? 0 : 1);
+  void updateMove() {
+    moveCountdown--;
+    if (moveCountdown == 0) {
+      gameState.level.storage[previousIndex] = std::make_unique<Void>();
+      gameState.level.storage[index] = std::make_unique<NPCType>();
+      determineBehavior(PreventSpinInPlace::Disabled);
+    }
+  }
+
+  bool ready() override { return false; }
+
+  void clean() override {}
+
+  void display(Renderer &renderer) override {
+    switch (behavior) {
+      case Behavior::Turn:
+        displayTurn(renderer);
+        return;
+      case Behavior::Move:
+        displayMove(renderer);
+        return;
+      default:
+        return;
+    }
+  }
+
+  void displayTurn(Renderer &renderer) {
+    auto progress = Progress{TURN_FRAMES - turnCountdown, TURN_FRAMES};
+    renderer.paintRotatedTile(gameState, TileSet::SniksnakTurn, previousDirection, getClock(strategy), index, progress);
+  }
+
+  void displayMove(Renderer &renderer) {
+      auto progress = Progress{MOVE_FRAMES - moveCountdown, MOVE_FRAMES};
+      renderer.paintMovingTile(gameState, TileSet::SniksnakCut, previousIndex, index, progress);
   }
 };
 

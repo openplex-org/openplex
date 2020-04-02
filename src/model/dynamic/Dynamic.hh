@@ -25,11 +25,11 @@ GNU General Public License for more details.
 #include <model/level/Index.hh>
 #include <vector>
 
-struct Renderer;
-struct GameState;
-
 namespace op {
-struct Dynamic {
+    struct Renderer;
+    struct GameState;
+
+    struct Dynamic {
   GameState &gameState;
 
   Dynamic(GameState &gameState) : gameState(gameState) {}

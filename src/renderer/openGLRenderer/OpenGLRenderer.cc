@@ -27,6 +27,7 @@ GNU General Public License for more details.
 
 #include "context/GameContext.hh"
 
+namespace op {
 inline constexpr float getAlphaMix(float f0, float f1, int count, int total) {
   return (f0 * static_cast<float>(count) + f1 * static_cast<float>(total - count)) / total;
 }
@@ -38,14 +39,14 @@ inline constexpr float getAlphaMix(float f0, float f1, Progress anim) {
 inline constexpr int getSpriteIndex(int sprites, Progress anim) { return (sprites * anim.count) / anim.total; }
 
 namespace {
-void computeloc(GameState &gameState, int loc, GLfloat &locx, GLfloat &locy) {
+void computeloc(op::GameState &gameState, int loc, GLfloat &locx, GLfloat &locy) {
   auto &display = gameState.gameContext.display;
   auto lvlwidth = gameState.level.width;
   locx = (loc % lvlwidth) * display.ts - display.scrdx;
   locy = (loc / lvlwidth) * display.ts - display.scrdy;
 }
 
-void painttex(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, int rot, int flags) {
+void painttex(op::GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, int rot, int flags) {
   auto &display = gameState.gameContext.display;
   int texid;
   GLfloat texl = 0;
@@ -239,3 +240,4 @@ void OpenGLRenderer::paintRotatedTile(GameState &gameState, TileSet tileset, Dir
 
   painttex(gameState, x, y, spriteIndex, tileset, angle, flipFlag);
 }
+}  // namespace op

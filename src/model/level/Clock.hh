@@ -22,4 +22,15 @@ GNU General Public License for more details.
 
 #pragma once
 
-enum Clock { Clockwise, CounterClockwise };
+enum Clock { None, Clockwise, CounterClockwise };
+
+constexpr inline Clock opposite(const Clock& clock) {
+  switch (clock) {
+    case Clock::Clockwise:
+      return Clock::CounterClockwise;
+    case Clock::CounterClockwise:
+      return Clock::Clockwise;
+    default:
+      return Clock::None;
+  }
+}

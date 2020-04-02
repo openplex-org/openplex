@@ -23,13 +23,13 @@ GNU General Public License for more details.
 #pragma once
 
 #include <common/configuration.h>
-#include <assets/sprites/sprites.h>
-#include <assets/sprites/readpng.h>
+#include <renderer/openGLRenderer/sprites/sprites.h>
+#include <renderer/openGLRenderer/sprites/readpng.h>
 #include <unordered_map>
 
 #include "model/render/TileSet.hh"
 
-
+namespace op {
 struct Sprites {
     std::unordered_map<TileSet, std::vector<GLuint> > tiles;
     std::string sprites_dir;
@@ -112,3 +112,4 @@ struct Sprites {
         load_tileset(TileSet::ZonkRoll);
     }
 };
+}

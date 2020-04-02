@@ -22,15 +22,20 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
 #include "model/dynamic/NPC.hh"
-#include "model/static/Static.hh"
+#include "model/static/marker/core/SnikSnakEntering.hh"
+#include "model/static/marker/core/SnikSnakLeaving.hh"
+#include "model/static/solid/Solid.hh"
 
 namespace op::core {
 struct SnikSnak : public Solid {
-  void init(GameState &gameState, int loc) override { NPC::init(gameState, loc); }
+  using EnteringType = SnikSnakEntering;
+  using LeavingType = SnikSnakLeaving;
+  void init(GameState &gameState, Index index) override { gameState.intents.emplace_back(index, Variant::SpawnSnikSnakMove); }
 
   void display(Renderer &renderer, GameState &gameState, Index index) override;
+
+  std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const override;
+
 };
 }  // namespace op::core

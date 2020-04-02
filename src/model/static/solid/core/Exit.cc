@@ -22,11 +22,6 @@ GNU General Public License for more details.
 
 #include "Exit.hh"
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-#include <model/dynamic/core/murphyHit/HitExit.hh>
-#include "model/static/Static.hh"
-
 namespace op::core {
   void Exit::display(Renderer &renderer, GameState &gameState, Index index) {
     renderer.paintTile(gameState, StaticTile::Exit, index);

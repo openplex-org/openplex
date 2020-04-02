@@ -22,10 +22,6 @@ GNU General Public License for more details.
 
 #include "Electron.hh"
 
-#include <assets/sprites/sprites.h>
-#include <model/static/solid/Solid.hh>
-#include "model/static/Static.hh"
-
 namespace op::core {
 void Electron::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, StaticTile::Electron, index);

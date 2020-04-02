@@ -22,16 +22,24 @@ GNU General Public License for more details.
 
 #include "SnikSnak.hh"
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-#include <engine/timing.h>
-#include "model/dynamic/NPC.hh"
-#include "model/static/Static.hh"
-
-#include "renderer/Renderer.hh"
+#include "model/dynamic/core/npc/SnikSnakMove.hh"
 
 namespace op::core {
 void SnikSnak::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, StaticTile::SnikSnak, index);
+}
+
+std::unique_ptr<Dynamic> SnikSnak::getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const {
+  switch (intentEntry.variant) {
+    case Variant::SpawnSnikSnakMove: {
+      if (intentEntry.source == self) {
+        return std::make_unique<SnikSnakMove>(gameState, self);
+      } else {
+        return nullptr;
+      }
+    }
+    default:
+      return nullptr;
+  }
 }
 }  // namespace op::core

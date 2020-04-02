@@ -24,6 +24,7 @@ GNU General Public License for more details.
 
 #include "model/render/StaticTile.hh"
 
+namespace op {
 namespace {
 char getChar(StaticTile staticTile) {
   switch (staticTile) {
@@ -153,52 +154,54 @@ char getChar(TileSet tileSet) {
   }
 }
 }  // namespace
+}  // namespace op
 
+namespace op {
 void ConsoleRenderer::paintTile(GameState &gameState, StaticTile tile, Index index) {
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(tile);
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(tile);
 }
 
 void ConsoleRenderer::paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) {
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(tileset);
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(tileset);
 }
 
 void ConsoleRenderer::paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
                                         Progress anim) {
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(tileset);
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(tileset);
 }
 
-void ConsoleRenderer::paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst,
-                                      Progress anim) {
-    auto index = (anim.count < anim.total / 2) ? src : dst;
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(tileset);
+void ConsoleRenderer::paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) {
+  auto index = (anim.count < anim.total / 2) ? src : dst;
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(tileset);
 }
 
 void ConsoleRenderer::paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst,
                                       Progress anim) {
-    auto index = (anim.count < anim.total / 2) ? src : dst;
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(staticTile);
+  auto index = (anim.count < anim.total / 2) ? src : dst;
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(staticTile);
 }
 
 void ConsoleRenderer::paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock,
                                        Index index, Progress anim) {
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(tile);
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(tile);
 }
 
 void ConsoleRenderer::paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock,
                                        Index index, Progress anim) {
-    auto x = gameState.level.getX(index);
-    auto y = gameState.level.getY(index);
-    canvas[y][x] = getChar(tileset);
+  auto x = gameState.level.getX(index);
+  auto y = gameState.level.getY(index);
+  canvas[y][x] = getChar(tileset);
 }
+}  // namespace op

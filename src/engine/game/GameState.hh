@@ -24,43 +24,51 @@ GNU General Public License for more details.
 
 #include <deque>
 
-#include <model/level/Level.hh>
 #include <engine/timing.h>
 #include <context/Display.hh>
 #include <model/dynamic/Deterministic.hh>
-#include <model/intent/Variant.hh>
 #include <model/intent/Intent.hh>
-#include <SDL_timer.h>
-#include <SDL_keysym.h>
+#include <model/intent/Variant.hh>
+//#include <SDL_timer.h>
+//#include <SDL_keysym.h>
 
+#include "model/level/Level.hh"
+
+namespace op {
 struct GameContext;
 
 struct GameState {
-    GameState(GameContext &gameContext) : gameContext(gameContext) {}
+  GameState(GameContext &gameContext) : gameContext(gameContext) {}
 
-    GameContext &gameContext;
-    op::Level level;
-    std::vector<std::unique_ptr<op::Dynamic>> activeDynamics;
-    std::vector<std::unique_ptr<op::Dynamic>> futureDynamics;
-    std::vector<Intent> intents;
+  void reset() {
+      activeDynamics.clear();
+      futureDynamics.clear();
+      intents.clear();
+  }
 
-    GameTime gameTime;
+  GameContext &gameContext;
+  Level level;
+  std::vector<std::unique_ptr<op::Dynamic>> activeDynamics;
+  std::vector<std::unique_ptr<op::Dynamic>> futureDynamics;
+  std::vector<Intent> intents;
 
-    int frame = 0;
-    bool allowMove = true;
+  GameTime gameTime;
 
-    int infotronsInLevel = 0;
-    int infotronsCollected = 0;
-    int infotronsRequirement;  /// infotrons needed to finish the level
-    int murphloc;         /// murphyMove's location
-    int timestarted;      /// the time the level was started in milliseconds
-    int timenow;          /// time at current level updated
+  int frame = 0;
+  bool allowMove = true;
 
-    bool gravity = false;
+  int infotronsInLevel = 0;
+  int infotronsCollected = 0;
+  int infotronsRequirement;  /// infotrons needed to finish the level
+  int murphloc;              /// murphyMove's location
+  int timestarted;           /// the time the level was started in milliseconds
+  int timenow;               /// time at current level updated
 
-    void init() {
-        murphloc = 0;
-        timestarted = SDL_GetTicks();
-    }
+  bool gravity = false;
+
+  void init() {
+    murphloc = 0;
+    // timestarted = SDL_GetTicks();
+  }
 };
-
+}  // namespace op

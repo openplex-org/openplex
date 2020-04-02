@@ -24,8 +24,8 @@ GNU General Public License for more details.
 
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
-#include <model/static/marker/InfotronEntering.hh>
-#include <model/static/marker/InfotronLeaving.hh>
+#include <model/static/marker/core/InfotronEntering.hh>
+#include <model/static/marker/core/InfotronLeaving.hh>
 
 #include <renderer/Renderer.hh>
 #include <model/dynamic/Infinite.hh>

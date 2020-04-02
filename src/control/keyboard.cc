@@ -39,7 +39,7 @@ std::string keyname(int id)
 }
 
 // perform translation before sending to scene
-void translateandhandleevent(SDL_Event &event, GameContext &gameContext)
+void translateandhandleevent(SDL_Event &event, op::GameContext &gameContext)
 {
 
 

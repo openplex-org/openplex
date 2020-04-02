@@ -22,22 +22,21 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
+#include "model/static/solid/Solid.hh"
+
 #include <model/dynamic/core/edgeSlip/InfotronEdgeSlip.hh>
 #include <model/dynamic/core/freeFall/InfotronFreeFall.hh>
 #include <model/dynamic/core/freeFall/InfotronFreeFall.hh>
 #include <model/dynamic/core/murphyMove/MoveOnInfotron.hh>
 #include <model/dynamic/core/murphySnap/SnapInfotron.hh>
-#include "model/static/Static.hh"
 
 namespace op::core {
 struct Infotron : public Solid {
   bool isSlippery() const override { return true; }
 
-  bool canEnter() const override { return true; }
+  bool canMurphyEnter() const override { return true; }
 
-  bool canSnap() const override { return true; }
+  bool canMurphySnap() const override { return true; }
 
   void init(GameState &gameState, int loc) override { gameState.infotronsInLevel++; }
 

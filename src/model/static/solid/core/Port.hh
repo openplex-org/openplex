@@ -25,7 +25,7 @@ GNU General Public License for more details.
 #include <model/render/StaticTile.hh>
 #include "model/static/solid/Solid.hh"
 
-#include "assets/Sprites.hh"
+#include "renderer/openGLRenderer/Sprites.hh"
 
 namespace op::core {
 struct Port : public Solid {

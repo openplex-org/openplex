@@ -22,7 +22,6 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <assets/sprites/sprites.h>
 #include <model/static/solid/Solid.hh>
 #include "model/static/Static.hh"
 

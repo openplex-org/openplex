@@ -22,6 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "NPCMove.hh"
+
 namespace op::core {
-struct SnikSnakMove : public NPC {};
+struct SnikSnakMove : public NPCMove<SnikSnak> {
+    SnikSnakMove(GameState &gameState, Index index) : NPCMove<SnikSnak>(gameState, index, Direction::Up, Behavior::Move) {}
+};
 }  // namespace op::core

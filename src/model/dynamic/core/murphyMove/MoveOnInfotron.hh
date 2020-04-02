@@ -25,8 +25,8 @@ GNU General Public License for more details.
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
 #include <model/level/Index.hh>
-#include <model/static/marker/InfotronEaten.hh>
-#include <model/static/marker/MurphyLeaving.hh>
+#include <model/static/marker/core/InfotronEaten.hh>
+#include <model/static/marker/core/MurphyLeaving.hh>
 #include <model/static/solid/core/Murphy.hh>
 #include <model/static/solid/core/Void.hh>
 #include "MurphyMove.hh"

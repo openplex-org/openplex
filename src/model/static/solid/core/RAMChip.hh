@@ -24,7 +24,6 @@ GNU General Public License for more details.
 
 #include "model/static/solid/Solid.hh"
 
-#include <assets/sprites/sprites.h>
 #include <model/render/StaticTile.hh>
 
 namespace op::core {

@@ -29,8 +29,9 @@ GNU General Public License for more details.
 #include <model/intent/Variant.hh>
 #include <model/level/Index.hh>
 
+#include "renderer/Renderer.hh"
+
 struct GameState;
-struct Renderer;
 
 namespace op {
 struct Static {
@@ -53,9 +54,10 @@ struct Static {
 
   virtual void scheduleSlip(SlipperySide nextSlipSide) { slipperySide = nextSlipSide; }
 
-  virtual bool canEnter() const { return false; }
+  virtual bool canMurphyEnter() const { return false; }
+  virtual bool canNPCEnter() const { return false; }
 
-  virtual bool canSnap() const { return false; }
+  virtual bool canMurphySnap() const { return false; }
 
   virtual bool isDeadly() const { return false; }
 

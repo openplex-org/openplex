@@ -29,9 +29,11 @@ GNU General Public License for more details.
 
 namespace op::core {
 struct Void : public Solid {
-  bool canEnter() const override { return true; }
+  bool canMurphyEnter() const override { return true; }
 
-  bool canSnap() const override { return false; }
+  bool canNPCEnter() const override { return true; }
+
+  bool canMurphySnap() const override { return false; }
 
   bool isDeadly() const override { return false; }
 

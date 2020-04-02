@@ -25,8 +25,8 @@ GNU General Public License for more details.
 #include "MurphyMove.hh"
 
 #include <engine/game/GameState.hh>
-#include <model/static/marker/BaseEaten.hh>
-#include <model/static/marker/MurphyLeaving.hh>
+#include <model/static/marker/core/BaseEaten.hh>
+#include <model/static/marker/core/MurphyLeaving.hh>
 #include <model/static/solid/core/Murphy.hh>
 #include <model/static/solid/core/Void.hh>
 #include <renderer/Renderer.hh>
@@ -44,7 +44,7 @@ struct MoveOnBase : public MurphyMove {
 
   void spawn() override {
     gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-    gameState.level.storage[dst] = std::make_unique<BaseEaten>();
+    gameState.level.storage[dst] = std::make_unique<GhostBaseEaten>();
     gameState.allowMove = false;
     gameState.murphloc = dst;
   }

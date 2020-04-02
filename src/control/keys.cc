@@ -65,7 +65,7 @@ void spaceReleased(Input & input) {
     input.snap = false;
 }
 
-void handleKeys(SDL_Event &event, GameContext &gameContext) {
+void handleKeys(SDL_Event &event, op::GameContext &gameContext) {
     auto &gameState = gameContext.gameState;
     auto &input = gameContext.input;
 /*
@@ -161,7 +161,7 @@ void handleKeys(SDL_Event &event, GameContext &gameContext) {
 
 
 
-void scenehandleevent(SDL_Event &event, GameContext &gameContext) {
+void scenehandleevent(SDL_Event &event, op::GameContext &gameContext) {
     auto &gameState = gameContext.gameState;
     auto &input = gameContext.input;
     handleKeys(event, gameContext);

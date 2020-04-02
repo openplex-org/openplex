@@ -29,44 +29,46 @@ GNU General Public License for more details.
 #include <model/render/Progress.hh>
 #include <common/openplex-gl.h>
 
-struct OpenGLRenderer : public Renderer {
-  /* private:
-    void paint(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, float rot, int flags) const {
-      painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
-    }
+namespace op {
+    struct OpenGLRenderer : public Renderer {
+        /* private:
+          void paint(GameState &gameState, GLfloat x, GLfloat y, StaticTile staticTile, float rot, int flags) const {
+            painttex(gameState, x, y, static_cast<int>(staticTile), TileSet::Static, rot, flags);
+          }
 
-    void paint(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, float rot, int flags) const {
-      painttex(gameState, x, y, tileindex, tileset, rot, flags);
-    }
+          void paint(GameState &gameState, GLfloat x, GLfloat y, int tileindex, TileSet tileset, float rot, int flags) const {
+            painttex(gameState, x, y, tileindex, tileset, rot, flags);
+          }
 
-   public:
-   */
+         public:
+         */
 
-  void initialize(GameState &gameState) override {}
+        void initialize(GameState &gameState) override {}
 
-  void doBeforeFrame(GameState &gameState) override {
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-  }
+        void doBeforeFrame(GameState &gameState) override {
+            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
 
-  void doRenderOverlay(GameState &gameState) override;
+        void doRenderOverlay(GameState &gameState) override;
 
-  void doRenderFrame(GameState &gameState) override {}
+        void doRenderFrame(GameState &gameState) override {}
 
-  void paintTile(GameState &gameState, StaticTile tile, Index index) override;
+        void paintTile(GameState &gameState, StaticTile tile, Index index) override;
 
-  void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) override;
+        void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) override;
 
-  void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
-                         Progress anim) override;
+        void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
+                               Progress anim) override;
 
-  void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) override;
+        void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) override;
 
-  void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) override;
+        void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) override;
 
-  void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
-                        Progress anim) override;
+        void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
+                              Progress anim) override;
 
-  void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
-                        Progress anim) override;
-};
+        void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
+                              Progress anim) override;
+    };
+}

@@ -24,18 +24,19 @@ GNU General Public License for more details.
 
 #include <engine/game/GameState.hh>
 
+namespace op {
 std::vector<Index> Intent::propagate(GameState &gameState) {
-    std::vector<Index> dsts;
-    for (auto center : {gameState.level.above(source), source, gameState.level.below(source)}) {
-        Index left = gameState.level.leftof(center);
-        Index right = gameState.level.rightof(center);
-        for (auto impact : {left, center, right}) {
-            if (!gameState.level.inside(impact)) {
-                continue;
-            }
-            dsts.push_back(impact);
-        }
+  std::vector<Index> dsts;
+  for (auto center : {gameState.level.above(source), source, gameState.level.below(source)}) {
+    Index left = gameState.level.leftof(center);
+    Index right = gameState.level.rightof(center);
+    for (auto impact : {left, center, right}) {
+      if (!gameState.level.inside(impact)) {
+        continue;
+      }
+      dsts.push_back(impact);
     }
-    return dsts;
+  }
+  return dsts;
 }
-
+}  // namespace op

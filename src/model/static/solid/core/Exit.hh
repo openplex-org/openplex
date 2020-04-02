@@ -22,10 +22,9 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
+#include "model/static/solid/Solid.hh"
+
 #include <model/dynamic/core/murphyHit/HitExit.hh>
-#include "model/static/Static.hh"
 
 namespace op::core {
 struct Exit : public Solid {

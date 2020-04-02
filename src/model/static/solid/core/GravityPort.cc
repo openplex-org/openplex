@@ -22,12 +22,6 @@ GNU General Public License for more details.
 
 #include "GravityPort.hh"
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-#include "model/static/Static.hh"
-
-#include "renderer/Renderer.hh"
-
 namespace op::core {
 void GravityPort::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, static_cast<StaticTile>(style), index);

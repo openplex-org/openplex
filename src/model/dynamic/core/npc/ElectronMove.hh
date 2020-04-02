@@ -22,3 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "NPCMove.hh"
+#include "model/static/solid/core/Electron.hh"
+
+namespace op::core {
+    struct ElectronMove : public NPCMove<Electron> {};
+}  // namespace op::core
+

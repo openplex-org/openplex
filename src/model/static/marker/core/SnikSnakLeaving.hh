@@ -24,5 +24,6 @@ GNU General Public License for more details.
 
 #include "Marker.hh"
 
-struct BaseEaten : public Marker {
-};
+namespace op::core {
+struct SnikSnakLeaving : public Marker {};
+}  // namespace os

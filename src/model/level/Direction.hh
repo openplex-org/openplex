@@ -24,6 +24,8 @@ GNU General Public License for more details.
 
 #include "Clock.hh"
 
+#include <string>
+
 enum class Direction { None, Up, Right, Left, Down };
 
 inline constexpr Direction opposite(const Direction& direction) {

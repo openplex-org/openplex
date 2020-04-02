@@ -26,15 +26,16 @@ GNU General Public License for more details.
 #include <engine/objMurphy.h>
 #include <algorithm>
 #include <assets/Levels.hh>
-#include <assets/Sprites.hh>
 #include <control/Input.hh>
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
+#include <renderer/openGLRenderer/Sprites.hh>
 #include <unordered_set>
 #include "renderer/Renderer.hh"
 
+namespace op {
 struct GameContext {
-  int levelIndex = 0;
+  int levelIndex = 34;
   Input input;
   GameState gameState;
   Display &display;
@@ -46,6 +47,11 @@ struct GameContext {
       : gameState(*this), display(configuration.display), sprites(sprites), levels(levels), renderer(renderer) {
     levels.load(*this, levelIndex);
     renderer.initialize(gameState);
+  }
+
+  void reset() {
+    gameover = false;
+    gameState.reset();
   }
 
   bool gameover = false;
@@ -124,17 +130,14 @@ struct GameContext {
   }
 
   void playFrame() {
-    gameState.timenow = SDL_GetTicks();
+    //    gameState.timenow = SDL_GetTicks();
 
     gameState.frame++;
-    // std::cout << gameState.count << " dynamics: " << gameState.activeDynamics.size() << " ";
     moveMurphy(gameState, gameState.murphloc);
     updateDynamics();
-    // std::cout << gameState.activeDynamics.size() << "\tintents: ";
-    // std::cout << gameState.intents.size() << "\t";
     generateDynamicsFromIntents();
     resolveConflictingDynamics();
-    // std::cout << "futureDynamics: " << gameState.futureDynamics.size() << std::endl;
     initiateDynamics();
   }
 };
+}  // namespace op

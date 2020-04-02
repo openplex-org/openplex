@@ -30,8 +30,12 @@ GNU General Public License for more details.
 #include <model/render/TileSet.hh>
 #include "model/render/StaticTile.hh"
 
+#include <iostream>
+
+namespace op {
 struct ConsoleRenderer : public Renderer {
   std::vector<std::string> canvas;
+  std::string overlay;
 
   void initialize(GameState &gameState) override {
     canvas = std::vector<std::string>(gameState.level.height, std::string(gameState.level.width, ' '));
@@ -45,13 +49,15 @@ struct ConsoleRenderer : public Renderer {
   }
 
   void doRenderOverlay(GameState &gameState) override {
-    std::cout << "frame: gameState.frame" << std::endl;
+    overlay = "frame: " + std::to_string(gameState.frame);
   }
 
   void doRenderFrame(GameState &gameState) override {
+    std::cout << "\n";
     for (auto &line : canvas) {
       std::cout << line << "\n";
     }
+    std::cout << overlay << "\n";
     std::cout << std::flush;
   }
 
@@ -72,3 +78,4 @@ struct ConsoleRenderer : public Renderer {
   void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
                         Progress anim) override;
 };
+}  // namespace op

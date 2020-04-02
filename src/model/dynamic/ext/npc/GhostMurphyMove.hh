@@ -22,8 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "Marker.hh"
+#include "model/dynamics/core/NPCMove.hh"
 
-struct BaseSnaped : public Marker {
-
+namespace op::core {
+struct GhostMurphyMove : public NPCMove<GhostMurphy> {
+    GhostMurphyMove(GameState &gameState, Index index) : NPCMove<SnikSnak>(gameState, index, Direction::Up, Behavior::Move) {}
 };
+}  // namespace op::core

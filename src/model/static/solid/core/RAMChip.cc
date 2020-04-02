@@ -22,10 +22,6 @@ GNU General Public License for more details.
 
 #include "RAMChip.hh"
 
-#include <assets/sprites/sprites.h>
-
-#include "renderer/Renderer.hh"
-
 namespace op::core {
 void RAMChip::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, static_cast<StaticTile>(style), index);

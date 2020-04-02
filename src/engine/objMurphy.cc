@@ -16,34 +16,36 @@ GNU General Public License for more details.
 #include <model/static/solid/core/Terminal.hh>
 #include <context/GameContext.hh>
 
-void moveMurphy(GameState &gameState, Index src) {
-    auto &level = gameState.level;
+namespace op {
+    void moveMurphy(GameState &gameState, Index src) {
+        auto &level = gameState.level;
 
 /*    if (gameState.escape) {
         // explode - restart level;
         return;
     }
 */
-    if (!gameState.allowMove) {
-        return;
-    }
+        if (!gameState.allowMove) {
+            return;
+        }
 
-    auto &input = gameState.gameContext.input;
-    if (input.direction != Direction::None) {
-        if (!input.snap) {
+        auto &input = gameState.gameContext.input;
+        if (input.direction != Direction::None) {
+            if (!input.snap) {
+                auto dst = gameState.level.follow(src, input.direction);
+                auto &tile = gameState.level.storage[dst];
+                auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToMove), dst);
+                if (dynamic) {
+                    gameState.futureDynamics.push_back(std::move(dynamic));
+                }
+            }
+        } else {
             auto dst = gameState.level.follow(src, input.direction);
             auto &tile = gameState.level.storage[dst];
-            auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToMove), dst);
+            auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToSnap), dst);
             if (dynamic) {
                 gameState.futureDynamics.push_back(std::move(dynamic));
             }
         }
-    } else {
-        auto dst = gameState.level.follow(src, input.direction);
-        auto &tile = gameState.level.storage[dst];
-        auto dynamic = tile->getDynamicOn(gameState, Intent(src, Variant::MurphyTryToSnap), dst);
-        if (dynamic) {
-            gameState.futureDynamics.push_back(std::move(dynamic));
-        }
-    }
-};
+    };
+}

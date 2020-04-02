@@ -1,0 +1,8 @@
+//
+// Created by Aleksander Gajewski on 02/04/2020.
+//
+
+#ifndef OPENPLEX_MOVEONGHOSTBASE_HH
+#define OPENPLEX_MOVEONGHOSTBASE_HH
+
+#endif //OPENPLEX_MOVEONGHOSTBASE_HH

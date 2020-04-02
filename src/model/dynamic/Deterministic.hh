@@ -27,7 +27,6 @@ GNU General Public License for more details.
 #include <model/level/Index.hh>
 #include <vector>
 
-struct Renderer;
 
 namespace op {
 struct Deterministic : public Dynamic {

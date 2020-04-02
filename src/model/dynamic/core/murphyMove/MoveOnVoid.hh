@@ -24,8 +24,8 @@ GNU General Public License for more details.
 
 #include <renderer/Renderer.hh>
 #include <engine/game/GameState.hh>
-#include <model/static/marker/MurphyEntering.hh>
-#include <model/static/marker/MurphyLeaving.hh>
+#include <model/static/marker/core/MurphyEntering.hh>
+#include <model/static/marker/core/MurphyLeaving.hh>
 #include <model/static/solid/core/Murphy.hh>
 #include <model/static/solid/core/Void.hh>
 #include "MurphyMove.hh"

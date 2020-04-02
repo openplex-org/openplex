@@ -22,15 +22,6 @@ GNU General Public License for more details.
 
 #include "Base.hh"
 
-#include <memory>
-
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-#include <model/dynamic/core/murphyMove/MoveOnBase.hh>
-#include <model/dynamic/core/murphySnap/SnapBase.hh>
-#include "model/static/Static.hh"
-#include "model/static/solid/Solid.hh"
-
 namespace op::core {
 void Base::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, StaticTile::Base, index);

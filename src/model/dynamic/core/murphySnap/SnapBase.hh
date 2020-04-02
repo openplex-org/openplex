@@ -24,7 +24,7 @@ GNU General Public License for more details.
 
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
-#include <model/static/marker/BaseSnapped.hh>
+#include <model/static/marker/core/BaseSnapped.hh>
 #include <model/static/solid/core/Void.hh>
 
 #include <renderer/Renderer.hh>
@@ -42,7 +42,7 @@ struct SnapBase : public MurphySnap {
 
   std::vector<Index> area() const override { return {src, dst}; }
 
-  void spawn() override { gameState.level.storage[dst] = std::make_unique<BaseSnaped>(); }
+  void spawn() override { gameState.level.storage[dst] = std::make_unique<GhostBaseSnapped>(); }
 
   void update() override { frameCountdown--; }
 

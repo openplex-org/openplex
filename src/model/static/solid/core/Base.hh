@@ -24,7 +24,6 @@ GNU General Public License for more details.
 
 #include <memory>
 
-#include <assets/sprites/sprites.h>
 #include <common/openplex-gl.h>
 #include <model/dynamic/core/murphyMove/MoveOnBase.hh>
 #include <model/dynamic/core/murphySnap/SnapBase.hh>
@@ -35,9 +34,9 @@ namespace op::core {
 struct Base : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;
 
-  bool canEnter() const override { return true; }
+  bool canMurphyEnter() const override { return true; }
 
-  bool canSnap() const override { return true; }
+  bool canMurphySnap() const override { return true; }
 
   bool isDeadly() const override { return false; }
 

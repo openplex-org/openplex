@@ -22,16 +22,20 @@ GNU General Public License for more details.
 
 #pragma once
 
+namespace op {
 enum class Variant {
-    MurphyTryToMove,
-    MurphyTryToSnap,
-    InstantMurphyPush,
-    BecomesVoid,
-    InstantTriggerVoid,
-    MurphyEntered,
-    ZonkEntered,
-    InfotronEntered,
-    FloppyOrangeEntered,
-    ExplodeNormal,
-    ExplodeInfotron
+  MurphyTryToMove,
+  MurphyTryToSnap,
+  InstantMurphyPush,
+  BecomesVoid,
+  InstantTriggerVoid,
+  MurphyEntered,
+  ZonkEntered,
+  InfotronEntered,
+  FloppyOrangeEntered,
+  ExplodeNormal,
+  ExplodeInfotron,
+  SpawnSnikSnakMove,
+  SpawnElectronMove
 };
+}

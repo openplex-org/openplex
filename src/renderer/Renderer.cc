@@ -22,6 +22,9 @@ GNU General Public License for more details.
 
 #include "Renderer.hh"
 
+#include "engine/game/GameState.hh"
+
+namespace op {
 void Renderer::renderStatics(GameState &gameState) {
   const auto &height = gameState.level.height;
   const auto &width = gameState.level.width;
@@ -46,3 +49,4 @@ void Renderer::renderFrame(GameState &gameState) {
   doRenderOverlay(gameState);
   doRenderFrame(gameState);
 }
+}  // namespace op

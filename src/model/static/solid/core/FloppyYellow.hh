@@ -24,9 +24,6 @@ GNU General Public License for more details.
 
 #include "model/static/solid/Solid.hh"
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-
 namespace op::core {
 struct FloppyYellow : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;

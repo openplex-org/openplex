@@ -4,7 +4,7 @@
 
 #include <context/GameContext.hh>
 
-void scenehandleevent(SDL_Event &event, GameContext &gameContext);
+void scenehandleevent(SDL_Event &event, op::GameContext &gameContext);
 
 
 #endif

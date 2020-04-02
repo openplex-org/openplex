@@ -22,13 +22,6 @@ GNU General Public License for more details.
 
 #include "FloppyOrange.hh"
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
-#include <engine/timing.h>
-#include "model/static/Static.hh"
-
-#include <renderer/Renderer.hh>
-
 namespace op::core {
 void FloppyOrange::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, StaticTile::FloppyOrange, index);

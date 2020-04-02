@@ -22,24 +22,25 @@ GNU General Public License for more details.
 
 #pragma once
 
+namespace op {
 enum class TileSet : int {
-    BaseVanish,
-    Bug,
-    Digits,
-    Electron,
-    Explode,
-    FloppyVanish,
-    InfotronExplode,
-    InfotronRoll,
-    InfotronVanish,
-    MurphyFaces,
-    MurphyVanish,
-    MurphyWalk,
-    MurphyYawn,
-    SniksnakCut,
-    SniksnakTurn,
-    Static,
-    Terminal,
-    ZonkRoll
+  BaseVanish,
+  Bug,
+  Digits,
+  Electron,
+  Explode,
+  FloppyVanish,
+  InfotronExplode,
+  InfotronRoll,
+  InfotronVanish,
+  MurphyFaces,
+  MurphyVanish,
+  MurphyWalk,
+  MurphyYawn,
+  SniksnakCut,
+  SniksnakTurn,
+  Static,
+  Terminal,
+  ZonkRoll
 };
-
+}

@@ -22,6 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <unordered_map>
+
 #include "model/level/Direction.hh"
 
 struct Input {

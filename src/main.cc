@@ -21,7 +21,7 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #include <common/SystemClock.hh>
-#include <assets/Sprites.hh>
+#include <renderer/openGLRenderer/Sprites.hh>
 #include <assets/Levels.hh>
 #include <context/Player.hh>
 #include <renderer/openGLRenderer/OpenGLRenderer.hh>
@@ -39,17 +39,18 @@ int main(int argc, char *argv[]) {
     SDLContext sdlContext(configuration);
 
     // Assets
-    Levels levels;
-    Sprites sprites(configuration);
+    op::Levels levels;
+    op::Sprites sprites(configuration);
 
+//#define CONSOLE
 #ifdef CONSOLE
-    ConsoleRenderer renderer;
+    op::ConsoleRenderer renderer;
 #else
-    OpenGLRenderer renderer;
+    op::OpenGLRenderer renderer;
 #endif
 
     Player player;
-    GameContext gameContext(configuration, renderer, sprites, levels);
+    op::GameContext gameContext(configuration, renderer, sprites, levels);
 
     while (!gameContext.gameover) {
         sdlContext.events(gameContext);

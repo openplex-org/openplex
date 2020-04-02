@@ -22,11 +22,6 @@ GNU General Public License for more details.
 
 #include "Terminal.hh"
 
-#include <assets/sprites/sprites.h>
-#include "model/static/Static.hh"
-
-#include "renderer/Renderer.hh"
-
 namespace op::core {
   void Terminal::display(Renderer &renderer, GameState &gameState, Index index) {
     renderer.paintTile(gameState, StaticTile::Terminal, index);

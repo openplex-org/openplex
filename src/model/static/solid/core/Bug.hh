@@ -22,6 +22,8 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "model/static/solid/Solid.hh"
+
 namespace op::core {
 struct Bug : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;

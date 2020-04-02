@@ -6,7 +6,7 @@
 
 std::string keyname(int id);
 
-void translateandhandleevent(SDL_Event &event, GameContext &gameContext);
+void translateandhandleevent(SDL_Event &event, op::GameContext &gameContext);
 
 /**
  * Allow navigating the menus using the selected controller

@@ -27,8 +27,6 @@ GNU General Public License for more details.
 #include <unordered_map>
 #include <vector>
 
-#include <iostream>
-#include <model/static/Static.hh>
 #include <model/static/solid/core/Hardware.hh>
 #include "Direction.hh"
 #include "Index.hh"

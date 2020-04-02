@@ -25,9 +25,9 @@ GNU General Public License for more details.
 #include "MurphyPush.hh"
 
 #include <engine/game/GameState.hh>
-#include <model/static/marker/MurphyEntering.hh>
-#include <model/static/marker/MurphyLeaving.hh>
-#include <model/static/marker/ZonkEntering.hh>
+#include <model/static/marker/core/MurphyEntering.hh>
+#include <model/static/marker/core/MurphyLeaving.hh>
+#include <model/static/marker/core/ZonkEntering.hh>
 
 #include <renderer/Renderer.hh>
 

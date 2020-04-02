@@ -22,3 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
+namespace op {
+    struct GameContext;
+
+    struct LevelDecoder {
+  virtual void loadLevel(GameContext &gameContext, const uint8_t *levdat) = 0;
+};
+}  // namespace op

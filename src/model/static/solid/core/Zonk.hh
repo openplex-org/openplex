@@ -22,12 +22,11 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <assets/sprites/sprites.h>
-#include <common/openplex-gl.h>
+#include "model/static/solid/Solid.hh"
+
 #include <model/dynamic/core/edgeSlip/ZonkEdgeSlip.hh>
 #include <model/dynamic/core/freeFall/ZonkFreeFall.hh>
 #include <model/dynamic/core/murphyPush/PushZonk.hh>
-#include "model/static/Static.hh"
 
 namespace op::core {
 struct Zonk : public Solid {

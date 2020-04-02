@@ -23,7 +23,7 @@ GNU General Public License for more details.
 #include <model/render/StaticTile.hh>
 #include "Hardware.hh"
 
-#include "assets/Sprites.hh"
+#include "renderer/openGLRenderer/Sprites.hh"
 
 #include "renderer/Renderer.hh"
 

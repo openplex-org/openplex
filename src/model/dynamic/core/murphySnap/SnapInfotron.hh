@@ -24,7 +24,7 @@ GNU General Public License for more details.
 
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
-#include <model/static/marker/InfotronSnapped.hh>
+#include <model/static/marker/core/InfotronSnapped.hh>
 #include <model/static/solid/core/Void.hh>
 #include "MurphySnap.hh"
 

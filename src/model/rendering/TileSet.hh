@@ -41,6 +41,11 @@ enum class TileSet : int {
   SniksnakTurn,
   Static,
   Terminal,
-  ZonkRoll
+  ZonkRoll,
+  // ext
+  GhostMurphyMove,
+  GhostBaseVanish,
+  LightweightZonk,
+  YellowCrushZonk
 };
 }

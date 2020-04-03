@@ -20,7 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include <model/render/StaticTile.hh>
+#include <model/rendering/StaticTile.hh>
 #include "Hardware.hh"
 
 #include "renderer/openGLRenderer/Sprites.hh"

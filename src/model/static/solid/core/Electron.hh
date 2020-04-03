@@ -22,17 +22,20 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/static/solid/Solid.hh>
-#include "model/static/Static.hh"
+#include "model/static/solid/Solid.hh"
 
-#include <renderer/Renderer.hh>
+#include <model/static/marker/core/ElectronEntering.hh>
+#include <model/static/marker/core/ElectronLeaving.hh>
 
 namespace op::core {
 struct Electron : public Solid {
-  void init(GameState &gameState, int loc) override {
-      //NPC::init(gameState, loc);
-  }
+  using EnteringType = ElectronEntering;
+  using LeavingType = ElectronLeaving;
 
+  void init(GameState &gameState, Index index) override;
+  std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const override;
   void display(Renderer &renderer, GameState &gameState, Index index) override;
+
+  static bool canEnter(Static &tile) { return tile.canNPCEnter(); }
 };
 }  // namespace op::core

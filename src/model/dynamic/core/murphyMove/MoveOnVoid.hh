@@ -22,12 +22,12 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <renderer/Renderer.hh>
 #include <engine/game/GameState.hh>
 #include <model/static/marker/core/MurphyEntering.hh>
 #include <model/static/marker/core/MurphyLeaving.hh>
 #include <model/static/solid/core/Murphy.hh>
 #include <model/static/solid/core/Void.hh>
+#include <renderer/Renderer.hh>
 #include "MurphyMove.hh"
 
 namespace op::core {
@@ -42,8 +42,8 @@ struct MoveOnVoid : public MurphyMove {
   std::vector<Index> area() const override { return {src, dst}; }
 
   void spawn() override {
-    gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-    gameState.level.storage[dst] = std::make_unique<MurphyEntering>();
+    gameState.level.storage[src] = std::make_unique<MurphyLeaving>(*this);
+    gameState.level.storage[dst] = std::make_unique<MurphyEntering>(*this);
     gameState.allowMove = false;
     gameState.murphloc = dst;
   }
@@ -60,11 +60,9 @@ struct MoveOnVoid : public MurphyMove {
     gameState.allowMove = true;
   }
 
-  float alpha(float f0, float f1) { return (f0 * frameCountdown + f1 * (FRAMES - frameCountdown)) / FRAMES; }
-
   void display(Renderer &renderer) override {
-    auto anim = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, anim);
+    auto progress = Progress{FRAMES - frameCountdown, FRAMES};
+    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, progress, Renderer::AllowVerticalFlip::True);
   }
 };
 }  // namespace op::core

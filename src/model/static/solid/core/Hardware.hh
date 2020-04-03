@@ -24,7 +24,7 @@ GNU General Public License for more details.
 
 #include "model/static/solid/Solid.hh"
 
-#include "model/render/StaticTile.hh"
+#include "model/rendering/StaticTile.hh"
 
 namespace op::core {
 struct Hardware : public Solid {
@@ -39,7 +39,8 @@ struct Hardware : public Solid {
     Hardware7 = static_cast<int>(StaticTile::Hardware7),
     Hardware8 = static_cast<int>(StaticTile::Hardware8),
     Hardware9 = static_cast<int>(StaticTile::Hardware9),
-    Hardware10 = static_cast<int>(StaticTile::Hardware10)
+    Hardware10 = static_cast<int>(StaticTile::Hardware10),
+    InvisibleWall = static_cast<int>(StaticTile::Void)
   };
 
   Style style;

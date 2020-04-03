@@ -40,7 +40,7 @@ struct HitExit : public MurphyHit {
 
   std::vector<Index> area() const override { return {src, dst}; }
 
-  void spawn() override { gameState.level.storage[src] = std::make_unique<MurphyVanishing>(); }
+  void spawn() override { gameState.level.storage[src] = std::make_unique<MurphyVanishing>(*this); }
 
   void update() override { frameCountdown--; }
 

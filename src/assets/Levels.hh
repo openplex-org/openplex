@@ -30,7 +30,8 @@ GNU General Public License for more details.
 namespace op {
 struct GameContext;
 struct Levels {
-  Levels() { load_levelset("data/levels/levels.dat"); }
+  //Levels() { load_levelset("data/levels/levels.dat"); }
+    Levels() { load_levelset("data/levels/extended.dat"); }
 
   void load(GameContext &gameContext, int levelIndex) {
     std::cout << "[" << std::setfill('0') << std::setw(3) << (levelIndex + 1) << "] " << getlevelname(levelIndex)

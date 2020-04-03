@@ -11,6 +11,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
+
 #include <context/GameContext.hh>
 #include <model/dynamic/NPC.hh>
 #include <model/level/Level.hh>
@@ -30,6 +31,11 @@ GNU General Public License for more details.
 #include <model/static/solid/core/SnikSnak.hh>
 #include <model/static/solid/core/Terminal.hh>
 #include <model/static/solid/core/Zonk.hh>
+#include <model/static/solid/ext/GravityAwareVoid.hh>
+#include <model/static/solid/ext/YellowCrushZonk.hh>
+#include <model/static/solid/ext/GhostBase.hh>
+#include <model/static/solid/ext/GhostMurphy.hh>
+#include <model/static/solid/ext/LightweightZonk.hh>
 #include <renderer/consoleRenderer/ConsoleRenderer.hh>
 
 std::unique_ptr<op::Static> decodeTile(unsigned char c) {
@@ -114,8 +120,20 @@ std::unique_ptr<op::Static> decodeTile(unsigned char c) {
       return std::make_unique<op::core::RAMChip>(op::core::RAMChip::Style::Top);
     case 0x27:
       return std::make_unique<op::core::RAMChip>(op::core::RAMChip::Style::Bottom);
+    case 0x28:
+      return std::make_unique<op::core::Hardware>(op::core::Hardware::Style::InvisibleWall);
+    case 0x29:
+      return std::make_unique<op::ext::GravityAwareVoid>();
+    case 0x2a:
+      return std::make_unique<op::ext::YellowCrushZonk>();
+    case 0x2b:
+      return std::make_unique<op::ext::GhostBase>();
+    case 0x2c:
+      return std::make_unique<op::ext::GhostMurphy>();
+    case 0x2d:
+      return std::make_unique<op::ext::LightweightZonk>();
     default:
-      return std::make_unique<op::core::Void>();
+      return std::make_unique<op::ext::GravityAwareVoid>();
   }
 }
 

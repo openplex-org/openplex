@@ -36,6 +36,8 @@ struct Infotron : public Solid {
 
   bool canMurphyEnter() const override { return true; }
 
+  bool canGhostEnter() const override { return true; }
+
   bool canMurphySnap() const override { return true; }
 
   void init(GameState &gameState, int loc) override { gameState.infotronsInLevel++; }

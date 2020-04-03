@@ -25,8 +25,8 @@ GNU General Public License for more details.
 #include "model/dynamic/core/npc/SnikSnakMove.hh"
 
 namespace op::core {
-void SnikSnak::display(Renderer &renderer, GameState &gameState, Index index) {
-  renderer.paintTile(gameState, StaticTile::SnikSnak, index);
+void SnikSnak::init(GameState &gameState, Index index) {
+  gameState.intents.emplace_back(index, Variant::SpawnSnikSnakMove);
 }
 
 std::unique_ptr<Dynamic> SnikSnak::getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const {
@@ -41,5 +41,9 @@ std::unique_ptr<Dynamic> SnikSnak::getDynamicOn(GameState &gameState, Intent int
     default:
       return nullptr;
   }
+}
+
+void SnikSnak::display(Renderer &renderer, GameState &gameState, Index index) {
+  renderer.paintTile(gameState, StaticTile::SnikSnak, index);
 }
 }  // namespace op::core

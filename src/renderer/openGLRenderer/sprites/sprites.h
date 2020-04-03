@@ -1,7 +1,7 @@
 #ifndef __HDR_sprites_h
 #define __HDR_sprites_h
 
-#include "model/render/TileSet.hh"
+#include "model/rendering/TileSet.hh"
 
 namespace op {
     struct GameContext;

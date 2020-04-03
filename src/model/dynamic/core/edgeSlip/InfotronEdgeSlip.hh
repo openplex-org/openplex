@@ -27,8 +27,8 @@ GNU General Public License for more details.
 #include <model/static/marker/core/InfotronEntering.hh>
 #include <model/static/marker/core/InfotronLeaving.hh>
 
-#include <renderer/Renderer.hh>
 #include <model/dynamic/Infinite.hh>
+#include <renderer/Renderer.hh>
 #include "EdgeSlip.hh"
 
 namespace op::core {
@@ -45,8 +45,8 @@ struct InfotronEdgeSlip : public EdgeSlip {
   std::vector<Index> area() const override { return {slipFrom, slipInto}; }
 
   void spawn() override {
-    gameState.level.storage[slipFrom] = std::make_unique<InfotronLeaving>();
-    gameState.level.storage[slipInto] = std::make_unique<InfotronEntering>();
+    gameState.level.storage[slipFrom] = std::make_unique<InfotronLeaving>(*this);
+    gameState.level.storage[slipInto] = std::make_unique<InfotronEntering>(*this);
   }
 
   void update() override { frameCountdown--; }
@@ -58,7 +58,7 @@ struct InfotronEdgeSlip : public EdgeSlip {
   float alpha(float f0, float f1) { return (f0 * frameCountdown + f1 * (FRAMES - frameCountdown)) / FRAMES; }
 
   void display(Renderer &renderer) override {
-    auto anim = Progress{frameCountdown, FRAMES};
+    auto anim = Progress{FRAMES - frameCountdown, FRAMES};
     renderer.paintMovingTile(gameState, TileSet::InfotronRoll, slipFrom, slipInto, anim);
   }
 };

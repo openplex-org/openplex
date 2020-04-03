@@ -38,7 +38,7 @@ struct ZonkEdgeSlip : public EdgeSlip {
   int slipInto;
   int slipVoid;
   const int FRAMES = 30;
-  int frameCountdown = 30;
+  int frameCountdown = FRAMES;
 
   ZonkEdgeSlip(GameState &gameState, int slipFrom, int slipInto, int slipVoid)
       : EdgeSlip(gameState), slipFrom(slipFrom), slipInto(slipInto), slipVoid(slipVoid) {}
@@ -46,8 +46,8 @@ struct ZonkEdgeSlip : public EdgeSlip {
   std::vector<Index> area() const override { return {slipFrom, slipInto}; }
 
   void spawn() override {
-    gameState.level.storage[slipFrom] = std::make_unique<ZonkLeaving>();
-    gameState.level.storage[slipInto] = std::make_unique<ZonkEntering>();
+    gameState.level.storage[slipFrom] = std::make_unique<ZonkLeaving>(*this);
+    gameState.level.storage[slipInto] = std::make_unique<ZonkEntering>(*this);
   }
 
   void update() override { frameCountdown--; }
@@ -57,7 +57,7 @@ struct ZonkEdgeSlip : public EdgeSlip {
   void clean() override;
 
   void display(Renderer &renderer) override {
-    auto anim = Progress{frameCountdown, FRAMES};
+    auto anim = Progress{FRAMES-frameCountdown, FRAMES};
     renderer.paintMovingTile(gameState, TileSet::ZonkRoll, slipFrom, slipInto, anim);
   }
 };

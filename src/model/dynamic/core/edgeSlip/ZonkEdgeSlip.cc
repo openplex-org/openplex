@@ -20,8 +20,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include <engine/game/GameState.hh>
-#include <model/dynamic/Deterministic.hh>
+#include "ZonkEdgeSlip.hh"
+
 #include <model/static/marker/core/ZonkEntering.hh>
 #include <model/static/marker/core/ZonkLeaving.hh>
 #include <model/static/solid/core/Void.hh>

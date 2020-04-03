@@ -22,7 +22,7 @@ GNU General Public License for more details.
 
 #include "ConsoleRenderer.hh"
 
-#include "model/render/StaticTile.hh"
+#include "model/rendering/StaticTile.hh"
 
 namespace op {
 namespace {
@@ -163,43 +163,44 @@ void ConsoleRenderer::paintTile(GameState &gameState, StaticTile tile, Index ind
   canvas[y][x] = getChar(tile);
 }
 
-void ConsoleRenderer::paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) {
+void ConsoleRenderer::paintTile(GameState &gameState, TileSet tileset, Index index, Progress progress) {
   auto x = gameState.level.getX(index);
   auto y = gameState.level.getY(index);
   canvas[y][x] = getChar(tileset);
 }
 
 void ConsoleRenderer::paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
-                                        Progress anim) {
+                                        Progress progress, AllowVerticalFlip allowVerticalFlip) {
   auto x = gameState.level.getX(index);
   auto y = gameState.level.getY(index);
   canvas[y][x] = getChar(tileset);
 }
 
-void ConsoleRenderer::paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) {
-  auto index = (anim.count < anim.total / 2) ? src : dst;
+void ConsoleRenderer::paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress progress,
+                                      AllowVerticalFlip allowVerticalFlip) {
+  auto index = (progress.count < progress.total / 2) ? src : dst;
   auto x = gameState.level.getX(index);
   auto y = gameState.level.getY(index);
   canvas[y][x] = getChar(tileset);
 }
 
 void ConsoleRenderer::paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst,
-                                      Progress anim) {
-  auto index = (anim.count < anim.total / 2) ? src : dst;
+                                      Progress progress) {
+  auto index = (progress.count < progress.total / 2) ? src : dst;
   auto x = gameState.level.getX(index);
   auto y = gameState.level.getY(index);
   canvas[y][x] = getChar(staticTile);
 }
 
 void ConsoleRenderer::paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock,
-                                       Index index, Progress anim) {
+                                       Index index, Progress progress) {
   auto x = gameState.level.getX(index);
   auto y = gameState.level.getY(index);
   canvas[y][x] = getChar(tile);
 }
 
 void ConsoleRenderer::paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock,
-                                       Index index, Progress anim) {
+                                       Index index, Progress progress, AllowVerticalFlip allowVerticalFlip) {
   auto x = gameState.level.getX(index);
   auto y = gameState.level.getY(index);
   canvas[y][x] = getChar(tileset);

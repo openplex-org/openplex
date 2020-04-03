@@ -22,3 +22,23 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <model/static/Static.hh>
+#include "model/static/solid/Solid.hh"
+
+#include <memory>
+
+namespace op::ext {
+struct GravityAwareVoid : public Solid {
+  bool canMurphyEnter() const override { return true; }
+
+  bool canNPCEnter() const override { return true; }
+
+  bool canMurphySnap() const override { return false; }
+
+  bool isDeadly() const override { return false; }
+
+  bool isVoid() const override { return true; }
+
+  std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intent, Index self) const override;
+};
+}  // namespace op::core

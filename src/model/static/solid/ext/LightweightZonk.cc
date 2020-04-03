@@ -20,48 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#pragma once
+#include "LightweightZonk.hh"
 
-enum class StaticTile {
-    Void,
-    Zonk,
-    Base,
-    Murphy,
-    Infotron,
-    RAMChip,
-    Wall,
-    Exit,
-    FloppyOrange,
-    PortRight,
-    PortDown,
-    PortLeft,
-    PortUp,
-    GravityPortRight,
-    GravityPortDown,
-    GravityPortLeft,
-    GravityPortUp,
-    SnikSnak,
-    FloppyYellow,
-    Terminal,
-    FloppyRed,
-    PortVertical,
-    PortHorizontal,
-    PortCross,
-    Electron,
-    Bug,
-    RAMChipLeft,
-    RAMChipRight,
-    Hardware1,
-    Hardware2,
-    Hardware3,
-    Hardware4,
-    Hardware5,
-    Hardware6,
-    Hardware7,
-    Hardware8,
-    Hardware9,
-    Hardware10,
-    RAMChipTop,
-    RAMChipBottom
-};
+namespace op::ext {
 
+void LightweightZonk::display(Renderer &renderer, GameState &gameState, Index index) {
+  renderer.paintTile(gameState, StaticTile::LightweightZonk, index);
+}
+}  // namespace op::ext

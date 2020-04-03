@@ -22,7 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "Marker.hh"
-struct InfotronEntering : public Marker {
+#include "model/static/marker/Marker.hh"
 
+namespace op::core {
+struct InfotronEntering : public Marker {
+  explicit InfotronEntering(Dynamic &dynamic) : Marker(dynamic) {}
 };
+}  // namespace op::core

@@ -49,7 +49,7 @@ public:
     }
 
     static void keep_fps() {
-        static int FPS = 10;
+        static int FPS = 60;
         static int micros = 1'000'000 / FPS;
         static std::chrono::time_point<std::chrono::system_clock> next = std::chrono::system_clock::now();
         std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();

@@ -26,6 +26,8 @@ GNU General Public License for more details.
 
 namespace op::core {
 struct SnikSnakMove : public NPCMove<SnikSnak> {
-    SnikSnakMove(GameState &gameState, Index index) : NPCMove<SnikSnak>(gameState, index, Direction::Up, Behavior::Move) {}
+    SnikSnakMove(GameState &gameState, Index index) : NPCMove<SnikSnak>(gameState, index, Direction::Down, Behavior::Move, Strategy::StickRight) {}
+    TileSet getTurnTileSet() override { return TileSet::SniksnakTurn; };
+    TileSet getMoveTileSet() override { return TileSet::SniksnakCut; };
 };
 }  // namespace op::core

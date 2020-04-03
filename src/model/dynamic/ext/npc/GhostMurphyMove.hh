@@ -22,10 +22,14 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "model/dynamics/core/NPCMove.hh"
+#include "model/dynamic/core/npc/NPCMove.hh"
+#include "model/static/solid/ext/GhostMurphy.hh"
 
-namespace op::core {
-struct GhostMurphyMove : public NPCMove<GhostMurphy> {
-    GhostMurphyMove(GameState &gameState, Index index) : NPCMove<SnikSnak>(gameState, index, Direction::Up, Behavior::Move) {}
+namespace op::ext {
+struct GhostMurphyMove : public op::core::NPCMove<GhostMurphy> {
+  GhostMurphyMove(GameState &gameState, Index index)
+      : NPCMove<GhostMurphy>(gameState, index, Direction::Down, Behavior::Move, Strategy::StickLeft) {}
+  TileSet getTurnTileSet() override { return TileSet::GhostMurphyMove; };
+  TileSet getMoveTileSet() override { return TileSet::GhostMurphyMove; };
 };
-}  // namespace op::core
+}  // namespace op::ext

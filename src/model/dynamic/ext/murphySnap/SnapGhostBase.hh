@@ -22,34 +22,33 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "model/dynamic/core/murphySnap/MurphySnap.hh"
+
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
-#include <model/static/marker/core/BaseSnapped.hh>
-#include <model/static/solid/core/Void.hh>
+#include "model/static/marker/ext/GhostBaseSnapped.hh"
+#include "model/static/solid/core/Void.hh"
 
-#include <renderer/Renderer.hh>
-#include "MurphySnap.hh"
-
-namespace op::core {
-struct SnapBase : public MurphySnap {
+namespace op::ext {
+struct SnapGhostBase : public op::core::MurphySnap {
   Index src;
   Index dst;
 
   const int FRAMES = 80;
   int frameCountdown = FRAMES;
 
-  SnapBase(GameState &gameState, Index src, Index dst) : MurphySnap(gameState), src(src), dst(dst) {}
+  SnapGhostBase(GameState &gameState, Index src, Index dst) : MurphySnap(gameState), src(src), dst(dst) {}
 
   std::vector<Index> area() const override { return {src, dst}; }
 
-  void spawn() override { gameState.level.storage[dst] = std::make_unique<BaseSnaped>(); }
+  void spawn() override { gameState.level.storage[dst] = std::make_unique<GhostBaseSnapped>(*this); }
 
   void update() override { frameCountdown--; }
 
   bool ready() override { return frameCountdown == 0; }
 
   void clean() override {
-    gameState.level.storage[dst] = std::make_unique<Void>();
+    gameState.level.storage[dst] = std::make_unique<op::core::Void>();
     gameState.intents.emplace_back(dst, Variant::BecomesVoid);
   }
 
@@ -58,4 +57,4 @@ struct SnapBase : public MurphySnap {
     renderer.paintTile(gameState, TileSet::BaseVanish, dst, anim);
   }
 };
-}  // namespace op::core
+}  // namespace op::ext

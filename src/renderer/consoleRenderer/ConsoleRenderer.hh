@@ -26,9 +26,9 @@ GNU General Public License for more details.
 
 #include <engine/game/GameState.hh>
 #include <model/level/Clock.hh>
-#include <model/render/Progress.hh>
-#include <model/render/TileSet.hh>
-#include "model/render/StaticTile.hh"
+#include <model/rendering/Progress.hh>
+#include <model/rendering/TileSet.hh>
+#include "model/rendering/StaticTile.hh"
 
 #include <iostream>
 
@@ -48,9 +48,7 @@ struct ConsoleRenderer : public Renderer {
     }
   }
 
-  void doRenderOverlay(GameState &gameState) override {
-    overlay = "frame: " + std::to_string(gameState.frame);
-  }
+  void doRenderOverlay(GameState &gameState) override { overlay = "frame: " + std::to_string(gameState.frame); }
 
   void doRenderFrame(GameState &gameState) override {
     std::cout << "\n";
@@ -63,19 +61,20 @@ struct ConsoleRenderer : public Renderer {
 
   void paintTile(GameState &gameState, StaticTile tile, Index index) override;
 
-  void paintTile(GameState &gameState, TileSet tileset, Index index, Progress anim) override;
+  void paintTile(GameState &gameState, TileSet tileset, Index index, Progress progress) override;
 
-  void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index,
-                         Progress anim) override;
+  void paintDirectedTile(GameState &gameState, TileSet tileset, Direction direction, Index index, Progress progress,
+                         AllowVerticalFlip allowVerticalFlip) override;
 
-  void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress anim) override;
+  void paintMovingTile(GameState &gameState, TileSet tileset, Index src, Index dst, Progress progress,
+                       AllowVerticalFlip allowVerticalFlip) override;
 
-  void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress anim) override;
+  void paintMovingTile(GameState &gameState, StaticTile staticTile, Index src, Index dst, Progress progress) override;
 
   void paintRotatedTile(GameState &gameState, StaticTile tile, Direction direction, Clock clock, Index index,
-                        Progress anim) override;
+                        Progress progress) override;
 
   void paintRotatedTile(GameState &gameState, TileSet tileset, Direction direction, Clock clock, Index index,
-                        Progress anim) override;
+                        Progress progress, AllowVerticalFlip allowVerticalFlip) override;
 };
 }  // namespace op

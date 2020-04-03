@@ -21,8 +21,28 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #include "Electron.hh"
+#include <model/dynamic/core/npc/ElectronMove.hh>
+#include <model/rendering/StaticTile.hh>
 
 namespace op::core {
+void Electron::init(GameState &gameState, Index index) {
+  gameState.intents.emplace_back(index, Variant::SpawnElectronMove);
+}
+
+std::unique_ptr<Dynamic> Electron::getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const {
+  switch (intentEntry.variant) {
+    case Variant::SpawnElectronMove: {
+      if (intentEntry.source == self) {
+        return std::make_unique<ElectronMove>(gameState, self);
+      } else {
+        return nullptr;
+      }
+    }
+    default:
+      return nullptr;
+  }
+}
+
 void Electron::display(Renderer &renderer, GameState &gameState, Index index) {
   renderer.paintTile(gameState, StaticTile::Electron, index);
 }

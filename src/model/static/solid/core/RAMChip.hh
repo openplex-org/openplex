@@ -24,7 +24,7 @@ GNU General Public License for more details.
 
 #include "model/static/solid/Solid.hh"
 
-#include <model/render/StaticTile.hh>
+#include <model/rendering/StaticTile.hh>
 
 namespace op::core {
 struct RAMChip : public Solid {

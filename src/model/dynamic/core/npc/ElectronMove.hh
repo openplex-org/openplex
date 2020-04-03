@@ -26,6 +26,10 @@ GNU General Public License for more details.
 #include "model/static/solid/core/Electron.hh"
 
 namespace op::core {
-    struct ElectronMove : public NPCMove<Electron> {};
+struct ElectronMove : public NPCMove<Electron> {
+  ElectronMove(GameState &gameState, Index index)
+      : NPCMove<Electron>(gameState, index, Direction::Up, Behavior::Move, Strategy::StickLeft) {}
+  TileSet getTurnTileSet() override { return TileSet::Electron; };
+  TileSet getMoveTileSet() override { return TileSet::Electron; };
+};
 }  // namespace op::core
-

@@ -58,9 +58,9 @@ struct PushZonk : public MurphyPush {
 
   void postponedSpawn() {
     if (gameState.level.storage[rollInto]->isVoid()) {
-      gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-      gameState.level.storage[dst] = std::make_unique<MurphyEntering>();
-      gameState.level.storage[dst] = std::make_unique<ZonkEntering>();
+      gameState.level.storage[src] = std::make_unique<MurphyLeaving>(*this);
+      gameState.level.storage[dst] = std::make_unique<MurphyEntering>(*this);
+      gameState.level.storage[dst] = std::make_unique<ZonkEntering>(*this);
     } else {
       interrupted = true;
     }

@@ -43,8 +43,8 @@ struct MoveOnBase : public MurphyMove {
   std::vector<Index> area() const override { return {src, dst}; }
 
   void spawn() override {
-    gameState.level.storage[src] = std::make_unique<MurphyLeaving>();
-    gameState.level.storage[dst] = std::make_unique<GhostBaseEaten>();
+    gameState.level.storage[src] = std::make_unique<MurphyLeaving>(*this);
+    gameState.level.storage[dst] = std::make_unique<BaseEaten>(*this);
     gameState.allowMove = false;
     gameState.murphloc = dst;
   }
@@ -62,8 +62,8 @@ struct MoveOnBase : public MurphyMove {
   }
 
   void display(Renderer &renderer) override {
-    auto progress = Progress{frameCountdown, FRAMES};
-    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, progress);
+    auto progress = Progress{FRAMES - frameCountdown, FRAMES};
+    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, progress, Renderer::AllowVerticalFlip::True);
   }
 };
 }  // namespace op::core

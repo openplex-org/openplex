@@ -20,5 +20,29 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#pragma once
 
+
+#include "GravityAwareVoid.hh"
+
+#include <model/dynamic/core/freeFall/ZonkFreeFall.hh>
+#include <model/dynamic/core/murphyMove/MoveOnVoid.hh>
+
+namespace op::ext {
+std::unique_ptr<Dynamic> GravityAwareVoid::getDynamicOn(GameState &gameState, Intent intent, Index self) const {
+  switch (intent.variant) {
+    case Variant::MurphyTryToMove:
+      return std::make_unique<op::core::MoveOnVoid>(gameState, intent.source, self);
+    case Variant::ZonkEntered: {
+      if (intent.source == gameState.level.above(self)) {
+        int fallSource = intent.source;
+        int fallDestination = self;
+        return std::make_unique<op::core::ZonkFreeFall>(gameState, fallSource, fallDestination);
+      } else {
+        return nullptr;
+      }
+    }
+    default:
+      return nullptr;
+  }
+}
+}  // namespace op::core

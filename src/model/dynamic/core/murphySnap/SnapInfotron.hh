@@ -40,7 +40,7 @@ struct SnapInfotron : public MurphySnap {
   std::vector<Index> area() const override { return {src, dst}; }
 
   void spawn() override {
-    gameState.level.storage[dst] = std::make_unique<InfotronSnaped>();
+    gameState.level.storage[dst] = std::make_unique<InfotronSnapped>(*this);
     gameState.infotronsCollected++;
   }
 

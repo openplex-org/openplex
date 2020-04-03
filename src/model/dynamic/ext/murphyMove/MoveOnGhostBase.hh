@@ -1,8 +1,71 @@
-//
-// Created by Aleksander Gajewski on 02/04/2020.
-//
 
-#ifndef OPENPLEX_MOVEONGHOSTBASE_HH
-#define OPENPLEX_MOVEONGHOSTBASE_HH
+// This file is a part of OpenPlex project.
 
-#endif //OPENPLEX_MOVEONGHOSTBASE_HH
+// This is an open source port of Supaplex created in 1991 by:
+//   Program ... Philip Jespersen
+//   Graphics ..... Michael Stopp
+//   PC Code ....... Robin Meydon
+//   PC Graphics ..... Matt Smith
+//   Music/FX ... David Whittaker
+// Copyright (C) 2011 Radu Stefan <radu124@gmail.com>,
+// Copyright (C) 2020 Aleksander Gajewski <aleksander@gajewski.fr>.
+
+/*******************************************************************
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; version 2 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+*******************************************************************/
+
+#pragma once
+
+#include "model/dynamic/core/murphyMove/MurphyMove.hh"
+
+#include <engine/game/GameState.hh>
+#include <model/static/marker/core/BaseEaten.hh>
+#include <model/static/marker/core/MurphyLeaving.hh>
+#include <model/static/marker/ext/GhostBaseEaten.hh>
+#include <model/static/solid/core/Murphy.hh>
+#include <model/static/solid/core/Void.hh>
+#include <renderer/Renderer.hh>
+
+namespace op::ext {
+struct MoveOnGhostBase : public op::core::MurphyMove {
+  Index src;
+  Index dst;
+  const int FRAMES = 15;
+  int frameCountdown = FRAMES;
+
+  MoveOnGhostBase(GameState &gameState, Index src, Index dst) : MurphyMove(gameState), src(src), dst(dst) {}
+
+  std::vector<Index> area() const override { return {src, dst}; }
+
+  void spawn() override {
+    gameState.level.storage[src] = std::make_unique<op::core::MurphyLeaving>(*this);
+    gameState.level.storage[dst] = std::make_unique<op::ext::GhostBaseEaten>(*this);
+    gameState.allowMove = false;
+    gameState.murphloc = dst;
+  }
+
+  void update() override { frameCountdown--; }
+
+  bool ready() override { return frameCountdown == 0; }
+
+  void clean() override {
+    gameState.level.storage[src] = std::make_unique<op::core::Void>();
+    gameState.level.storage[dst] = std::make_unique<op::core::Murphy>();
+
+    gameState.intents.emplace_back(src, Variant::BecomesVoid);
+    gameState.allowMove = true;
+  }
+
+  void display(Renderer &renderer) override {
+    auto progress = Progress{FRAMES - frameCountdown, FRAMES};
+    renderer.paintMovingTile(gameState, TileSet::MurphyWalk, src, dst, progress, Renderer::AllowVerticalFlip::True);
+  }
+};
+}  // namespace op::ext

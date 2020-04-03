@@ -21,8 +21,11 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #pragma once
-#include "Marker.hh"
 
-struct InfotronSnaped : public Marker {
+#include "model/static/marker/Marker.hh"
 
+namespace op::core {
+struct InfotronSnapped : public Marker {
+  explicit InfotronSnapped(Dynamic &dynamic) : Marker(dynamic) {}
 };
+}  // namespace op::core

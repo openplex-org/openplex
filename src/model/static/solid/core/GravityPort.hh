@@ -23,7 +23,7 @@ GNU General Public License for more details.
 #pragma once
 
 #include <renderer/openGLRenderer/Sprites.hh>
-#include <model/render/StaticTile.hh>
+#include <model/rendering/StaticTile.hh>
 #include "model/static/solid/Solid.hh"
 
 namespace op::core {

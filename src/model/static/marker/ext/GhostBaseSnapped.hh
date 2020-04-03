@@ -22,8 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "Marker.hh"
+#include "model/static/marker/Marker.hh"
 
 namespace op::ext {
-struct BaseSnapped : public Marker {};
+struct GhostBaseSnapped : public Marker {
+  explicit GhostBaseSnapped(Dynamic &dynamic) : Marker(dynamic) {}
+};
 }  // namespace op::ext

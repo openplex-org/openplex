@@ -22,8 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "Marker.hh"
+#include "model/static/marker/Marker.hh"
 
-struct Marker : public op::Static {
-
+namespace op::core {
+struct ElectronEntering : public Marker {
+  explicit ElectronEntering(Dynamic &dynamic) : Marker(dynamic) {}
 };
+}  // namespace op::core

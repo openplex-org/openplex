@@ -33,9 +33,11 @@ enum class Variant {
   ZonkEntered,
   InfotronEntered,
   FloppyOrangeEntered,
-  ExplodeNormal,
-  ExplodeInfotron,
+  NormalExplosionIgnition,
+  InfotronExplosionIgnition,
   SpawnSnikSnakMove,
-  SpawnElectronMove
+  SpawnElectronMove,
+  // ext
+  SpawnGhostMurphyMove
 };
 }

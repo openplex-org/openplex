@@ -35,7 +35,8 @@ GNU General Public License for more details.
 
 namespace op {
 struct GameContext {
-  int levelIndex = 34;
+//  int levelIndex = 34;
+  int levelIndex = 0;
   Input input;
   GameState gameState;
   Display &display;

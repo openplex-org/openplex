@@ -44,6 +44,7 @@ struct NPCMove : public NPC {
   Direction previousDirection = Direction::None;
   const int TURN_FRAMES = 15;
   int turnCountdown = TURN_FRAMES;
+  Clock turningDirection;
 
   // move
   Index previousIndex;
@@ -72,23 +73,26 @@ struct NPCMove : public NPC {
   }
 
   bool canTurnFollowingStrategy() {
-    return gameState.level.storage[getStickSideIndex(index, direction, strategy)]->canNPCEnter();
+    return NPCType::canEnter(*gameState.level.storage[getStickSideIndex(index, direction, strategy)]);
   }
 
-  bool canMoveForward() { return gameState.level.storage[gameState.level.follow(index, direction)]->canNPCEnter(); }
+  bool canMoveForward() {
+    return NPCType::canEnter(*gameState.level.storage[gameState.level.follow(index, direction)]);
+  }
 
   void scheduleTurn(const Clock &clock) {
     previousDirection = direction;
     direction = rotate(direction, clock);
+    turningDirection = clock;
     turnCountdown = TURN_FRAMES;
-      behavior = Behavior::Turn;
+    behavior = Behavior::Turn;
   }
 
   void scheduleMove() {
     previousIndex = index;
     index = gameState.level.follow(index, direction);
-    gameState.level.storage[previousIndex] = std::make_unique<typename NPCType::LeavingType>();
-    gameState.level.storage[index] = std::make_unique<typename NPCType::EnteringType>();
+    gameState.level.storage[previousIndex] = std::make_unique<typename NPCType::LeavingType>(*this);
+    gameState.level.storage[index] = std::make_unique<typename NPCType::EnteringType>(*this);
     moveCountdown = MOVE_FRAMES;
     behavior = Behavior::Move;
   }
@@ -110,11 +114,11 @@ struct NPCMove : public NPC {
     }
   }
 
-  NPCMove(GameState &gameState, Index index, Direction direction, Behavior behavior)
-      : NPC(gameState), index(index), direction(direction), behavior(behavior) {
-    //if (behavior == Behavior::None) {
-      determineBehavior(PreventSpinInPlace::Disabled);
-   // }
+  NPCMove(GameState &gameState, Index index, Direction direction, Behavior behavior, Strategy strategy)
+      : NPC(gameState), index(index), direction(direction), behavior(behavior), strategy(strategy) {
+    // if (behavior == Behavior::None) {
+    determineBehavior(PreventSpinInPlace::Disabled);
+    // }
   }
 
   std::vector<Index> area() const override {
@@ -155,6 +159,8 @@ struct NPCMove : public NPC {
     if (moveCountdown == 0) {
       gameState.level.storage[previousIndex] = std::make_unique<Void>();
       gameState.level.storage[index] = std::make_unique<NPCType>();
+      gameState.intents.emplace_back(previousIndex, Variant::BecomesVoid);
+
       determineBehavior(PreventSpinInPlace::Disabled);
     }
   }
@@ -176,14 +182,18 @@ struct NPCMove : public NPC {
     }
   }
 
+  virtual TileSet getTurnTileSet() = 0;
+  virtual TileSet getMoveTileSet() = 0;
+
   void displayTurn(Renderer &renderer) {
     auto progress = Progress{TURN_FRAMES - turnCountdown, TURN_FRAMES};
-    renderer.paintRotatedTile(gameState, TileSet::SniksnakTurn, previousDirection, getClock(strategy), index, progress);
+    renderer.paintRotatedTile(gameState, getTurnTileSet(), previousDirection, turningDirection, index, progress,
+                              Renderer::AllowVerticalFlip::True);
   }
 
   void displayMove(Renderer &renderer) {
-      auto progress = Progress{MOVE_FRAMES - moveCountdown, MOVE_FRAMES};
-      renderer.paintMovingTile(gameState, TileSet::SniksnakCut, previousIndex, index, progress);
+    auto progress = Progress{MOVE_FRAMES - moveCountdown, MOVE_FRAMES};
+    renderer.paintMovingTile(gameState, getMoveTileSet(), previousIndex, index, progress);
   }
 };
 

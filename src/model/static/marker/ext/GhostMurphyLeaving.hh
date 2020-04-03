@@ -22,7 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-struct Progress {
-  int count;
-  int total;
+#include "model/static/marker/Marker.hh"
+
+namespace op::ext {
+struct GhostMurphyLeaving : public Marker {
+  explicit GhostMurphyLeaving(Dynamic &dynamic) : Marker(dynamic) {}
 };
+}  // namespace op::ext

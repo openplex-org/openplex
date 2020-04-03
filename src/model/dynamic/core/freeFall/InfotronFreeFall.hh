@@ -36,15 +36,15 @@ struct InfotronFreeFall : public FreeFall {
   Index src;
   Index dst;
   const int FRAMES = 30;
-  int frameCountdown = 30;
+  int frameCountdown = FRAMES;
 
   InfotronFreeFall(GameState &gameState, Index src, Index dst) : FreeFall(gameState), src(src), dst(dst) {}
 
   std::vector<Index> area() const override { return {src, dst}; }
 
   void spawn() override {
-    gameState.level.storage[src] = std::make_unique<ZonkLeaving>();
-    gameState.level.storage[dst] = std::make_unique<ZonkEntering>();
+    gameState.level.storage[src] = std::make_unique<ZonkLeaving>(*this);
+    gameState.level.storage[dst] = std::make_unique<ZonkEntering>(*this);
   }
 
   void update() override { frameCountdown--; }
@@ -54,7 +54,7 @@ struct InfotronFreeFall : public FreeFall {
   void clean() override;
 
   void display(Renderer &renderer) override {
-    auto progress = Progress{frameCountdown, FRAMES};
+    auto progress = Progress{FRAMES - frameCountdown, FRAMES};
     renderer.paintMovingTile(gameState, StaticTile::Infotron, src, dst, progress);
   }
 };

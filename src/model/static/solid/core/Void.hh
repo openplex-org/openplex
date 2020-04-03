@@ -33,6 +33,8 @@ struct Void : public Solid {
 
   bool canNPCEnter() const override { return true; }
 
+  bool canGhostEnter() const override { return true; }
+
   bool canMurphySnap() const override { return false; }
 
   bool isDeadly() const override { return false; }

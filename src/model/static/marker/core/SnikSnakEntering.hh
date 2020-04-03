@@ -22,8 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include "Marker.hh"
+#include "model/static/marker/Marker.hh"
 
 namespace op::core {
-struct SnikSnakEntering : public Marker {};
-}  // namespace os
+struct SnikSnakEntering : public Marker {
+  explicit SnikSnakEntering(Dynamic &dynamic) : Marker(dynamic) {}
+};
+}  // namespace op::core

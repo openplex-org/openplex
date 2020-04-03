@@ -21,8 +21,11 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #pragma once
-#include "Marker.hh"
 
+#include "model/static/marker/Marker.hh"
+
+namespace op::core {
 struct MurphyLeaving : public Marker {
-
+  explicit MurphyLeaving(Dynamic &dynamic) : Marker(dynamic) {}
 };
+}  // namespace op::core

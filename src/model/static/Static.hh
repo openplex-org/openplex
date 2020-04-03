@@ -56,6 +56,7 @@ struct Static {
 
   virtual bool canMurphyEnter() const { return false; }
   virtual bool canNPCEnter() const { return false; }
+  virtual bool canGhostEnter() const { return false; }
 
   virtual bool canMurphySnap() const { return false; }
 

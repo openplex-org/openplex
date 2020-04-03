@@ -42,7 +42,7 @@ struct SnapBase : public MurphySnap {
 
   std::vector<Index> area() const override { return {src, dst}; }
 
-  void spawn() override { gameState.level.storage[dst] = std::make_unique<GhostBaseSnapped>(); }
+  void spawn() override { gameState.level.storage[dst] = std::make_unique<BaseSnapped>(*this); }
 
   void update() override { frameCountdown--; }
 

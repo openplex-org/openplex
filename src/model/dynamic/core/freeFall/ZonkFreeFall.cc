@@ -36,7 +36,7 @@ void ZonkFreeFall::clean() {
   gameState.level.storage[src] = std::make_unique<Void>();
   gameState.level.storage[dst] = std::make_unique<Zonk>();
   gameState.intents.emplace_back(src, Variant::BecomesVoid);
-  gameState.intents.emplace_back(dst, Variant::ZonkEntered);
+  gameState.intents.emplace_back(dst, Variant::ZonkFallen);
 }
 
 }  // namespace op::core

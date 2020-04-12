@@ -20,10 +20,19 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <model/dynamic/core/murphyHit/HitTerminal.hh>
 #include "Terminal.hh"
 
 namespace op::core {
-  void Terminal::display(Renderer &renderer, GameState &gameState, Index index) {
-    renderer.paintTile(gameState, StaticTile::Terminal, index);
+std::unique_ptr<Dynamic> Terminal::getDynamicOn(GameState &gameState, Intent intent, Index self) const {
+  switch (intent.variant) {
+    case Variant::MurphyTryToMove:
+      return std::make_unique<HitTerminal>(gameState);
+    default:
+      return nullptr;
   }
+}
+void Terminal::display(Renderer &renderer, GameState &gameState, Index index) {
+  renderer.paintTile(gameState, StaticTile::Terminal, index);
+}
 }  // namespace op::core

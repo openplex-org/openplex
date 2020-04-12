@@ -22,25 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
-namespace op {
-enum class Variant {
-  MurphyTryToMove,
-  MurphyTryToSnap,
-  InstantMurphyPush,
-  BecomesVoid,
-  InstantTriggerVoid,
-  MurphyEntered,
-  ZonkRolled,
-  ZonkFallen,
-  InfotronRolled,
-  InfotronFallen,
-  FloppyOrangeEntered,
-  FloppyOrangeFallen,
-  NormalExplosionIgnition,
-  InfotronExplosionIgnition,
-  SpawnSnikSnakMove,
-  SpawnElectronMove,
-  // ext
-  SpawnGhostMurphyMove
+#include "model/static/marker/Marker.hh"
+
+namespace op::core {
+struct ExplodingTile : public Marker {
+  explicit ExplodingTile(Dynamic &dynamic) : Marker(dynamic) {}
 };
-}
+}  // namespace op::core

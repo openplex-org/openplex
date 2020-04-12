@@ -22,27 +22,41 @@ GNU General Public License for more details.
 
 #pragma once
 
-#include <model/dynamic/Interruptable.hh>
+#include <model/dynamic/Deterministic.hh>
+#include <model/static/marker/core/ExplodingTile.hh>
+
+#include "renderer/Renderer.hh"
+
+#include "engine/game/GameState.hh"
 
 namespace op::core {
-struct PreparePush : public Interruptable {
-  Index src;
-  Index dst;
+struct NormalExplosion : public Deterministic {
+  enum class AllowChainReaction { True, False };
+  Index index;
+  AllowChainReaction allowChainReaction;
   const int FRAMES = 30;
   int frameCountdown = FRAMES;
+  NormalExplosion(GameState &gameState, Index index, AllowChainReaction allowChainReaction)
+      : Deterministic(gameState), index(index), allowChainReaction(allowChainReaction) {}
 
-  PreparePush(GameState &gameState, Index src, Index dst) : Interruptable(gameState), src(src), dst(dst) {}
+  std::vector<Index> area() const override { return {index}; }
 
-  std::vector<Index> area() const override { return {src, dst}; }
-
-  void spawn() override {}
+  void spawn() override {
+    if (allowChainReaction == AllowChainReaction::True && !gameState.level.storage[index]->canExplode()) {
+      allowChainReaction = AllowChainReaction::False;
+    }
+    gameState.level.storage[index] = std::make_unique<ExplodingTile>(*this);
+  }
 
   void update() override { frameCountdown--; }
 
   bool ready() override { return frameCountdown == 0; }
 
-  void clean() override {}
+  void clean() override;
 
-  void display(Renderer &renderer) override {}
+  void display(Renderer &renderer) override {
+    auto progress = Progress{FRAMES - frameCountdown, FRAMES};
+    renderer.paintTile(gameState, TileSet::Explode, index, progress);
+  }
 };
 }  // namespace op::core

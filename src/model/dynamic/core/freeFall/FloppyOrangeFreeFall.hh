@@ -20,24 +20,44 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#include "InfotronFreeFall.hh"
+#pragma once
 
 #include <engine/game/GameState.hh>
 #include <model/dynamic/Deterministic.hh>
 #include <model/static/marker/core/ZonkEntering.hh>
 #include <model/static/marker/core/ZonkLeaving.hh>
 #include <model/static/solid/core/Void.hh>
-#include <model/static/solid/core/Zonk.hh>
 
+#include <model/static/marker/core/FloppyOrangeEntering.hh>
+#include <model/static/marker/core/FloppyOrangeLeaving.hh>
 #include <renderer/Renderer.hh>
-#include <model/static/solid/core/Infotron.hh>
+#include "FreeFall.hh"
 
 namespace op::core {
-void InfotronFreeFall::clean() {
-  gameState.level.storage[src] = std::make_unique<Void>();
-  gameState.level.storage[dst] = std::make_unique<Infotron>();
-  gameState.intents.emplace_back(src, Variant::BecomesVoid);
-  gameState.intents.emplace_back(dst, Variant::InfotronFallen);
-}
+struct FloppyOrangeFreeFall : public FreeFall {
+  Index src;
+  Index dst;
+  const int FRAMES = 30;
+  int frameCountdown = FRAMES;
 
+  FloppyOrangeFreeFall(GameState &gameState, Index src, Index dst) : FreeFall(gameState), src(src), dst(dst) {}
+
+  std::vector<Index> area() const override { return {src, dst}; }
+
+  void spawn() override {
+    gameState.level.storage[src] = std::make_unique<FloppyOrangeLeaving>(*this);
+    gameState.level.storage[dst] = std::make_unique<FloppyOrangeEntering>(*this);
+  }
+
+  void update() override { frameCountdown--; }
+
+  bool ready() override { return frameCountdown == 0; }
+
+  void clean() override;
+
+  void display(Renderer &renderer) override {
+    auto progress = Progress{FRAMES - frameCountdown, FRAMES};
+    renderer.paintMovingTile(gameState, StaticTile::FloppyOrange, src, dst, progress);
+  }
+};
 }  // namespace op::core

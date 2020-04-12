@@ -60,6 +60,8 @@ struct Static {
 
   virtual bool canMurphySnap() const { return false; }
 
+  virtual bool canExplode() const { return true; }
+  virtual bool isYellowFloppy() const { return false; }
   virtual bool isDeadly() const { return false; }
 
   virtual std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const {

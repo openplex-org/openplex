@@ -63,6 +63,19 @@ void painttex(op::GameState &gameState, GLfloat x, GLfloat y, int tileindex, Til
     angleDegrees -= 90;
   }
 
+  if (tileset == TileSet::GhostMurphyWalk) {
+    angleDegrees += 180;
+  }
+
+  if (tileset == TileSet::GhostMurphyTurn) {
+    //angleDegrees += 180;
+/*    if (flip == VerticalFlip::Flip) {
+      flip = VerticalFlip::None;
+    } else {
+      flip = VerticalFlip::Flip;
+    }*/
+  }
+
   auto texid = gettex(gameState.gameContext, tileset, tileindex);
 
   if (texid != 0) {
@@ -180,7 +193,7 @@ void OpenGLRenderer::paintTile(GameState &gameState, StaticTile tile, Index inde
   GLfloat x, y;
   computeloc(gameState, index, x, y);
   if (tile == StaticTile::GhostMurphy) {
-    painttex(gameState, x, y, 0, TileSet::GhostMurphyMove);
+    painttex(gameState, x, y, 0, TileSet::GhostMurphyWalk);
     return;
   }
   if (tile == StaticTile::GhostBase) {

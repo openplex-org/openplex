@@ -25,10 +25,11 @@ GNU General Public License for more details.
 #include <memory>
 
 #include <common/openplex-gl.h>
+#include <model/dynamic/core/explode/NormalExplosion.hh>
 #include <model/dynamic/core/murphyMove/MoveOnBase.hh>
 #include <model/dynamic/core/murphySnap/SnapBase.hh>
-#include "model/static/solid/Solid.hh"
 #include "model/static/Static.hh"
+#include "model/static/solid/Solid.hh"
 
 namespace op::core {
 struct Base : public Solid {
@@ -46,6 +47,8 @@ struct Base : public Solid {
         return std::make_unique<MoveOnBase>(gameState, intent.source, self);
       case Variant::MurphyTryToSnap:
         return std::make_unique<SnapBase>(gameState, intent.source, self);
+      case Variant::NormalExplosionIgnition:
+        return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::False);
       default:
         return nullptr;
     }

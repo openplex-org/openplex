@@ -128,7 +128,7 @@ struct YellowCrushZonk : public Solid {
       case Variant::BecomesVoid:
         // ignore source of intent - there is a precondition that it comes from a void nearby
         return getGravityDynamic(gameState, self, self);
-      case Variant::ZonkEntered:
+      case Variant::ZonkRolled:
         return getGravityDynamic(gameState, intentEntry.source, self);
       default:
         return nullptr;

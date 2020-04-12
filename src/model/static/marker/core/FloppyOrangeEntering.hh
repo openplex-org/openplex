@@ -22,3 +22,10 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include "model/static/marker/Marker.hh"
+
+namespace op::core {
+struct FloppyOrangeEntering : public Marker {
+  explicit FloppyOrangeEntering(Dynamic &dynamic) : Marker(dynamic) {}
+};
+}  // namespace op::core

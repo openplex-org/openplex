@@ -128,7 +128,7 @@ struct Infotron : public Solid {
       case Variant::BecomesVoid:
         // ignore source of intent - there is a precondition that it comes from a void nearby
         return getGravityDynamic(gameState, self, self);
-      case Variant::InfotronEntered:
+      case Variant::InfotronRolled:
         return getGravityDynamic(gameState, intent.source, self);
       default:
         return nullptr;

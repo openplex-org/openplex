@@ -22,8 +22,31 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <engine/game/GameState.hh>
 #include "MurphyHit.hh"
 
 namespace op::core {
-struct HitTerminal : public MurphyHit {};
+struct HitTerminal : public MurphyHit {
+  explicit HitTerminal(GameState& gameState) : MurphyHit(gameState) {}
+
+  void spawn() {}
+
+  void update() {}
+
+  bool ready() { return true; }
+
+  void clean() {
+    Index index = 0;
+    for (auto& tile : gameState.level.storage) {
+      if (tile->isYellowFloppy()) {
+        gameState.intents.emplace_back(index, Variant::NormalExplosionIgnition);
+      }
+      index++;
+    }
+  }
+
+  void display(Renderer& renderer) {}
+
+  std::vector<Index> area() const { return {}; }
+};
 }  // namespace op::core

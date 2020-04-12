@@ -43,7 +43,8 @@ enum class TileSet : int {
   Terminal,
   ZonkRoll,
   // ext
-  GhostMurphyMove,
+  GhostMurphyWalk,
+  GhostMurphyTurn,
   GhostBaseVanish,
   LightweightZonk,
   YellowCrushZonk

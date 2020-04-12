@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include "model/static/solid/Solid.hh"
 
 #include <model/dynamic/core/edgeSlip/ZonkEdgeSlip.hh>
+#include <model/dynamic/core/explode/NormalExplosion.hh>
 #include <model/dynamic/core/freeFall/ZonkFreeFall.hh>
 #include <model/dynamic/core/murphyPush/PushZonk.hh>
 
@@ -128,8 +129,10 @@ struct Zonk : public Solid {
       case Variant::BecomesVoid:
         // ignore source of intent - there is a precondition that it comes from a void nearby
         return getGravityDynamic(gameState, self, self);
-      case Variant::ZonkEntered:
+      case Variant::ZonkRolled:
         return getGravityDynamic(gameState, intentEntry.source, self);
+      case Variant::NormalExplosionIgnition:
+        return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::False);
       default:
         return nullptr;
     }

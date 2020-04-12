@@ -22,11 +22,51 @@ GNU General Public License for more details.
 
 #pragma once
 
+#include <model/dynamic/core/explode/NormalExplosion.hh>
+#include <model/dynamic/core/freeFall/FloppyOrangeFreeFall.hh>
+#include <model/dynamic/core/murphyPush/PreparePush.hh>
 #include "model/static/solid/Solid.hh"
 
+#include "engine/game/GameState.hh"
 
 namespace op::core {
 struct FloppyOrange : public Solid {
   void display(Renderer &renderer, GameState &gameState, Index index) override;
+
+  std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const override {
+    switch (intentEntry.variant) {
+      case Variant::BecomesVoid:
+        if (gameState.level.above(intentEntry.source) == self) {
+          return std::make_unique<FloppyOrangeFreeFall>(gameState, self, intentEntry.source);
+        } else {
+          return nullptr;
+        }
+      case Variant::FloppyOrangeFallen: {
+        Index dst = gameState.level.below(intentEntry.source);
+        if (gameState.level.storage[dst]->isVoid()) {
+          return std::make_unique<FloppyOrangeFreeFall>(gameState, intentEntry.source, dst);
+        } else {
+          return nullptr;
+        }
+      }
+      case Variant::NormalExplosionIgnition: {
+        if (intentEntry.source == self) {
+          return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::False);
+        } else {
+          return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::True);
+        }
+      }
+      case Variant::MurphyTryToMove: {
+        Index next = gameState.level.follow(intentEntry.source, self);
+        if (gameState.level.storage[next]->isVoid()) {
+          return std::make_unique<PreparePush>(gameState, intentEntry.source, self);
+        } else {
+          return nullptr;
+        }
+      }
+      default:
+        return nullptr;
+    }
+  }
 };
 }  // namespace op::core

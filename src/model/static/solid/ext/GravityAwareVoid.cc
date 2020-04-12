@@ -32,7 +32,7 @@ std::unique_ptr<Dynamic> GravityAwareVoid::getDynamicOn(GameState &gameState, In
   switch (intent.variant) {
     case Variant::MurphyTryToMove:
       return std::make_unique<op::core::MoveOnVoid>(gameState, intent.source, self);
-    case Variant::ZonkEntered: {
+    case Variant::ZonkRolled: {
       if (intent.source == gameState.level.above(self)) {
         int fallSource = intent.source;
         int fallDestination = self;

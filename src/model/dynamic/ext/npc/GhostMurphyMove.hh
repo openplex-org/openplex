@@ -28,8 +28,8 @@ GNU General Public License for more details.
 namespace op::ext {
 struct GhostMurphyMove : public op::core::NPCMove<GhostMurphy> {
   GhostMurphyMove(GameState &gameState, Index index)
-      : NPCMove<GhostMurphy>(gameState, index, Direction::Down, Behavior::Move, Strategy::StickLeft) {}
-  TileSet getTurnTileSet() override { return TileSet::GhostMurphyMove; };
-  TileSet getMoveTileSet() override { return TileSet::GhostMurphyMove; };
+      : NPCMove<GhostMurphy>(gameState, index, Direction::Up, Behavior::Move, Strategy::StickLeft) {}
+  TileSet getTurnTileSet() override { return TileSet::GhostMurphyTurn; };
+  TileSet getMoveTileSet() override { return TileSet::GhostMurphyWalk; };
 };
 }  // namespace op::ext

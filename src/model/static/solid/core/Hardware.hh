@@ -47,6 +47,8 @@ struct Hardware : public Solid {
 
   explicit Hardware(Style style) : style(style) {}
 
+  bool canExplode() const override { return false; }
+
   void display(Renderer &renderer, GameState &gameState, Index index) override;
 };
 

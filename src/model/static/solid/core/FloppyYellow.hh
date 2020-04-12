@@ -26,7 +26,9 @@ GNU General Public License for more details.
 
 namespace op::core {
 struct FloppyYellow : public Solid {
+  bool isYellowFloppy() const override { return true; }
   void display(Renderer &renderer, GameState &gameState, Index index) override;
+  std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const override;
 };
 
 }  // namespace op::core

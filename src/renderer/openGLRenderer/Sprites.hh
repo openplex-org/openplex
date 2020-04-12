@@ -76,9 +76,11 @@ struct Sprites {
       case TileSet::Digits:
         return "digits";
 
-        //ext
-      case TileSet::GhostMurphyMove:
+        // ext
+      case TileSet::GhostMurphyWalk:
         return "ghost-murphy-walk";
+      case TileSet::GhostMurphyTurn:
+        return "ghost-murphy-turn";
       case TileSet::GhostBaseVanish:
         return "ghost-base-vanish";
       case TileSet::LightweightZonk:
@@ -114,7 +116,8 @@ struct Sprites {
     load_tileset(TileSet::Terminal);
     load_tileset(TileSet::ZonkRoll);
 
-    load_tileset(TileSet::GhostMurphyMove);
+    load_tileset(TileSet::GhostMurphyWalk);
+    load_tileset(TileSet::GhostMurphyTurn);
     load_tileset(TileSet::GhostBaseVanish);
     load_tileset(TileSet::LightweightZonk);
 

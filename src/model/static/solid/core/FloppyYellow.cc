@@ -21,11 +21,25 @@ GNU General Public License for more details.
 *******************************************************************/
 
 #include "FloppyYellow.hh"
+#include <model/dynamic/core/explode/NormalExplosion.hh>
 
 namespace op::core {
-  void FloppyYellow::display(Renderer &renderer, GameState &gameState, Index index) {
-    renderer.paintTile(gameState, StaticTile::FloppyYellow, index);
-  }
+void FloppyYellow::display(Renderer &renderer, GameState &gameState, Index index) {
+  renderer.paintTile(gameState, StaticTile::FloppyYellow, index);
+}
 
+std::unique_ptr<Dynamic> FloppyYellow::getDynamicOn(GameState &gameState, Intent intentEntry, Index self) const {
+  switch (intentEntry.variant) {
+    case Variant::NormalExplosionIgnition: {
+      if (intentEntry.source == self) {
+        return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::False);
+      } else {
+         return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::True);
+      }
+    }
+    default:
+      return nullptr;
+  }
+}
 
 }  // namespace op::core

@@ -24,9 +24,9 @@ GNU General Public License for more details.
 
 #include "model/static/solid/Solid.hh"
 
-
 namespace op::core {
 struct Terminal : public Solid {
+  std::unique_ptr<Dynamic> getDynamicOn(GameState &gameState, Intent intent, Index self) const override;
   void display(Renderer &renderer, GameState &gameState, Index index) override;
 };
 }  // namespace op::core

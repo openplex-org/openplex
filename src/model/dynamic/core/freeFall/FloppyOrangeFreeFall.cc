@@ -20,27 +20,28 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#pragma once
+#include "ZonkFreeFall.hh"
 
-namespace op {
-enum class Variant {
-  MurphyTryToMove,
-  MurphyTryToSnap,
-  InstantMurphyPush,
-  BecomesVoid,
-  InstantTriggerVoid,
-  MurphyEntered,
-  ZonkRolled,
-  ZonkFallen,
-  InfotronRolled,
-  InfotronFallen,
-  FloppyOrangeEntered,
-  FloppyOrangeFallen,
-  NormalExplosionIgnition,
-  InfotronExplosionIgnition,
-  SpawnSnikSnakMove,
-  SpawnElectronMove,
-  // ext
-  SpawnGhostMurphyMove
-};
+#include <engine/game/GameState.hh>
+#include <model/dynamic/Deterministic.hh>
+#include <model/static/marker/core/ZonkEntering.hh>
+#include <model/static/marker/core/ZonkLeaving.hh>
+#include <model/static/solid/core/Void.hh>
+#include <model/static/solid/core/Zonk.hh>
+
+#include <model/static/solid/core/FloppyOrange.hh>
+#include <renderer/Renderer.hh>
+
+namespace op::core {
+void FloppyOrangeFreeFall::clean() {
+  gameState.level.storage[src] = std::make_unique<Void>();
+  gameState.level.storage[dst] = std::make_unique<FloppyOrange>();
+  gameState.intents.emplace_back(src, Variant::BecomesVoid);
+  if (gameState.level.storage[gameState.level.below(dst)]->isVoid()) {
+    gameState.intents.emplace_back(dst, Variant::FloppyOrangeFallen);
+  } else {
+    gameState.intents.emplace_back(dst, Variant::NormalExplosionIgnition);
+  }
 }
+
+}  // namespace op::core

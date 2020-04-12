@@ -25,10 +25,13 @@ GNU General Public License for more details.
 #include <model/static/Static.hh>
 #include "model/static/solid/Solid.hh"
 
+#include <engine/game/GameState.hh>
 #include <memory>
 
 namespace op::core {
 struct Void : public Solid {
+  void init(GameState &gameState, Index index) override { gameState.intents.emplace_back(index, Variant::BecomesVoid); }
+
   bool canMurphyEnter() const override { return true; }
 
   bool canNPCEnter() const override { return true; }

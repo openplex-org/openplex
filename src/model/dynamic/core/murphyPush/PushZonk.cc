@@ -39,7 +39,7 @@ void PushZonk::clean() {
     gameState.level.storage[dst] = std::make_unique<Murphy>();
     gameState.level.storage[rollInto] = std::make_unique<Zonk>();
     gameState.intents.emplace_back(src, Variant::BecomesVoid);
-    gameState.intents.emplace_back(rollInto, Variant::ZonkEntered);
+    gameState.intents.emplace_back(rollInto, Variant::ZonkRolled);
     gameState.murphloc = dst;
   }
 }

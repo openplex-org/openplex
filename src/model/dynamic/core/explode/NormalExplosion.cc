@@ -20,5 +20,25 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
-#pragma once
+#include "NormalExplosion.hh"
 
+#include <engine/game/GameState.hh>
+#include <model/dynamic/Deterministic.hh>
+#include <model/static/marker/core/ZonkEntering.hh>
+#include <model/static/marker/core/ZonkLeaving.hh>
+#include <model/static/solid/core/Void.hh>
+#include <model/static/solid/core/Zonk.hh>
+
+#include <renderer/Renderer.hh>
+
+namespace op::core {
+void NormalExplosion::clean() {
+  gameState.level.storage[index] = std::make_unique<Void>();
+  if (allowChainReaction == AllowChainReaction::True) {
+    gameState.intents.emplace_back(index, Variant::NormalExplosionIgnition);
+  } else {
+    gameState.intents.emplace_back(index, Variant::BecomesVoid);
+  }
+}
+
+}  // namespace op::core

@@ -20,6 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 *******************************************************************/
 
+#include <model/dynamic/core/explode/NormalExplosion.hh>
 #include "SnikSnak.hh"
 
 #include "model/dynamic/core/npc/SnikSnakMove.hh"
@@ -38,6 +39,8 @@ std::unique_ptr<Dynamic> SnikSnak::getDynamicOn(GameState &gameState, Intent int
         return nullptr;
       }
     }
+    case Variant::NormalExplosionIgnition:
+      return std::make_unique<NormalExplosion>(gameState, self, NormalExplosion::AllowChainReaction::True);
     default:
       return nullptr;
   }

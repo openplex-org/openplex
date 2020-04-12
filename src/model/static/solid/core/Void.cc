@@ -32,7 +32,7 @@ std::unique_ptr<Dynamic> Void::getDynamicOn(GameState &gameState, Intent intent,
   switch (intent.variant) {
     case Variant::MurphyTryToMove:
       return std::make_unique<MoveOnVoid>(gameState, intent.source, self);
-    case Variant::ZonkEntered: {
+    case Variant::ZonkRolled: {
       if (intent.source == gameState.level.above(self)) {
         int fallSource = intent.source;
         int fallDestination = self;
